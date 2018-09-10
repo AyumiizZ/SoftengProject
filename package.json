@@ -1,0 +1,19 @@
+{
+  "name": "getmae",
+  "version": "0.0.1",
+  "description": "Software Engineering Class - Group Project ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AyumiizZ/SoftengProject.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AyumiizZ/SoftengProject/issues"
+  },
+  "homepage": "https://github.com/AyumiizZ/SoftengProject#readme"
+}

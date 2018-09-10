@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/AyumiizZ/SoftengProject/issues"
   },
-  "homepage": "https://github.com/AyumiizZ/SoftengProject#readme"
+  "homepage": "https://github.com/AyumiizZ/SoftengProject#readme",
+  "dependencies": {
+    "knex": "^0.15.2"
+  }
 }

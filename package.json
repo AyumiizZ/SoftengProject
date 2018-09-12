@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AyumiizZ/SoftengProject#readme",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^6.0.0",

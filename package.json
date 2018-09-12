@@ -22,13 +22,15 @@
     "debug": "~2.6.9",
     "dotenv": "^6.0.0",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
     "knex": "^0.15.2",
     "morgan": "~1.9.0",
     "objection": "^1.2.6",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "session": "^0.1.0"
   },
   "devDependencies": {
     "sqlite": "^3.0.0"

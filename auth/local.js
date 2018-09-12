@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 const init = require("./passport");
-const knex = require("../database/knex");
+const User = require("../models/user");
 const authHelpers = require("./_helpers");
 
 const options = {};
@@ -12,7 +12,7 @@ init();
 passport.use(
   new LocalStrategy(options, (username, password, done) => {
     // check to see if the username exists
-    knex("users")
+    User.query()
       .where({ username })
       .first()
       .then(user => {

@@ -2,7 +2,7 @@ doctype html
 html
   head
     title= title
-    link(rel='bootstrap', href='../node_modules/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   body
@@ -26,8 +26,9 @@ html
         a.py-2.d-none.d-md-inline-block(href='#') Support
         a.py-2.d-none.d-md-inline-block(href='#') Pricing
         a.py-2.d-none.d-md-inline-block(href='#') Cart
-
-    block content
+    
+    .container.contents
+      block content
 
     footer.container.py-5
       .row

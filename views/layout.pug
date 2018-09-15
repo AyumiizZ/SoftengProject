@@ -24,8 +24,11 @@ html
         a.py-2.d-none.d-md-inline-block(href='#') Features
         a.py-2.d-none.d-md-inline-block(href='#') Enterprise
         a.py-2.d-none.d-md-inline-block(href='#') Support
-        a.py-2.d-none.d-md-inline-block(href='#') Pricing
-        a.py-2.d-none.d-md-inline-block(href='#') Cart
+        if user
+          a.py-2.d-none.d-md-inline-block(href='/users/Logout') Logout
+        else
+          a.py-2.d-none.d-md-inline-block(href='/users/register') Register
+          a.py-2.d-none.d-md-inline-block(href='/users/login') Login
     
     .container.contents
       block content

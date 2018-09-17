@@ -11,6 +11,16 @@ class User extends Model {
   static get relationMappings() {
     return {};
   }
+
+  static get secureFields() {
+    return ["password"];
+  }
+
+  static formatJson(json, options) {
+    json = super.formatJson(json, options);
+    json = _.omit(json, this.$secureFields);
+    return json;
+  }
 }
 
-module.exports = News;
+module.exports = User;

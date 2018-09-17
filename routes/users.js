@@ -16,7 +16,7 @@ router.post('/register', function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
   const confirm = req.body.confirm;
-  const isTick = req.body.agreement
+  const isTick = req.body.agreement;
 
   console.log('click');
   if(password == confirm && isTick == 'on'){
@@ -34,6 +34,20 @@ router.get('/login', function (req, res) {
 
 router.get('/resetPassword', function (req, res) {
   res.render('resetPassword');
+});
+
+router.post('/resetPassword', function (req, res) {
+  const username = req.body.username;
+  const answer = req.body.answer.toLowerCase();
+  
+  console.log('click')
+  if(answer == 'o(n^2)' || answer == 'n^2' || answer == 'o(n**2)' || answer == 'n**2'){
+    console.log('OK');
+  }
+  else{
+    console.log('noob');
+  }
+  res.render('resetPassword')
 });
 
 module.exports = router;

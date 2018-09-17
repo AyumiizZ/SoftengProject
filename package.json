@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "getmae",
   "version": "0.0.1",
@@ -40,3 +41,32 @@
 
   }
 }
+=======
+{
+  "name": "getmae",
+  "version": "0.0.1",
+  "description": "Software Engineering Class - Group Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AyumiizZ/SoftengProject.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AyumiizZ/SoftengProject/issues"
+  },
+  "homepage": "https://github.com/AyumiizZ/SoftengProject#readme",
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "pug": "2.0.0-beta11"
+  }
+}
+>>>>>>> fe11b50345c295d1ac3285ba607b5e25564edbbc

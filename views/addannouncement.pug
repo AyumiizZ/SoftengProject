@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Add announcement
+  form(method='POST', action='/users/addannouncement')
+    .form-group
+    label Topic:
+    input.form-control(name='topic', type='text')
+    .form-group
+    label Detail:
+    textarea.form-control(name='body')
+    br
+  input.btn.btn-primary(type='submit',value='Add topic')

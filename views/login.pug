@@ -4,15 +4,16 @@ block content
   h1 Login
   form(method='POST', action='/users/login')
     .form-group
-    label Username:
-    input.form-control(name='username',type='text')
+      label Username:
+      input.form-control(name='username',type='text')
     .form-group
-    label Password:
-    input.form-control(name='password',type='password')
+      label Password:
+      input.form-control(name='password',type='password')
     br
-  input.btn.btn-outline-primary.btn-block(type='submit',value='Submit')
-  br
+    button.btn.btn-primary.btn-block(type='submit') Login
+    br
   span
-    input.btn.btn-link(type='submit',value='Create a new account')
-    input.btn.btn-link.float-right(type='submit',value='Forgot your password?')
+    a.btn.btn-link(href='/users/register', role='button') Create a new account
+    a.btn.btn-link.float-right(href='/users/resetPassword', role='button') Forgot your password?
+    
   

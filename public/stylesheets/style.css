@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .container {
   max-width: 960px;
 }
@@ -78,13 +77,3 @@
 .container.contents {
   padding: 1em
 }
-=======
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
->>>>>>> fe11b50345c295d1ac3285ba607b5e25564edbbc

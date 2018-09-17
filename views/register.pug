@@ -19,9 +19,13 @@ block content
       label Confirm:
       input.form-control(name='confirm', type='password')
     .form-check
-        label.form-check-label
-            input.form-check-input(type='checkbox', value='')
-            | Check here to indicate that you have read and agree to the terms of the 
-            a(href="#") JetMae Customer Agreement
+      //- label.form-check-label
+      //-     input.form-check-input(name='accept',type='checkbox', value='')
+      //-     | Check here to indicate that you have read and agree to the terms of the 
+      //-     a(href="#") JetMae Customer Agreement
+      label.form-check-label(name='accept')
+        input.form-check-input(name='agreement',type='checkbox')
+        | Check here to indicate that you have read and agree to the terms of the 
+        a(href="#") JetMae Customer Agreement
     br
     input.btn.btn-primary.btn-block(type='submit',value='Create Account and Continue')

@@ -1,57 +1,81 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const { check, validationResult } = require("express-validator/check");
+const { sanitizeBody } = require("express-validator/filter");
+const bcrypt = require("bcrypt");
+const _helpers = require("../auth/_helpers");
+const User = require("../models/user");
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get("/", function(req, res, next) {
+  res.send("respond with a resource");
 });
 
-router.get('/freelance', function(req, res, next){
-  res.render('freelance');
+router.get("/freelance", function(req, res, next) {
+  res.render("freelance");
 });
 
-router.get('/register', function (req, res) {
-  res.render('register');
+router.get("/register", function(req, res) {
+  res.render("register");
 });
 
-router.post('/register', function (req, res) {
-  const name = req.body.name;
-  const email = req.body.email;
-  const username = req.body.username;
-  const password = req.body.password;
-  const confirm = req.body.confirm;
-  const isTick = req.body.agreement;
-
-  console.log('click');
-  if(password == confirm && isTick == 'on'){
-    console.log('match');
+router.post(
+  "/register",
+  [
+    check("email")
+      .isEmail()
+      .withMessage("E-mail not recognised."),
+    check("password")
+      .isLength({ min: 8 })
+      .withMessage("Password must be longer than 8 characters.")
+  ],
+  function(req, res) {
+    const errors = validationResult(req).array();
+    if (errors.length > 0) {
+      res.send(errors.array);
+    } else {
+      _helpers
+        .hashPass(req.body.password)
+        .then(hashed => {
+          req.body.password = hashed;
+          delete req.body.confirm;
+          delete req.body.agreement;
+          return User.query().insert(req.body);
+        })
+        .then(newUser => {
+          res.send(newUser);
+        })
+        .catch(error => {
+          throw new Error(error);
+        });
+    }
   }
-  else{
-    console.log('ERROR');
-  }
-  res.render('register')
+);
+
+router.get("/login", function(req, res) {
+  res.render("login");
 });
 
-router.get('/login', function (req, res) {
-  res.render('login');
+router.get("/resetPassword", function(req, res) {
+  res.render("resetPassword");
 });
 
-router.get('/resetPassword', function (req, res) {
-  res.render('resetPassword');
-});
-
-router.post('/resetPassword', function (req, res) {
+router.post("/resetPassword", function(req, res) {
   const username = req.body.username;
   const answer = req.body.answer.toLowerCase();
-  
-  console.log('click')
-  if(answer == 'o(n^2)' || answer == 'n^2' || answer == 'o(n**2)' || answer == 'n**2'){
-    console.log('OK');
+
+  console.log("click");
+  if (
+    answer == "o(n^2)" ||
+    answer == "n^2" ||
+    answer == "o(n**2)" ||
+    answer == "n**2"
+  ) {
+    console.log("OK");
+  } else {
+    console.log("noob");
   }
-  else{
-    console.log('noob');
-  }
-  res.render('resetPassword')
+  res.render("resetPassword");
 });
 
 module.exports = router;

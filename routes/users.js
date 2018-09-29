@@ -40,7 +40,7 @@ router.post(
           return User.query().insert(req.body);
         })
         .then(newUser => {
-          res.send(newUser);
+          res.redirect("/users/login");
         })
         .catch(error => {
           throw new Error(error);
@@ -60,13 +60,7 @@ router.post(
   "/login",
   passport.authenticate("local", { failureRedirect: "login" }),
   function(req, res, next) {
-    if (req.user) {
-      res.send(
-        "User completely logged in. (username: " + req.user.username + ")"
-      );
-    } else {
-      res.send("User logged in, but sessions are not being stored.");
-    }
+    res.redirect("/");
   }
 );
 

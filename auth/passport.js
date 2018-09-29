@@ -1,14 +1,12 @@
-const passport = require("passport");
-const knex = require("../database/knex.js");
+const User = require("../models/user");
 
-module.exports = () => {
+module.exports = function(passport) {
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
-
   passport.deserializeUser((id, done) => {
-    knex("users")
-      .where({ id })
+    User.query()
+      .findById(id)
       .first()
       .then(user => {
         done(null, user);

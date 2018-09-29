@@ -12,14 +12,14 @@ class User extends Model {
     return {};
   }
 
-  static get secureFields() {
-    return ["password"];
-  }
-
-  static formatJson(json, options) {
-    json = super.formatJson(json, options);
-    json = _.omit(json, this.$secureFields);
-    return json;
+  $formatJson(json, options) {
+    try {
+      json = super.$formatJson(json, options);
+      return super.$omit(json, "password");
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   }
 }
 

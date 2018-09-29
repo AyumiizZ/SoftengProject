@@ -34,9 +34,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-require("./auth/passport")(passport);
-require("./auth/local")(passport);
-
 app.use(flash());
 app.use(express.static(path.join(__dirname, "..", "..", "client")));
 

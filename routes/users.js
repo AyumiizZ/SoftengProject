@@ -54,6 +54,9 @@ router.post(
 );
 
 router.get("/login", function(req, res) {
+  if (req.user) {
+    res.redirect("/");
+  }
   res.render("login");
 });
 

@@ -70,6 +70,11 @@ router.post(
   }
 );
 
+router.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/");
+});
+
 router.get("/resetPassword", function(req, res) {
   res.render("resetPassword");
 });

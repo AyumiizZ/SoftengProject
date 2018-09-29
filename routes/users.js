@@ -9,11 +9,7 @@ const passport = require("passport");
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
-  res.json(res.user);
-});
-
-router.get("/freelance", function(req, res, next) {
-  res.render("freelance");
+  res.redirect("/");
 });
 
 router.get("/register", function(req, res) {

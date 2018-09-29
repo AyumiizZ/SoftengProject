@@ -1,4 +1,4 @@
-const Users = require("../models/user");
+const User = require("../models/user");
 
 module.exports = function(passport) {
   passport.serializeUser((user, done) => {

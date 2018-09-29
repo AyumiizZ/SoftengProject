@@ -5,10 +5,11 @@ const { sanitizeBody } = require("express-validator/filter");
 const bcrypt = require("bcrypt");
 const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
+const passport = require("passport");
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
-  res.send("respond with a resource");
+  res.json(res.user);
 });
 
 router.get("/freelance", function(req, res, next) {
@@ -55,6 +56,20 @@ router.post(
 router.get("/login", function(req, res) {
   res.render("login");
 });
+
+router.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "login" }),
+  function(req, res, next) {
+    if (req.user) {
+      res.send(
+        "User completely logged in. (username: " + req.user.username + ")"
+      );
+    } else {
+      res.send("User logged in, but sessions are not being stored.");
+    }
+  }
+);
 
 router.get("/resetPassword", function(req, res) {
   res.render("resetPassword");

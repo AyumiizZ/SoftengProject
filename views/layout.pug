@@ -6,24 +6,38 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   body
-    nav.site-header.sticky-top.py-1
-      .container.d-flex.flex-column.flex-md-row.justify-content-between
-        a.py-2(href='#')
-          img(src="/images/jainsbret_logo_green.svg" height="24px")
-        a.py-2.d-none.d-md-inline-block(href='#') Tour
-        a.py-2.d-none.d-md-inline-block(href='#') Product
-        a.py-2.d-none.d-md-inline-block(href='#') Features
-        a.py-2.d-none.d-md-inline-block(href='#') Enterprise
-        a.py-2.d-none.d-md-inline-block(href='#') Support
-        if user
-          a.py-2.d-none.d-md-inline-block(href='/users/profile') My Profile
-          a.py-2.d-none.d-md-inline-block(href='/users/logout') Logout
-        else
-          a.py-2.d-none.d-md-inline-block(href='/users/register') Register
-          a.py-2.d-none.d-md-inline-block(href='/users/login') Login
+    nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
+      <a class="navbar-brand" href="/">
+        <img src="/images/jainsbret_logo_green.svg" width="30" height="30" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      div(class="collapse navbar-collapse" id="navbarNav")
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(href='#') Tour
+          li.nav-item
+            a.nav-link(href='#') Product
+          li.nav-item
+            a.nav-link(href='#') Features
+          li.nav-item
+            a.nav-link(href='#') Enterprise
+          li.nav-item
+            a.nav-link(href='#') Support
+          if user
+            li.nav-item
+              a.nav-link(href='/users/profile') My Profile
+            li.nav-item
+              a.nav-link(href='/users/logout') Logout
+          else
+            li.nav-item
+              a.nav-link(href='/users/register') Register
+            li.nav-item
+              a.nav-link(href='/users/login') Login
     
     .container.contents
-      block content
+      block body
 
     footer.container.py-5
       .row

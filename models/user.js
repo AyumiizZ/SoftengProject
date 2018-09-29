@@ -11,6 +11,16 @@ class User extends Model {
   static get relationMappings() {
     return {};
   }
+
+  $formatJson(json, options) {
+    try {
+      json = super.$formatJson(json, options);
+      return super.$omit(json, "password");
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
 }
 
-module.exports = News;
+module.exports = User;

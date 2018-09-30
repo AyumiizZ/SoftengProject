@@ -1,9 +1,14 @@
 extends layout 
 
 block body 
-    .jumbotron 
+    .jumbotron#frontpage-header
         .container
             h1
                 b เจ็ทฟรี: 
                 span หาฟรีแลนซ์ได้ง่ายๆ แบบ
                 b ติดเจ็ท
+            .row
+                .col-lg-6
+                    a.btn.btn-lg.btn-primary(href="#" style="margin-bottom: 10px") ฉันต้องการหาฟรีแลนซ์
+                .col-lg-6
+                    a.btn.btn-lg.btn-secondary(href="#" style="margin-bottom: 10px") ฉันต้องการทำงาน

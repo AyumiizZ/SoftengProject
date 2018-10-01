@@ -3,12 +3,34 @@
   margin-bottom: 0px;
 }
 
+main {
+  padding-top: 20px;
+}
+
 .jumbotron {
   border-radius: 0px;
 }
 
-.jumbotron.counter {
+.couter-fullpage {
+  /**/
+}
+
+.counter-fullpage .counter-freelance-categories ul {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+.counter-fullpage .counter-freelance-categories li {
+  list-style-type: none;
+}
+
+.center-wrapper {
   text-align: center;
+}
+
+.counter-wrapper h1 {
+  font-size: 52px;
 }
 
 #frontpage-header {

@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  .row
+    .col-3
+      .row
+        lable project type
+        .container
+          .form-check
+            label.form-check-label(name='accept')
+              input.form-check-input(name='agreement',type='checkbox')
+              | Fixed Project
+          .form-check
+            label.form-check-label(name='accept')
+              input.form-check-input(name='agreement',type='checkbox')
+              | Hourly Project
+      .row
+        lable Skills
+        .container
+          button.btn.btn-primary(type='button') Clear Skills
+        .container
+          button.btn.btn-link(type='button') Edit Profile Skills
+      .row
+        lable Fixed Price
+        input#fixedPriceRange.slider(type='range', min='1', max='100000', value='50000')
+        lable Hourly Price
+        input#hourlyPriceRange.slider(type='range', min='1', max='100000', value='50000')
+      .row
+        lable Specific Location
+        input.form-control(name='location',type='text')
+      .row
+        lable Language
+        input.form-control(name='Language',type='text')
+        button.btn.btn-primary(type='button') Clear Language
+      button.btn.btn-link(type='button') Reset Filter
+    .col-9
+      label Search jobs
+      input.form-control(name='Search',type='text')
+      p sort by date/popular
+      ul.list-group
+        li.list-group-item
+          a(href='#')= "articles"
+        //- each article, i in articles
+          li.list-group-item
+            a(href="/articles/"+article._id)= article.title

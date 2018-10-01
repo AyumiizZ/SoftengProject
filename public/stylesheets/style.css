@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Mitr:300');
+h1, h2, h3, h4, h5, h6, .headline-font {
+  font-family: "Mitr";
+}
+
 .no-margin {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -11,8 +16,9 @@ main {
   border-radius: 0px;
 }
 
-.couter-fullpage {
-  /**/
+.counter-fullpage {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .counter-fullpage .counter-freelance-categories ul {

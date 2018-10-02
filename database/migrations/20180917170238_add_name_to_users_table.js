@@ -2,8 +2,8 @@ exports.up = function(knex, Promise) {
   return knex.schema.table("users", table => {
     table.string("name").notNullable;
     table.string("overview");
-    table.string("pastjob");
-    table.string("review");
+    table.string("past_job");
+    table.string("client_review");
   });
 };
 

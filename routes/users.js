@@ -91,4 +91,8 @@ router.post("/resetPassword", function(req, res) {
   res.render("resetPassword");
 });
 
+router.get("/profile", function(req, res) {
+  res.render("profile");
+});
+
 module.exports = router;

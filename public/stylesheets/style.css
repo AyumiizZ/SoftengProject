@@ -77,3 +77,11 @@
 .container.contents {
   padding: 1em
 }
+
+#innerBox {
+  margin: 10px;
+}
+
+#outerBox {
+  margin-bottom: 10px;
+}

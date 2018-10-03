@@ -3,15 +3,16 @@ extends layout
 block body 
     .jumbotron.no-margin#frontpage-header
         .container
-            h1
-                b เจ็ทฟรี: 
-                span หาฟรีแลนซ์ได้ง่ายๆ แบบ
-                b ติดเจ็ท
-            .row
-                .col-lg-6
-                    a.btn.btn-lg.btn-primary(href="#" style="margin-bottom: 10px") ฉันต้องการหาฟรีแลนซ์
-                .col-lg-6
-                    a.btn.btn-lg.btn-secondary(href="#" style="margin-bottom: 10px") ฉันต้องการทำงาน
+            div.center-text
+                h1
+                    b เจ็ทฟรี: 
+                    span หาฟรีแลนซ์ได้ง่ายๆ แบบ
+                    b ติดเจ็ท
+                <form class="form-inline d-flex justify-content-center">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="ค้นหาฟรีแลนซ์">
+                    <button type="submit" class="btn btn-primary mb-2">ค้นหา</button>
+                </form>
+
     .container.counter-fullpage
         .row
             .col-md-4.counter-counter.center-wrapper.d-flex.align-items-center.justify-content-center

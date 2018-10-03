@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    form(method='POST', action='/users/editProfile')
+        .row
+            input.form-control(name='name',type='text', value=user.name)
+            a(href="/users/editProfile").btn.btn-outline-primary(type='submit') Save Changes
+        hr
+        .row
+            .col-3
+                #outerBox.card
+                    h1 image here
+                #outerBox.card
+                    h2 Client Review
+                    #innerBox.card
+                        h5 #{user.client_review}
+            .col-9
+                #outerBox.card
+                    h2 Overview
+                    #innerBox.card
+                        input.form-control(name='overview',type='text', value=user.overview)
+                #outerBox.card
+                    h2 Past Job
+                    #innerBox.card
+                h5 #{user.past_job}

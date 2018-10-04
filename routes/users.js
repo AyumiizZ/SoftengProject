@@ -60,7 +60,7 @@ router.post("/login", function(req, res, next) {
       return next(err);
     }
     if (!user) {
-      return res.redirect(req.baseUrl + "/login?error=failed");
+      return res.render("login", { failed: true });
     }
     req.logIn(user, function(err) {
       if (err) {

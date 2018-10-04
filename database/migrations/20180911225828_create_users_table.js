@@ -12,6 +12,7 @@ exports.up = function(knex, Promise) {
       .defaultTo(knex.raw("NOW"));
     table.string("email").notNullable();
     table.boolean("email_verified").defaultTo(false);
+    table.string("overview");
   });
 };
 

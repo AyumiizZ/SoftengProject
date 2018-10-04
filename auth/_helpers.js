@@ -22,5 +22,6 @@ function hashPass(password) {
 
 module.exports = {
   comparePass,
+  comparePassSync,
   hashPass
 };

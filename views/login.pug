@@ -2,6 +2,9 @@ extends incontainer
 
 block content
   h1 Login
+  if error == "failed"
+    .alert.alert-danger.
+      That doesn't work, please try again.
   form(method='POST', action='/users/login')
     .form-group
       label Username:

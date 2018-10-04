@@ -14,7 +14,7 @@ module.exports = function(passport) {
         .first()
         .then(user => {
           if (!user) return done(null, false);
-          if (!authHelpers.comparePass(password, user.password)) {
+          if (!authHelpers.comparePassSync(password, user.password)) {
             return done(null, false);
           } else {
             return done(null, user);

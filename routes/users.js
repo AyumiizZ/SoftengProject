@@ -56,13 +56,22 @@ router.get("/login", function(req, res) {
   res.render("login");
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", { failureRedirect: "login" }),
-  function(req, res, next) {
-    res.redirect("/");
-  }
-);
+router.post("/login", function(req, res, next) {
+  passport.authenticate("local", function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect(req.baseUrl + "/login?error=failed");
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
 
 router.get("/logout", function(req, res) {
   req.logout();

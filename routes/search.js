@@ -7,8 +7,8 @@ router.get('/', function(req, res, next) {
   res.redirect('/search/view_jobs')
 });
 
-router.get('/view_jobs', function(req, res, next) {
-  res.render('view_jobs', { title: 'Jobs' });
+router.get('/projects', function(req, res, next) {
+  res.render('projects');
 });
 
 module.exports = router;

@@ -16,15 +16,17 @@ block content
               | Hourly Project
       .row
         lable Skills
+        .tags-input(data-name='tags-input')
+          <span class="tag">CSS<span class="close"></span></span>
         .container
           button.btn.btn-primary(type='button') Clear Skills
         .container
           button.btn.btn-link(type='button') Edit Profile Skills
       .row
         lable Fixed Price
-        input#fixedPriceRange.slider(type='range', min='1', max='100000', value='50000')
+        input#fixedPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
         lable Hourly Price
-        input#hourlyPriceRange.slider(type='range', min='1', max='100000', value='50000')
+        input#hourlyPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
       .row
         lable Specific Location
         input.form-control(name='location',type='text')

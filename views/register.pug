@@ -2,6 +2,12 @@ extends layout
 
 block content
   h1 Register
+  if errors
+    .alert.alert-danger
+      span Whoops! We've found some error.
+      ul
+        each error in errors
+          li=error.msg
   form(method='POST', action='/users/register')
     .form-group
       label Name:

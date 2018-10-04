@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require("express-validator/check");
+const expressValidator = require("express-validator");
 const { sanitizeBody } = require("express-validator/filter");
 const bcrypt = require("bcrypt");
 const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
 const passport = require("passport");
+
+router.use(expressValidator());
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
@@ -16,38 +18,34 @@ router.get("/register", function(req, res) {
   res.render("register");
 });
 
-router.post(
-  "/register",
-  [
-    check("email")
-      .isEmail()
-      .withMessage("E-mail not recognised."),
-    check("password")
-      .isLength({ min: 8 })
-      .withMessage("Password must be longer than 8 characters.")
-  ],
-  function(req, res) {
-    const errors = validationResult(req).array();
-    if (errors.length > 0) {
-      res.send(errors.array);
-    } else {
-      _helpers
-        .hashPass(req.body.password)
-        .then(hashed => {
-          req.body.password = hashed;
-          delete req.body.confirm;
-          delete req.body.agreement;
-          return User.query().insert(req.body);
-        })
-        .then(newUser => {
-          res.redirect("/users/login");
-        })
-        .catch(error => {
-          throw new Error(error);
-        });
-    }
+router.post("/register", function(req, res) {
+  req.checkBody("email", "E-mail is not in a valid format.").isEmail();
+  req
+    .checkBody("password", "Password must be at least 8 characters.")
+    .isLength({ min: 8 });
+  req
+    .checkBody("confirm", "Password does not match the confirmation")
+    .equals("confirm");
+  var errors = req.validationErrors();
+  if (errors) {
+    res.render("register", { errors: errors });
+  } else {
+    _helpers
+      .hashPass(req.body.password)
+      .then(hashed => {
+        req.body.password = hashed;
+        delete req.body.confirm;
+        delete req.body.agreement;
+        return User.query().insert(req.body);
+      })
+      .then(newUser => {
+        res.redirect("/users/login");
+      })
+      .catch(error => {
+        throw new Error(error);
+      });
   }
-);
+});
 
 router.get("/login", function(req, res) {
   if (req.user) {

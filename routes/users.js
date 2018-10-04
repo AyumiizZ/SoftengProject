@@ -100,22 +100,19 @@ router.post("/resetPassword", function (req, res) {
   res.render("resetPassword");
 });
 
-router.get("/profile", async function (req, res) {
-  let user = await User.query().where('username', req.user.username).first();
-  res.render("profile", {user: user});
-});
-
-router.get("/profile/:username", async function (req, res) {
+router.get("/:username", async function (req, res) {
   let user = await User.query().where('username', req.params.username).first();
   res.render("profile", {user: user});
 });
 
-router.get("/profile/edit", function (req, res) {
-  res.render("editProfile");
+router.get("/:username/edit", async function (req, res) {
+  let user = await User.query().where('username', req.params.username).first();
+  res.render("editProfile", {user: user});
 });
 
-router.post("/profile/edit", function (req, res, next) {
-  res.redirect("/users/profile");
+router.post("/:username/edit", async function (req, res, next) {
+  let user = await User.query().where('username', req.params.username).first();
+  res.redirect("/users/"+user.username);
 });
 
 module.exports = router;

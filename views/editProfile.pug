@@ -1,10 +1,10 @@
 extends layout
 
 block content
-    form(method='POST', action='/users/editProfile')
+    form(method='POST', action='/users/'+user.username+'/edit')
         .row
             input.form-control(name='name',type='text', value=user.name)
-            a(href="/users/editProfile").btn.btn-outline-primary(type='submit') Save Changes
+            button.btn.btn-outline-primary(type='submit') Save Changes
         hr
         .row
             .col-3

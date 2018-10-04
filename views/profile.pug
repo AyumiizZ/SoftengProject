@@ -6,17 +6,24 @@ block content
   .row
     .col-3
       #outerBox.card
-        h1 image here
+        .card-body
+          h1 image here
       #outerBox.card
-        h2 Client Review
+        .card-body
+          h2 Client Review
         #innerBox.card
-          h5 #{user.client_review}
+          .card-body
+            h5 #{user.client_review}
     .col-9
       #outerBox.card
-        h2 Overview
+        .card-body
+          h2 Overview
         #innerBox.card
-          h5 #{user.overview}
+          .card-body
+            h5 #{user.overview}
       #outerBox.card
-        h2 Past Job
+        .card-body
+          h2 Past Job
         #innerBox.card
-          h5 #{user.past_job}
+          .card-body
+            h5 #{user.past_job}

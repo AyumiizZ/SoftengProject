@@ -12,6 +12,11 @@ const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
 const passport = require("passport");
 
+// Will move to other file soon...
+const Review = require('../models/review');
+const Job = require('../models/job');
+//
+
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.redirect("/");
@@ -102,9 +107,12 @@ router.post("/resetPassword", function (req, res) {
 
 router.get("/:username", async function (req, res) {
   let user = await User.query().where('username', req.params.username).first();
-  res.render("profile", {
-    user: user
-  });
+  let reviews = await Review.query().where('user_id', user.id);
+  let reviewers = []
+  for (review in reviews) {
+    reviewers.push(await User.query().where('id', user.id).first());
+  }
+  res.render("profile", {user: user, reviews: reviews, reviewers: reviewers});
 });
 
 router.get("/:username/edit", async function (req, res) {
@@ -143,7 +151,6 @@ router.get("/profile/:username", async function(req, res) {
     .where("username", req.params.username)
     .first();
   res.render("profile", { user: user });
->>>>>>> f541eb83863af9a1e999061bad0969b845a229be
 });*/
 
 module.exports = router;

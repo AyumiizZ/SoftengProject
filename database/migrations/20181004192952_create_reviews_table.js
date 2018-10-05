@@ -5,7 +5,6 @@ exports.up = function(knex, Promise) {
         .timestamp("post")
         .notNullable()
         .defaultTo(knex.raw("NOW"))
-        .notNullable();
       table.string("review");
       table
         .integer("reviewer_id")

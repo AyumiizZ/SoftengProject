@@ -20,10 +20,16 @@ router.post("/logout", authController.logout);
 router.get("/resetPassword", authController.resetPasswordGet);
 router.post("/resetPassword", authController.resetPasswordPost);
 
-router.get("/:username", async function(req, res) {
+router.get("/profile", function(req, res) {
+  console.log(req.user);
+  res.redirect(req.baseUrl + "/profile/" + req.user.username);
+});
+
+router.get("/profile/:username", async function(req, res) {
   let user = await User.query()
     .where("username", req.params.username)
     .first();
+  console.log(user);
   let reviews = await Review.query().where("user_id", user.id);
   let reviewers = [];
   for (review in reviews) {
@@ -36,7 +42,7 @@ router.get("/:username", async function(req, res) {
   res.render("profile", { user: user, reviews: reviews, reviewers: reviewers });
 });
 
-router.get("/:username/edit", async function(req, res) {
+router.get("/profile/:username/edit", async function(req, res) {
   let user = await User.query()
     .where("username", req.params.username)
     .first();
@@ -45,7 +51,7 @@ router.get("/:username/edit", async function(req, res) {
   });
 });
 
-router.post("/:username/edit", async function(req, res, next) {
+router.post("/profile/:username/edit", async function(req, res, next) {
   let user = await User.query()
     .where("username", req.params.username)
     .first();

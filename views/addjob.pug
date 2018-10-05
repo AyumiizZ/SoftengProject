@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 Addannouncement
+  form(method='POST', action='/addjob')
+    .form-group
+      label Topic:
+      input.form-control(name='job', type='text')
+    .form-group
+      label Detail:
+      input.form-control(name='job_info', type='text')
+
+      br
+    button.btn.btn-primary.btn-block(type='submit') Submit 

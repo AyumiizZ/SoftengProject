@@ -134,7 +134,6 @@ router.get("/profile/:username", async function(req, res) {
     .where("username", req.params.username)
     .first();
   res.render("profile", { user: user });
->>>>>>> f541eb83863af9a1e999061bad0969b845a229be
 });*/
 
 module.exports = router;

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Login
+  form(method='POST', action='/users/login')
+    .form-group
+      label Username:
+      input.form-control(name='username',type='text')
+    .form-group
+      label Password:
+      input.form-control(name='password',type='password')
+    br
+    button.btn.btn-primary.btn-block(type='submit') Login
+    br
+  span
+    a.btn.btn-link(href='/users/register', role='button') Create a new account
+    a.btn.btn-link.float-right(href='/users/resetPassword', role='button') Forgot your password?
+    
+  

@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .row
+    .col-10
+      h1 #{user.name}
+    .col-2
+      a(href='/users/'+user.username+'/edit').btn.btn-outline-dark Edit
+  hr
+  .row
+    .col-3
+      #outerBox.card
+        .card-body
+          h1 image here
+      #outerBox.card
+        .card-body
+          h2 Client Review
+        #innerBox.card
+          each review, index in reviews
+            .card-body
+              h5 #{reviewers[index].username}
+              .card
+                .card-body
+                  h6 #{review.review}
+    .col-9
+      #outerBox.card
+        .card-body
+          h2 Overview
+        #innerBox.card
+          .card-body
+            h5 #{user.overview}
+      #outerBox.card
+        .card-body
+          h2 Past Job
+        #innerBox.card
+          .card-body
+            h5 

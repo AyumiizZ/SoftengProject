@@ -1,5 +1,31 @@
-extends layout
+extends layout 
 
-block content
-  h1= title
-  p Welcome to #{title}
+block body 
+    .jumbotron.no-margin#frontpage-header
+        .container
+            div.center-text
+                h1
+                    b เจ็ทฟรี: 
+                    span หาฟรีแลนซ์ได้ง่ายๆ แบบ
+                    b ติดเจ็ท
+                <form class="form-inline d-flex justify-content-center">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="ค้นหาฟรีแลนซ์">
+                    <button type="submit" class="btn btn-primary mb-2">ค้นหา</button>
+                </form>
+
+    .container.counter-fullpage
+        .row
+            .col-md-4.counter-counter.center-wrapper.d-flex.align-items-center.justify-content-center
+                div.counter-wrapper.align-middle
+                    h1 123,456
+                    span.headline-font ฟรีแลนซ์ในระบบ
+            .col-md-8.counter-freelance-categories
+                h3 หมวดฟรีแลนซ์
+                ul
+                    li ถ่ายภาพ
+                    li วาดภาพ
+                    li คอมพิวเตอร์กราฟิกส์ (สองมิติ)
+                    li คอมพิวเตอร์กราฟิกส์ (สามมิติ)
+                    li วิดีโอ
+                    li ดนตรีและเสียง
+                a.btn.btn-outline-light หรือดูหมวดหมู่ทั้งหมด

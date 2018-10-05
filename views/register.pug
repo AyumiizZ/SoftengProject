@@ -1,8 +1,14 @@
-extends layout
+extends incontainer 
 
 block content
   h1 Register
-  form(method='POST', action='/users/register')
+  if errors
+    .alert.alert-danger
+      span Whoops! We've found some error.
+      ul
+        each error in errors
+          li=error.msg
+  form(method='POST')
     .form-group
       label Name:
       input.form-control(name='name', type='text')

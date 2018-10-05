@@ -1,8 +1,11 @@
-extends layout
+extends incontainer 
 
 block content
   h1 Login
-  form(method='POST', action='/users/login')
+  if failed 
+    .alert.alert-danger.
+      That doesn't work, please try again.
+  form(method='POST')
     .form-group
       label Username:
       input.form-control(name='username',type='text')

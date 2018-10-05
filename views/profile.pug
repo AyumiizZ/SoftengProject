@@ -1,11 +1,11 @@
-extends layout
+extends incontainer 
 
 block content
   .row
     .col-10
       h1 #{user.name}
     .col-2
-      a(href='/users/'+user.username+'/edit').btn.btn-outline-dark Edit
+      a(href='/settings/profile').btn.btn-outline-dark Edit
   hr
   .row
     .col-3

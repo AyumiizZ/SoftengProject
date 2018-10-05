@@ -16,11 +16,12 @@ block content
         .card-body
           h2 Client Review
         #innerBox.card
-          for review in reviews
+          each review, index in reviews
             .card-body
-              #{user.#{reviewer_id}}
-            .card-body
-              h5 #{review.review}
+              h5 #{reviewers[index].username}
+              .card
+                .card-body
+                  h6 #{review.review}
     .col-9
       #outerBox.card
         .card-body

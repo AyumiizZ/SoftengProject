@@ -104,7 +104,12 @@ router.post("/resetPassword", function(req, res) {
 router.get("/:username", async function (req, res) {
   let user = await User.query().where('username', req.params.username).first();
   let reviews = await Review.query().where('user_id', user.id);
-  res.render("profile", {user: user, reviews: reviews});
+  let reviewers = []
+  for (review in reviews) {
+    reviewers.push(await User.query().where('id', user.id).first());
+  }
+  console.log(reviewers);
+  res.render("profile", {user: user, reviews: reviews, reviewers: reviewers});
 });
 
 router.get("/:username/edit", async function (req, res) {

@@ -4,14 +4,17 @@ exports.up = function(knex, Promise) {
       table
         .timestamp("post")
         .notNullable()
-        .defaultTo(knex.raw("NOW"));
+        .defaultTo(knex.raw("NOW"))
+        .notNullable();
       table.string("review");
       table
         .integer("reviewer_id")
-        .references("users.id");
+        .references("users.id")
+        .notNullable();
       table
         .integer("user_id")
-        .references("users.id");
+        .references("users.id")
+        .notNullable();
     });
 };
 

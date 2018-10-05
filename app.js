@@ -8,6 +8,7 @@ var logger = require("morgan");
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("flash");
+var expressValidator = require("express-validator");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -40,7 +41,7 @@ require("./auth/local")(passport);
 app.use(flash());
 app.use(express.static(path.join(__dirname, "..", "..", "client")));
 
-app.get("*", function(req, res, next) {
+app.use("*", function(req, res, next) {
   console.log(req.user);
   // put user into res.locals for easy access from templates
   res.locals.user = req.user || null;

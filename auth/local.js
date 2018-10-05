@@ -14,11 +14,14 @@ module.exports = function(passport) {
         .first()
         .then(user => {
           if (!user) return done(null, false);
-          if (!authHelpers.comparePassSync(password, user.password)) {
-            return done(null, false);
-          } else {
-            return done(null, user);
-          }
+          authHelpers
+            .comparePass(password, user.password)
+            .then(validPassword => {
+              if (validPassword) {
+                return done(null, user);
+              }
+              return done(null, false);
+            });
         })
         .catch(err => {
           return done(err);

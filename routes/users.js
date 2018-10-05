@@ -23,7 +23,9 @@ router.post(
       .isEmail()
       .withMessage("E-mail not recognised."),
     check("password")
-      .isLength({ min: 8 })
+      .isLength({
+        min: 8
+      })
       .withMessage("Password must be longer than 8 characters.")
   ],
   function(req, res) {
@@ -58,7 +60,9 @@ router.get("/login", function(req, res) {
 
 router.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "login" }),
+  passport.authenticate("local", {
+    failureRedirect: "login"
+  }),
   function(req, res, next) {
     res.redirect("/");
   }
@@ -91,8 +95,46 @@ router.post("/resetPassword", function(req, res) {
   res.render("resetPassword");
 });
 
-router.get("/profile", function(req, res) {
-  res.render("profile");
+//<<<<<<< HEAD
+router.get("/:username", async function (req, res) {
+  let user = await User.query().where('username', req.params.username).first();
+  res.render("profile", {user: user});
 });
+
+router.get("/:username/edit", async function (req, res) {
+  let user = await User.query().where('username', req.params.username).first();
+  res.render("editProfile", {user: user});
+});
+
+router.post("/:username/edit", async function (req, res, next) {
+  let user = await User.query().where('username', req.params.username).first();
+  res.redirect("/users/"+user.username);
+});
+/*=======
+router.get("/profile", async function(req, res) {
+  let user = await User.query()
+    .where("username", req.user.username)
+    .first();
+  res.render("profile", { user: user });
+});
+
+router.get("/profile/edit", async function(req, res) {
+  let user = await User.query()
+    .where("username", req.user.username)
+    .first();
+  res.render("editProfile", { user: user });
+});
+
+router.post("/profile/edit", function(req, res, next) {
+  res.redirect("/users/profile");
+});
+
+router.get("/profile/:username", async function(req, res) {
+  let user = await User.query()
+    .where("username", req.params.username)
+    .first();
+  res.render("profile", { user: user });
+>>>>>>> f541eb83863af9a1e999061bad0969b845a229be
+});*/
 
 module.exports = router;

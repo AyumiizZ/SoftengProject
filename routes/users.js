@@ -16,27 +16,7 @@ router.get("/login", authController.loginGet);
 router.post("/login", authController.loginPost);
 router.get("/logout", authController.logout);
 router.post("/logout", authController.logout);
-
-router.get("/resetPassword", function(req, res) {
-  res.render("resetPassword");
-});
-
-router.post("/resetPassword", function(req, res) {
-  const username = req.body.username;
-  const answer = req.body.answer.toLowerCase();
-
-  console.log("click");
-  if (
-    answer == "o(n^2)" ||
-    answer == "n^2" ||
-    answer == "o(n**2)" ||
-    answer == "n**2"
-  ) {
-    console.log("OK");
-  } else {
-    console.log("noob");
-  }
-  res.render("resetPassword");
-});
+router.get("/resetPassword", authController.resetPasswordGet);
+router.post("/resetPassword", authController.resetPasswordPost);
 
 module.exports = router;

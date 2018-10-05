@@ -70,12 +70,11 @@ exports.logout = function(req, res) {
   res.redirect("/");
 };
 
-/*
-router.get("/resetPassword", function(req, res) {
+exports.resetPasswordGet = function(req, res) {
   res.render("resetPassword");
-});
+};
 
-router.post("/resetPassword", function(req, res) {
+exports.resetPasswordPost = function(req, res) {
   const username = req.body.username;
   const answer = req.body.answer.toLowerCase();
 
@@ -91,7 +90,4 @@ router.post("/resetPassword", function(req, res) {
     console.log("noob");
   }
   res.render("resetPassword");
-});
-
-module.exports = router;
-*/
+};

@@ -1,6 +1,3 @@
-const expressValidator = require("express-validator");
-const { sanitizeBody } = require("express-validator/filter");
-const bcrypt = require("bcrypt");
 const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
 const passport = require("passport");
@@ -33,7 +30,7 @@ exports.registerPost = function(req, res) {
         return User.query().insert(req.body);
       })
       .then(newUser => {
-        res.redirect("/users/login");
+        res.redirect(res.baseUrl + "/login");
       })
       .catch(error => {
         throw new Error(error);

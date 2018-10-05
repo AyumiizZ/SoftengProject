@@ -1,13 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const expressValidator = require("express-validator");
-const { sanitizeBody } = require("express-validator/filter");
-const bcrypt = require("bcrypt");
-const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
-const Review = require("../models/review");
-const passport = require("passport");
-const authController = require("../controllers/authController");
 
 router.use(expressValidator());
 
@@ -32,7 +26,7 @@ router.post("/profile", async function(req, res, next) {
     .where("username", req.user.username)
     .first();
   let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
-  res.redirect("/users/" + user.username);
+  res.redirect("/profile/");
 });
 /*=======
 router.get("/profile", async function(req, res) {

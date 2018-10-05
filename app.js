@@ -12,6 +12,7 @@ var expressValidator = require("express-validator");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
+var jobRouter = require("./routes/job");
 var profileRouter = require("./routes/profile");
 var searchRouter = require("./routes/search");
 var settingsRouter = require("./routes/settings");
@@ -52,6 +53,7 @@ app.use("*", function(req, res, next) {
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/jobs", jobRouter);
 app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
 app.use("/settings", settingsRouter);

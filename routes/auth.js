@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const expressValidator = require("express-validator");
-const { sanitizeBody } = require("express-validator/filter");
-const bcrypt = require("bcrypt");
-const _helpers = require("../auth/_helpers");
-const User = require("../models/user");
-const Review = require("../models/review");
-const passport = require("passport");
 const authController = require("../controllers/authController");
 
 router.use(expressValidator());

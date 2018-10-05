@@ -9,10 +9,9 @@ exports.up = function(knex, Promise) {
           .defaultTo(false);
         table
           .integer("client_id")
-          .notNullable()
           .references("users_id");
         table
-          .integer("user_id").notNullable()
+          .integer("user_id")
           .references("users_id");
       })
     ])

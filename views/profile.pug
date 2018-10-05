@@ -16,8 +16,11 @@ block content
         .card-body
           h2 Client Review
         #innerBox.card
-          .card-body
-            h5 #{user.client_review}
+          for review in reviews
+            .card-body
+              #{user.#{reviewer_id}}
+            .card-body
+              h5 #{review.review}
     .col-9
       #outerBox.card
         .card-body
@@ -30,4 +33,4 @@ block content
           h2 Past Job
         #innerBox.card
           .card-body
-            h5 #{user.past_job}
+            h5 

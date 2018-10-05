@@ -7,6 +7,11 @@ const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
 const passport = require("passport");
 
+// Will move to other file soon...
+const Review = require('../models/review');
+const Job = require('../models/job');
+//
+
 /* GET users listing. */
 router.get("/", function(req, res, next) {
   res.redirect("/");
@@ -98,7 +103,8 @@ router.post("/resetPassword", function(req, res) {
 //<<<<<<< HEAD
 router.get("/:username", async function (req, res) {
   let user = await User.query().where('username', req.params.username).first();
-  res.render("profile", {user: user});
+  let reviews = await Review.query().where('user_id', user.id);
+  res.render("profile", {user: user, reviews: reviews});
 });
 
 router.get("/:username/edit", async function (req, res) {

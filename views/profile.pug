@@ -2,36 +2,33 @@ extends incontainer
 
 block content
   .row
-    .col-10
-      h1 #{user.name}
-    .col-2
-      a(href='/settings/profile').btn.btn-outline-dark Edit
-  hr
-  .row
     .col-3
-      #outerBox.card
-        .card-body
-          h1 image here
-      #outerBox.card
-        .card-body
-          h2 Client Review
-        #innerBox.card
-          each review, index in reviews
-            .card-body
-              h5 #{reviewers[index].username}
-              .card
-                .card-body
-                  h6 #{review.review}
+      img.rounded.mb-3(src="https://via.placeholder.com/400x400", width="100%")
+      h2 #{user.name}
+      a(href='/settings/profile').btn.btn-outline-dark Edit
     .col-9
-      #outerBox.card
+      .card.mb-3
         .card-body
-          h2 Overview
-        #innerBox.card
-          .card-body
-            h5 #{user.overview}
-      #outerBox.card
+          h3 Overview
+          span #{user.overview}
+      .card.mb-3
         .card-body
-          h2 Past Job
-        #innerBox.card
-          .card-body
-            h5 
+          h3 Past Jobs
+          .card.mb-3
+            .card-body
+              h5 Job #1
+              p Lorem Ipsum...
+          .card.mb-3
+            .card-body
+              h5 Job #1
+              p Lorem Ipsum...
+      .card
+        .card-body
+          h3 Client Review
+          each review, index in reviews
+            .card
+                .card-body
+                  h5 #{reviewers[index].username}
+                  .card
+                    .card-body
+                      h6 #{review.review}

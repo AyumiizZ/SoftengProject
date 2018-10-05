@@ -25,7 +25,10 @@ router.post("/register", function(req, res) {
     .isLength({ min: 8 });
   req
     .checkBody("confirm", "Password does not match the confirmation")
-    .equals("confirm");
+    .equals(req.body.confirm);
+  req
+    .checkBody("agreement", "You must agree to JainsBret's user agreement")
+    .equals("on");
   var errors = req.validationErrors();
   if (errors) {
     res.render("register", { errors: errors });

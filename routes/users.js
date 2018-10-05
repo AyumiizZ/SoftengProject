@@ -95,7 +95,7 @@ router.post("/resetPassword", function(req, res) {
   res.render("resetPassword");
 });
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 router.get("/:username", async function (req, res) {
   let user = await User.query().where('username', req.params.username).first();
   res.render("profile", {user: user});

@@ -8,10 +8,14 @@ var logger = require("morgan");
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("flash");
+var expressValidator = require("express-validator");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var authRouter = require("./routes/auth");
+var jobRouter = require("./routes/job");
+var profileRouter = require("./routes/profile");
 var searchRouter = require("./routes/search");
+var settingsRouter = require("./routes/settings");
 
 var app = express();
 
@@ -41,16 +45,18 @@ require("./auth/local")(passport);
 app.use(flash());
 app.use(express.static(path.join(__dirname, "..", "..", "client")));
 
-app.get("*", function(req, res, next) {
-  console.log(req.user);
+app.use("*", function(req, res, next) {
   // put user into res.locals for easy access from templates
   res.locals.user = req.user || null;
   next();
 });
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/", authRouter);
+app.use("/jobs", jobRouter);
+app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
+app.use("/settings", settingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

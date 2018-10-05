@@ -1,78 +1,56 @@
-.container {
-  max-width: 960px;
+@import url('https://fonts.googleapis.com/css?family=Mitr:300');
+h1, h2, h3, h4, h5, h6, .headline-font {
+  font-family: "Mitr";
 }
 
-/*
- * Custom translucent site header
- */
+.no-margin {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
-.site-header {
-  background-color: rgba(0, 0, 0, .85);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
+.center-text {
+  text-align: center;
 }
-.site-header a {
-  color: #999;
-  transition: ease-in-out color .15s;
+
+main {
+  padding-top: 20px;
 }
-.site-header a:hover {
+
+.jumbotron {
+  border-radius: 0px;
+}
+
+.counter-fullpage {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.counter-fullpage .counter-freelance-categories ul {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+.counter-fullpage .counter-freelance-categories li {
+  list-style-type: none;
+}
+
+.center-wrapper {
+  text-align: center;
+}
+
+.counter-wrapper h1 {
+  font-size: 52px;
+}
+
+#frontpage-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/freelancers.jpg');
   color: #fff;
-  text-decoration: none;
 }
 
-
-/*
- * Dummy devices (replace them with your own or something else entirely!)
- */
-
-.product-device {
-  position: absolute;
-  right: 10%;
-  bottom: -30%;
-  width: 300px;
-  height: 540px;
-  background-color: #333;
-  border-radius: 21px;
-  -webkit-transform: rotate(30deg);
-  transform: rotate(30deg);
+#frontpage-header .form-inline {
+  text-align: center;
 }
-
-.product-device::before {
-  position: absolute;
-  top: 10%;
-  right: 10px;
-  bottom: 10%;
-  left: 10px;
-  content: "";
-  background-color: rgba(255, 255, 255, .1);
-  border-radius: 5px;
-}
-
-.product-device-2 {
-  top: -25%;
-  right: auto;
-  bottom: 0;
-  left: 5%;
-  background-color: #e5e5e5;
-}
-
-
-/*
- * Extra utilities
- */
-
-.flex-equal > * {
-  -ms-flex: 1;
-  flex: 1;
-}
-@media (min-width: 768px) {
-  .flex-md-equal > * {
-    -ms-flex: 1;
-    flex: 1;
-  }
-}
-
-.overflow-hidden { overflow: hidden; }
 
 .container.contents {
   padding: 1em
@@ -90,7 +68,7 @@
   -webkit-appearance: none;
   width: 100%;
   height: 15px;
-  border-radius: 5px;   
+  border-radius: 5px;
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
@@ -103,7 +81,7 @@
   appearance: none;
   width: 25px;
   height: 25px;
-  border-radius: 50%; 
+  border-radius: 50%;
   background: #4CAF50;
   cursor: pointer;
 }

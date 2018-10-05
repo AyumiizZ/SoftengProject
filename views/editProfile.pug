@@ -1,7 +1,7 @@
-extends layout
+extends incontainer 
 
 block content
-    form(method='POST', action='/users/'+user.username+'/edit')
+    form(method='POST')
         .row
             input.form-control(name='name',type='text', value=user.name)
             button.btn.btn-outline-primary(type='submit') Save Changes

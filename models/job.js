@@ -10,21 +10,23 @@ class Job extends Model {
 
   static get relationMappings() {
     return {
-      user: {
+      client: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "client_id"
-        },
+        }
+      },
+      freelance: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "user_id"
         }
       }
-    }
+    };
   }
 }
 

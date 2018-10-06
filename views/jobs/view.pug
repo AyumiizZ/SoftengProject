@@ -3,6 +3,8 @@ extends ../incontainer
 block content
   .row
     .col-12
+      if query.saveinterested
+        .alert.alert-success ทำการลงทะเบียนสนใจงานนี้แล้ว
       .d-flex
         .flex-grow-1
           span ประกาศงาน
@@ -16,7 +18,7 @@ block content
           h2 รายละเอียดงาน
           .p #{job.job_info}
   .row
-    .col-6
+    .col-4
       .card.text-center
         .card-body
           h2 ผู้ว่าจ้าง 
@@ -25,7 +27,13 @@ block content
             p #{job.freelance.overview}
           else
             h4 งานนี้ไม่ปรากฏผู้ว่าจ้าง
-    .col-6
+    .col-4
+      .card.text-center
+        .card-body
+          h2 ฟรีแลนซ์ที่สนใจงานนี้
+          p(style="font-size: 70px") #{interestCount} 
+          a.btn.btn-outline-info(href=job.id+"/interests") ดูรายชื่อฟรีแลนซ์ที่สนใจงานนี้
+    .col-4
       .card.text-center
         .card-body
           h2 ฟรีแลนซ์ที่ทำงานนี้ 
@@ -33,7 +41,7 @@ block content
             h4 #{job.freelance.name}
             p #{job.freelance.overview}
           else
-            span
+            p
               span.text-info.font-weight-bold งานนี้ยังว่างอยู่!&nbsp;
               span กดลงทะเบียนเพื่อแสดงความสนใจทำงานนี้
-              a.btn.btn-info(href="../interested/"+job.id) แสดงความสนใจ
+            a.btn.btn-info(href="../interested/"+job.id) แสดงความสนใจ

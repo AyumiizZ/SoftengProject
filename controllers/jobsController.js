@@ -5,9 +5,13 @@ exports.view = async function(req, res, next) {
   console.log(req.params.jobId);
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance]");
+    .eager("[client, freelance, freelance_interests]");
   //res.json(job);
-  res.render("jobs/add", { job: job });
+  res.render("jobs/view", {
+    job: job,
+    interestCount: job.freelance_interests.length,
+    query: req.query
+  });
 };
 
 exports.interestedGet = async function(req, res, next) {
@@ -33,7 +37,8 @@ exports.interestedPost = async function(req, res, next) {
       data
     );
   }
-  res.json(data);
+  console.log("completed!");
+  res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
 exports.showInterests = async function(req, res, next) {

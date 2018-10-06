@@ -14,13 +14,13 @@ class Review extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "reviewer_id"
         },
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "user_id"
         }
       }

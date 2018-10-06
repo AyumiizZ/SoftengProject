@@ -8,16 +8,4 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get("/addjob", function(req, res) {
-  res.render("addjob");
-});
-
-router.post("/addjob", function(req, res, next) {
-  console.log(Job);
-  console.log(req.body);
-  res.redirect("/");
-  return Job.query().insert(req.body);
-  }
-);
-
 module.exports = router;

@@ -30,7 +30,7 @@ exports.registerPost = function(req, res) {
         return User.query().insert(req.body);
       })
       .then(newUser => {
-        res.redirect(res.baseUrl + "/login");
+        res.redirect(req.baseUrl + "/login");
       })
       .catch(error => {
         throw new Error(error);

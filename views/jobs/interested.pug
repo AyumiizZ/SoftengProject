@@ -1,0 +1,26 @@
+extends ../incontainer 
+
+block content
+  .row
+    .col-12
+      .d-flex
+        .flex-grow-1
+          span แสดงความสนใจในงาน 
+          h1 #{job.job}
+  .row.mb-3
+    .col-12
+      .alert.alert-warning กรุณาอ่านรายละเอียดงานให้ชัดเจนก่อนกดแสดงความสนใจ
+      .card
+        .card-body
+          h2 รายละเอียดงาน
+          p #{job.job_info}
+      hr
+  .row
+    .col-md-12
+      form(method="POST")
+        h3 แสดงความสนใจ
+        .form-group
+          label คุณสามารถกรอกรายละเอียดเพิ่มเติม รายละเอียดนี้จะถูกส่งไปถึงผู้ใช้เจ้าของงาน
+          textarea.form-control(name="message")
+        p เมื่อคุณกดปุ่มข้างล่าง คุณยืนยันว่าคุณแสดงความสนใจในงาน #{job.job} โดยผู้ใช้เจ้าของงานจะสามารถมองเห็นว่าคุณลงชื่อแสดงความสนใจในงานนี้
+        button.btn.btn-warning(type="submit") แสดงความสนใจ

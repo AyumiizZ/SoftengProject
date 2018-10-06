@@ -7,7 +7,7 @@ exports.view = async function(req, res, next) {
     .findById(req.params.jobId)
     .eager("[client, freelance]");
   //res.json(job);
-  res.render("jobs/add", { job: job });
+  res.render("jobs/add", { job: job, query: req.query });
 };
 
 exports.interestedGet = async function(req, res, next) {
@@ -33,7 +33,8 @@ exports.interestedPost = async function(req, res, next) {
       data
     );
   }
-  res.json(data);
+  console.log("completed!");
+  res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
 exports.showInterests = async function(req, res, next) {

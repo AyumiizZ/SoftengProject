@@ -19,6 +19,18 @@ class Job extends Model {
           to: "jobs.client_id"
         }
       },
+      freelance_interests: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: "jobs.id",
+          through: {
+            from: "jobs_interests.job_id",
+            to: "jobs_interests.user_username"
+          },
+          to: "users.username"
+        }
+      },
       freelance: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,

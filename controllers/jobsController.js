@@ -5,9 +5,13 @@ exports.view = async function(req, res, next) {
   console.log(req.params.jobId);
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance]");
+    .eager("[client, freelance, freelance_interests]");
   //res.json(job);
-  res.render("jobs/view", { job: job, query: req.query });
+  res.render("jobs/view", {
+    job: job,
+    interestCount: job.freelance_interests.length,
+    query: req.query
+  });
 };
 
 exports.interestedGet = async function(req, res, next) {

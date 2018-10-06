@@ -7,7 +7,7 @@ exports.view = async function(req, res, next) {
     .findById(req.params.jobId)
     .eager("[client, freelance]");
   //res.json(job);
-  res.render("jobs/add", { job: job, query: req.query });
+  res.render("jobs/view", { job: job, query: req.query });
 };
 
 exports.interestedGet = async function(req, res, next) {

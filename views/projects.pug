@@ -3,19 +3,37 @@ extends incontainer
 block content
   .search-page.row
     .search-filter
-      .box
-        ul
-          form(method='POST')
-            strong Project Type
-            .form-check
-              label.form-check-label(name='project_types')
-                input.form-check-input(name='fixed_projects', type='checkbox')
-                | Fixed projects
-            .form-check
-              label.form-check-label(name='project_types')
-                input.form-check-input(name='hourly_projects', type='checkbox')
-                | Hourly projects
-        
+      form(method='POST').box
+        li.filter-item
+          ul.filter-item-expansion
+            li.filter-item-group
+              label#head Project Type
+              .form-check
+                label.form-check-label(name='project_types')
+                  input.form-check-input(name='fixed_projects', type='checkbox')
+                  | Fixed projects
+              .form-check
+                label.form-check-label(name='project_types')
+                  input.form-check-input(name='hourly_projects', type='checkbox')
+                  | Hourly projects
+            li.filter-item-group
+              label#head Skills
+              .filter-item-scroll
+                .filter-tag-input
+                  .input-tag PHP
+                    .delete-tag ×
+                  .input-tag Java
+                    .delete-tag ×
+                  .input-tag Javascript
+                    .delete-tag ×
+                  .input-tag Python
+                    .delete-tag ×
+                  .input-tag MySQL
+                    .delete-tag ×
+                  input(type="text", placeholder='Select Skill')
+              .filter-item-button-group
+                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                  | Clear Skills
       //- .row
       //-   lable project type
       //-   .container

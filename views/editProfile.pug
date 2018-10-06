@@ -1,12 +1,52 @@
 extends incontainer 
 
 block content
+    if errors
+        .alert.alert-danger
+            span Whoops! We've found some error.
+            ul
+                each error in errors
+                    li=error.msg
     form(method='POST')
-        .row
+        #outerBox.card
+            .card-body
+                h1 Account
+                #innerBox.card
+                    .row
+                        .col-3
+                            #innerBox.card
+                                .card-body
+                                    h1 image here
+                        .col-9
+                            .card-body
+                                h5 Name:
+                                input.form-control(name='name',type='text', value=user.name)
+                                h5 Email:
+                                input.form-control(name='email',type='text', value=user.email)
+                                h5 Overview:
+                                if user.overview
+                                    <textarea class="form-control" rows="5" name="overview">#{user.overview}</textarea>
+                                else
+                                    <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
+
+        #outerBox.card
+            .card-body
+                h1 Password
+                #innerBox-card
+                    .card-body
+                        h5 Current password:
+                        input.form-control(name='old_password',type='password')
+                        h5 New password:
+                        input.form-control(name='password',type='password')
+                        h5 Confirm:
+                        input.form-control(name='confirm',type='password')
+
+        button.btn.btn-outline-primary(type='submit') Save Changes
+        //.row
             input.form-control(name='name',type='text', value=user.name)
             button.btn.btn-outline-primary(type='submit') Save Changes
-        hr
-        .row
+        //hr
+        //.row
             .col-3
                 #outerBox.card
                     .card-body
@@ -21,7 +61,8 @@ block content
                     .card-body
                         h2 Overview
                     #innerBox.card
-                        input.form-control(name='overview',type='text', value=user.overview)
+                        <textarea class="form-control" name="overview">#{user.overview}</textarea>
+                        //input.form-control(name='overview',type='text', value=user.overview)
                 #outerBox.card
                     .card-body
                         h2 Past Job

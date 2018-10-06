@@ -20,16 +20,9 @@ block content
               label#head Skills
               .filter-item-scroll
                 .filter-tag-input
-                  .input-tag PHP
-                    .delete-tag ×
-                  .input-tag Java
-                    .delete-tag ×
-                  .input-tag Javascript
-                    .delete-tag ×
-                  .input-tag Python
-                    .delete-tag ×
-                  .input-tag MySQL
-                    .delete-tag ×
+                  each val in user_skills
+                    .input-tag=val
+                      .delete-tag ×
                   input(type="text", placeholder='Select Skill')
               .filter-item-button-group
                 button.btn.btn-primary.btn-small.filter-item-button(type='button')
@@ -39,37 +32,7 @@ block content
               label#head Fixed Price
             li.filter-item-group
               label#head Hourly Price
-      //- .row
-      //-   lable project type
-      //-   .container
-      //-     .form-check
-      //-       label.form-check-label(name='accept')
-      //-         input.form-check-input(name='agreement',type='checkbox')
-      //-         | Fixed Project
-      //-     .form-check
-      //-       label.form-check-label(name='accept')
-      //-         input.form-check-input(name='agreement',type='checkbox')
-      //-         | Hourly Project
-      //- .row
-      //-   lable Skills
-      //-   input.form-check-input(name='agreement',type='checkbox')
-      //-   .container
-      //-     button.btn.btn-primary(type='button') Clear Skills
-      //-   .container
-      //-     button.btn.btn-link(type='button') Edit Profile Skills
-      //- .row
-      //-   lable Fixed Price
-      //-   input#fixedPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
-      //-   lable Hourly Price
-      //-   input#hourlyPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
-      //- .row
-      //-   lable Specific Location
-      //-   input.form-control(name='location',type='text')
-      //- .row
-      //-   lable Language
-      //-   input.form-control(name='Language',type='text')
-      //-   button.btn.btn-primary(type='button') Clear Language
-      //- button.btn.btn-link(type='button') Reset Filter
+
     .search-result
       .box
         .search-result-header

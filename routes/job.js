@@ -9,6 +9,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/view/:jobId", jobsController.view);
+router.get("/interested/:jobId", jobsController.interestedGet);
 
 router.get("/add", function(req, res) {
   res.render("addjob");

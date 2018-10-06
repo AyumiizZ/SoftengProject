@@ -14,13 +14,13 @@ class Job extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "client_id"
         },
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.user_id",
+          from: "users.id",
           to: "user_id"
         }
       }

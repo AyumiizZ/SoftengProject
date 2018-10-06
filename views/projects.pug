@@ -3,7 +3,7 @@ extends incontainer
 block content
   .search-page.row
     .search-filter
-      form(method='POST').box
+      .box
         li.filter-item
           ul.filter-item-expansion
             li.filter-item-group
@@ -34,6 +34,11 @@ block content
               .filter-item-button-group
                 button.btn.btn-primary.btn-small.filter-item-button(type='button')
                   | Clear Skills
+                button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
+            li.filter-item-group
+              label#head Fixed Price
+            li.filter-item-group
+              label#head Hourly Price
       //- .row
       //-   lable project type
       //-   .container
@@ -77,6 +82,18 @@ block content
         ul.list-group
           li.list-group-item
             a(href='#')= "articles"
+
+  #edit_skills.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Modal Header
+          button.close(type='button', data-dismiss='modal') ×
+        .modal-body
+          p Some text in the modal.
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+
         //- each article, i in articles
           li.list-group-item
             a(href="/articles/"+article._id)= article.title

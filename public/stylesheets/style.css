@@ -210,3 +210,7 @@ main {
   text-align: right;
   width: 25%;
 }
+
+.search-page .btn-link {
+  padding-left: 0;
+}

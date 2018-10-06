@@ -20,6 +20,11 @@ router.post(
   authMiddleware.isAuthenticated,
   jobsController.interestedPost
 );
+router.get(
+  "/view/:jobId/interests",
+  authMiddleware.isAuthenticated,
+  jobsController.showInterests
+);
 
 router.get("/add", function(req, res) {
   res.render("addjob");

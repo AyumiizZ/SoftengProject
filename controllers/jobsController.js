@@ -35,3 +35,11 @@ exports.interestedPost = async function(req, res, next) {
   }
   res.json(data);
 };
+
+exports.showInterests = async function(req, res, next) {
+  console.log(req.params.jobId);
+  const job = await Job.query()
+    .findById(req.params.jobId)
+    .eager("freelance_interests");
+  res.render("jobs/showInterests", { job: job });
+};

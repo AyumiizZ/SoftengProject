@@ -3,6 +3,8 @@ extends ../incontainer
 block content
   .row
     .col-12
+      if query.saveinterested
+        .alert.alert-success ทำการลงทะเบียนสนใจงานนี้แล้ว
       .d-flex
         .flex-grow-1
           span ประกาศงาน

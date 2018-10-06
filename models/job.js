@@ -1,5 +1,6 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
+const User = require("./user.js");
 
 Model.knex(knex);
 
@@ -15,7 +16,7 @@ class Job extends Model {
         modelClass: User,
         join: {
           from: "users.id",
-          to: "client_id"
+          to: "jobs.client_id"
         }
       },
       freelance: {
@@ -23,7 +24,7 @@ class Job extends Model {
         modelClass: User,
         join: {
           from: "users.id",
-          to: "user_id"
+          to: "jobs.user_id"
         }
       }
     };

@@ -9,6 +9,24 @@ exports.registerGet = function(req, res) {
 exports.registerPost = function(req, res) {
   req.checkBody("email", "E-mail is not in a valid format.").isEmail();
   req
+    .checkBody("email", "The E-mail address is already in use.")
+    .custom(value => {
+      var user = User.query().where("email", value);
+      console.log(user);
+      if (user.length > 0) {
+        return Promise.reject("The E-mail address is already in use.");
+      }
+    });
+  req
+    .checkBody("username", "The username has already been taken.")
+    .custom(value => {
+      var user = User.query().where("username", value);
+      if (user.length > 0) {
+        console.log(user);
+        return Promise.reject("The username has already been taken.");
+      }
+    });
+  req
     .checkBody("password", "Password must be at least 8 characters.")
     .isLength({ min: 8 });
   req

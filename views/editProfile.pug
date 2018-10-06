@@ -1,12 +1,16 @@
 extends incontainer 
 
 block content
-    if errors
+
+    if (errors || failed)
         .alert.alert-danger
             span Whoops! We've found some error.
             ul
+                if failed
+                    li The current password is not correct
                 each error in errors
                     li=error.msg
+
     form(method='POST')
         #outerBox.card
             .card-body

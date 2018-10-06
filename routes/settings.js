@@ -24,10 +24,13 @@ router.get("/profile", async function(req, res) {
 });
 
 router.post("/profile", async function(req, res, next) {
+  var pass = true; 
   let user = await User.query()
     .where("username", req.user.username)
-    .first();
-  req.checkBody("email", "E-mail is not in a valid format.").isEmail();
+    .first()
+  req
+    .checkBody("email", "E-mail is not in a valid format.")
+    .isEmail();
   if(req.body.password) {
     req
       .checkBody("password", "Password must be at least 8 characters.")
@@ -35,13 +38,28 @@ router.post("/profile", async function(req, res, next) {
     req
       .checkBody("confirm", "Password does not match the confirmation")
       .equals(req.body.confirm);
+    pass = _helpers.comparePassSync(req.body.old_password, user.password);
   }
   var errors = req.validationErrors();
-  if (errors) {
+  if (errors || !pass) {
     console.log("error!");
-    res.render("editProfile", {errors: errors, user: user});
+    let failed = !pass;
+    res.render("editProfile", {errors: errors, failed: failed, user: user});
   } else {
+    delete req.body.old_password;
+    delete req.body.confirm;
+    if(!req.body.password) {
+      delete req.body.password;
+    } else {
+      _helpers
+      .hashPass(req.body.password)
+      .then(hashed => {
+        req.body.password = hashed;
+      });
+    }
+    let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
     console.log("success!");
+    res.redirect("/profile/")
   }
     
 /*  let saved = false;

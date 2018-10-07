@@ -344,7 +344,7 @@ main {
   -ms-hyphens: auto;
   hyphens: auto;
   -webkit-line-clamp: 2;
-  max-height: 38px;
+  max-height: 48px;
   max-width: 590px;
   color: #75787d;
   margin-bottom: 16px;
@@ -352,6 +352,10 @@ main {
   overflow-wrap: break-word;
   word-break: break-word;
   word-wrap: break-word;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin-bottom: 16px;
+  line-height: 1.4;
 }
 
 .project-tile .info-card-grid {

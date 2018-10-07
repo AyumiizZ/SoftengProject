@@ -22,10 +22,10 @@ exports.interestedGet = async function(req, res, next) {
 };
 
 exports.interestedPost = async function(req, res, next) {
-  const currentUsername = req.user.username;
+  const currentUserId = req.user.id;
   const jobId = req.params.jobId;
   var data = {
-    user_username: currentUsername,
+    user_id: currentUserId,
     job_id: jobId,
     message: req.body.message
   };
@@ -51,7 +51,7 @@ exports.showInterests = async function(req, res, next) {
 
 exports.addPost = async function(req, res, next) {
   console.log(req.user);
-  req.body.client_id = req.user.username;
+  req.body.client_id = req.user.id;
   const job = await Job.query().insert(req.body);
   res.redirect("/jobs/view/" + job.id);
 };

@@ -20,7 +20,7 @@ block content
               label#head Skills
               .filter-item-scroll
                 .filter-tag-input
-                  each val in user_skills
+                  each val in skills
                     .input-tag=val
                       .delete-tag ×
                   input(type="text", placeholder='Select Skill')
@@ -30,8 +30,42 @@ block content
                 button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
             li.filter-item-group
               label#head Fixed Price
+              .filter-slider(floor='0', ceiling='10000', prefix='$', dragstop='true')
+                .slider-range
+                  .slider-bar.selection(style='left: 8.5px; width: 160px;')
+                .slider-handle.low(style='left: 0px;')
+                .slider-handle.high(style='left: 168.5px;')
+                .filter-ui-slider-value
+                  span.filter-ui-slider-value-min(style='left: -0.5px;')
+                    | 0฿
+                  |  - 
+                  span.filter-ui-slider-value-max(style='left: 141.5px;')
+                    | 1000000฿
             li.filter-item-group
               label#head Hourly Price
+              .filter-slider(floor='1', ceiling='10000', prefix='$', dragstop='true')
+                .slider-range
+                  .slider-bar.selection(style='left: 8.5px; width: 160px;')
+                .slider-handle.low(style='left: 0px;')
+                .slider-handle.high(style='left: 168.5px;')
+                .filter-ui-slider-value
+                  span.filter-ui-slider-value-min(style='left: -0.5px;')
+                    | 0฿
+                  |  - 
+                  span.filter-ui-slider-value-max(style='left: 141.5px;')
+                    | 1000฿
+            li.filter-item-group
+              label#head Language
+              .filter-item-scroll
+                .filter-tag-input
+                  each val in lang
+                    .input-tag=val
+                      .delete-tag ×
+                  input(type="text", placeholder='Select Language')
+              .filter-item-button-group
+                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                  | Clear Languages
+            button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
 
     .search-result
       .box

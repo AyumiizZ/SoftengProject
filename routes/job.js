@@ -30,11 +30,6 @@ router.get("/add", function(req, res) {
   res.render("addjob");
 });
 
-router.post("/add", function(req, res, next) {
-  console.log(Job);
-  console.log(req.body);
-  res.redirect("/");
-  return Job.query().insert(req.body);
-});
+router.post("/add", jobsController.addPost);
 
 module.exports = router;

@@ -48,6 +48,7 @@ router.post("/profile", async function(req, res, next) {
   } else {
     delete req.body.old_password;
     delete req.body.confirm;
+    
     if(!req.body.password) {
       delete req.body.password;
       let updatedUser = await User.query().updateAndFetchById(user.id, req.body);

@@ -27,7 +27,8 @@ router.get("/:username", async function(req, res) {
         .first()
     );
   }
-  res.render("profile", { user: user, reviews: reviews, reviewers: reviewers });
+  let authen = await (user.username == req.user.username);
+  res.render("profile", { user: user, reviews: reviews, reviewers: reviewers, authen: authen });
 });
 
 module.exports = router;

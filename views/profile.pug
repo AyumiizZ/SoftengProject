@@ -2,6 +2,13 @@ extends incontainer
 
 block content
   .row
+    .col-10
+      h1 #{user.name}
+    .col-2
+        if authen
+          a(href='/settings/profile').btn.btn-outline-dark Setting
+  hr
+  .row
     .col-3
       img.rounded.mb-3(src="https://via.placeholder.com/400x400", width="100%")
       h2 #{user.name}

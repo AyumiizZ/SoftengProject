@@ -16,6 +16,8 @@ var jobRouter = require("./routes/job");
 var profileRouter = require("./routes/profile");
 var searchRouter = require("./routes/search");
 var settingsRouter = require("./routes/settings");
+var apiRouter = require("./routes/api");
+var jobRouter = require("./routes/job");
 
 var app = express();
 
@@ -53,10 +55,12 @@ app.use("*", function(req, res, next) {
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/api", apiRouter);
 app.use("/jobs", jobRouter);
 app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
 app.use("/settings", settingsRouter);
+app.use("/jobs", jobRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

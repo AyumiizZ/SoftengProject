@@ -2,10 +2,10 @@ const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 
 exports.view = async function(req, res, next) {
-  console.log(req.params.jobId);
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
+  console.log(job);
   //res.json(job);
   res.render("jobs/view", {
     job: job,
@@ -47,4 +47,11 @@ exports.showInterests = async function(req, res, next) {
     .findById(req.params.jobId)
     .eager("freelance_interests");
   res.render("jobs/showInterests", { job: job });
+};
+
+exports.addPost = async function(req, res, next) {
+  console.log(req.user);
+  req.body.client_id = req.user.username;
+  const job = await Job.query().insert(req.body);
+  res.redirect("/jobs/view/" + job.id);
 };

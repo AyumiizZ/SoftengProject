@@ -9,8 +9,10 @@ router.get('/', function (req, res, next) {
 
 router.get('/projects', function (req, res, next) {
   var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"]
+  var user_lang = ["Thai","English"]
   res.render('projects', {
-    user_skills: user_skills
+    skills: user_skills,
+    lang: user_lang
   });
 });
 

@@ -6,14 +6,14 @@ const Review = require("../models/review");
 
 router.use(expressValidator());
 
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   if (!req.user) {
     res.redirect("/");
   }
   res.redirect(req.baseUrl + "/" + req.user.username);
 });
 
-router.get("/:username", async function(req, res) {
+router.get("/:username", async function (req, res) {
   let user = await User.query()
     .where("username", req.params.username)
     .first();
@@ -23,12 +23,19 @@ router.get("/:username", async function(req, res) {
   for (review in reviews) {
     reviewers.push(
       await User.query()
-        .where("id", user.id)
-        .first()
+      .where("id", user.id)
+      .first()
     );
   }
   let authen = await (user.username == req.user.username);
-  res.render("profile", { user: user, reviews: reviews, reviewers: reviewers, authen: authen });
+  let title = req.params.username + '\'s Profile | JetFree by JainsBret'
+  res.render("profile", {
+    title: title,
+    user: user,
+    reviews: reviews,
+    reviewers: reviewers,
+    authen: authen
+  });
 });
 
 module.exports = router;

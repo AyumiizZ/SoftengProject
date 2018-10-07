@@ -8,12 +8,11 @@ html
 
   body
     nav(class="navbar navbar-top navbar-expand-lg navbar-dark bg-dark")
-      <a class="navbar-brand" href="/">
-        <img src="/images/jainsbret_logo_green.svg" width="30" height="30" alt=""> JetFree
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      a.navbar-brand(href='/')
+        img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
+        |  JetFree
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
       div(class="collapse navbar-collapse" id="navbarNav")
         ul.navbar-nav
           li.nav-item
@@ -43,7 +42,7 @@ html
       .row
         .col-12.col-md
           //logo start
-          <img src="/images/jainsbret_logo_green.svg" width="30" height="30" alt="">
+          img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
           small.d-block.mb-3.text-muted JainsBret © 2017-2018
         //logo end
         .col-6.col-md

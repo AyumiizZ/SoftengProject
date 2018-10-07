@@ -76,9 +76,38 @@ block content
             .result-amount 1234 Result
           .search-result-input-sort
             .sort sort by date/popular
-        ul.list-group
-          li.list-group-item
-            a(href='#')= "articles"
+        ul.search-result-list
+          li
+            a.search-result-link(href='/job', target='_blank')
+            .search-result-item
+              .project-tile
+                figure.info-card-iconBox
+                  span.Icon
+                    fl-icon(name='ui-fixed-project', ng-if="ProjectTile.project.price.type === 'fixed'")
+                      svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+                        path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
+                .info-card-inner
+                  h2.info-card-title Build me a website
+                  p.info-card-description We are a home business dealing with Multigrain health mix and elderberry syrup .. I need help in designing a blog or website ( the job seems too cumbersome for me since I have no time ) I have all the content and pictures I need to be posted.. I just need the blog or website to be pleasing to the eyes and easy to navigate for customers"
+                  .info-card-grid
+                    .info-card-details.info-card-grid-item
+                      img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+                      span.open Open
+                      time  1 hour ago 
+                      span - 10 bid
+                    .info-card-details.info-card-grid-item
+                      img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+                      span No jobs completed yet
+                    .info-card-details.info-card-grid-item.info-card-skills-container
+                      img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+                      span Website design
+
+                .info-card-rate
+                  .info-card-price
+                    span 10000฿
+                  .info-card-price-type
+                    span THB
+                
 
   #edit_skills.modal.fade(role='dialog')
     .modal-dialog

@@ -32,9 +32,9 @@ block content
               label#head Fixed Price
               .filter-slider(floor='0', ceiling='10000', prefix='$', dragstop='true')
                 .slider-range
-                  .slider-bar.selection(style='left: 8.5px; width: 160px;')
-                .slider-handle.low(style='left: 0px;')
-                .slider-handle.high(style='left: 168.5px;')
+                  .slider-bar.selection(style='left: 5%; width: 90%;')
+                .slider-handle.low(style='left: 0%;')
+                .slider-handle.high(style='left: 92.5%;')
                 .filter-ui-slider-value
                   span.filter-ui-slider-value-min(style='left: -0.5px;')
                     | 0฿
@@ -45,9 +45,9 @@ block content
               label#head Hourly Price
               .filter-slider(floor='1', ceiling='10000', prefix='$', dragstop='true')
                 .slider-range
-                  .slider-bar.selection(style='left: 8.5px; width: 160px;')
-                .slider-handle.low(style='left: 0px;')
-                .slider-handle.high(style='left: 168.5px;')
+                  .slider-bar.selection(style='left: 5%; width: 90%;')
+                .slider-handle.low(style='left: 0%;')
+                .slider-handle.high(style='left: 92.5%;')
                 .filter-ui-slider-value
                   span.filter-ui-slider-value-min(style='left: -0.5px;')
                     | 0฿
@@ -73,68 +73,108 @@ block content
           .search-result-header-input
             input.form-control(name='Search',type='text',placeholder='Search Jobs')
           .search-result-amount
-            .result-amount 2 Result
+            .result-amount=n_results+' Result'
           .search-result-input-sort
             .sort sort by date
         ul.search-result-list
-          li
-            a.search-result-link(href='/job', target='_blank')
-            .search-result-item
-              .project-tile
-                figure.info-card-iconBox
-                  span.Icon
-                    fl-icon(name='ui-fixed-project', ng-if="ProjectTile.project.price.type === 'fixed'")
-                      svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
-                        path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
-                .info-card-inner
-                  h2.info-card-title Build me a website
-                  p.info-card-description We are a home business dealing with Multigrain health mix and elderberry syrup .. I need help in designing a blog or website ( the job seems too cumbersome for me since I have no time ) I have all the content and pictures I need to be posted.. I just need the blog or website to be pleasing to the eyes and easy to navigate for customers.
-                  .info-card-grid
-                    .info-card-details.info-card-grid-item
-                      img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
-                      span.open Open
-                      time  1 hour ago 
-                      span - 10 bid
-                    .info-card-details.info-card-grid-item
-                      img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
-                      span No jobs completed yet
-                    .info-card-details.info-card-grid-item.info-card-skills-container
-                      img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
-                      span Website Design, Graphic Design, WordPress, HTML
-                .info-card-rate
-                  .info-card-price
-                    span 10000฿
-                  .info-card-price-type
-                    span THB
-          li
-            a.search-result-link(href='/job', target='_blank')
-            .search-result-item
-              .project-tile
-                figure.info-card-iconBox
-                  span.Icon
-                    fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
-                      svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
-                        path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
-                .info-card-inner
-                  h2.info-card-title Hire a SQL / MySQL / database developer for your work.
-                  p.info-card-description I'm a software developer with more than 4 years of experience. I have worked on Microsoft SQL server, Oracle, MySQL, DB2 , Amazon Redsift etc. For any database related development , queries writing and database development work I can help you. Looking forward for your response.
-                  .info-card-grid
-                    .info-card-details.info-card-grid-item
-                      img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
-                      span.open Open
-                      time  2 hour ago 
-                      span - 5 bid
-                    .info-card-details.info-card-grid-item
-                      img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
-                      span 4.5/5.0 stars (69 reviews)
-                    .info-card-details.info-card-grid-item.info-card-skills-container
-                      img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
-                      span Testing/QA, Software Architecture, MacOS
-                .info-card-rate
-                  .info-card-price
-                    span 100฿
-                  .info-card-price-type
-                    span THB per hour
+          each val in jobs
+            li
+              a.search-result-link(href='/jobs/view/'+1, target='_blank')
+                .search-result-item
+                  .project-tile
+                    figure.info-card-iconBox
+                      span.Icon
+                        if val.job_type == 'Fixed'
+                          fl-icon(name='ui-fixed-project')
+                            svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+                              path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
+                        if val.job_type == 'Hourly'
+                          fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+                            svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+                              path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
+                    .info-card-inner
+                      h2.info-card-title=val.job
+                      p.info-card-description=val.job_info
+                      .info-card-grid
+                        .info-card-details.info-card-grid-item
+                          img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+                          span.open Open
+                          time  1 hour ago 
+                          //- span - 10 bid
+                        .info-card-details.info-card-grid-item
+                          img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+                          span No jobs completed yet
+                        .info-card-details.info-card-grid-item.info-card-skills-container
+                          img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+                          span=val.tag
+                    .info-card-rate
+                      .info-card-price
+                        span=val.price
+                      .info-card-price-type
+                        if val.job_type == 'Fixed'
+                          span THB
+                        if val.job_type == 'Hourly'
+                          span THB per hour
+              
+              
+          //- li
+          //-   a.search-result-link(href='/job', target='_blank')
+          //-   .search-result-item
+          //-     .project-tile
+          //-       figure.info-card-iconBox
+          //-         span.Icon
+          //-           fl-icon(name='ui-fixed-project', ng-if="ProjectTile.project.price.type === 'fixed'")
+          //-             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+          //-               path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
+          //-       .info-card-inner
+          //-         h2.info-card-title Build me a website
+          //-         p.info-card-description We are a home business dealing with Multigrain health mix and elderberry syrup .. I need help in designing a blog or website ( the job seems too cumbersome for me since I have no time ) I have all the content and pictures I need to be posted.. I just need the blog or website to be pleasing to the eyes and easy to navigate for customers.
+          //-         .info-card-grid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+          //-             span.open Open
+          //-             time  1 hour ago 
+          //-             span - 10 bid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+          //-             span No jobs completed yet
+          //-           .info-card-details.info-card-grid-item.info-card-skills-container
+          //-             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+          //-             span Website Design, Graphic Design, WordPress, HTML
+          //-       .info-card-rate
+          //-         .info-card-price
+          //-           span 10000฿
+          //-         .info-card-price-type
+          //-           span THB
+          //- li
+          //-   a.search-result-link(href='/job', target='_blank')
+          //-   .search-result-item
+          //-     .project-tile
+          //-       figure.info-card-iconBox
+          //-         span.Icon
+          //-           fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+          //-             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+          //-               path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
+          //-       .info-card-inner
+          //-         h2.info-card-title Hire a SQL / MySQL / database developer for your work.
+          //-         p.info-card-description I'm a software developer with more than 4 years of experience. I have worked on Microsoft SQL server, Oracle, MySQL, DB2 , Amazon Redsift etc. For any database related development , queries writing and database development work I can help you. Looking forward for your response.
+          //-         .info-card-grid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+          //-             span.open Open
+          //-             time  2 hour ago 
+          //-             span - 5 bid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+          //-             span 4.5/5.0 stars (69 reviews)
+          //-           .info-card-details.info-card-grid-item.info-card-skills-container
+          //-             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+          //-             span Testing/QA, Software Architecture, MacOS
+          //-       .info-card-rate
+          //-         .info-card-price
+          //-           span 100฿
+          //-         .info-card-price-type
+          //-           span THB per hour
                 
 
   #edit_skills.modal.fade(role='dialog')

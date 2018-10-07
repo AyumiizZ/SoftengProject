@@ -27,7 +27,7 @@ router.get(
 );
 
 router.get("/add", function(req, res) {
-  res.render("addjob");
+  res.render("addjob",{title:'Add job | JetFree by JainsBret'});
 });
 
 router.post("/add", function(req, res, next) {

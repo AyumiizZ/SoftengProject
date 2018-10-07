@@ -14,6 +14,7 @@ router.get('/projects', async function (req, res, next) {
   const jobs = await Job.query(); 
   // var jobs = [{id:1,job:'test',job_info:'Lorem',job_type:'Hourly',tag:'Python',price:500},{id:2,job:'test2',job_info:'Lorem2',job_type:'Fixed',tag:'PHP',price:7500}]
   res.render('projects', {
+    title: 'Projects | JetFree by JainsBret',
     jobs: jobs,
     n_results: jobs.length,
     skills: user_skills,

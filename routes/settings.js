@@ -50,29 +50,21 @@ router.post("/profile", async function(req, res, next) {
     delete req.body.confirm;
     if(!req.body.password) {
       delete req.body.password;
+      let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
+      res.redirect("/profile/");
     } else {
       _helpers
-      .hashPass(req.body.password)
-      .then(hashed => {
-        req.body.password = hashed;
-      });
+        .hashPass(req.body.password)
+        .then(hashed => {
+          console.log(hashed);
+          req.body.password = hashed;
+          return User.query().updateAndFetchById(user.id, req.body);
+        })
+        .then(updatedUser => {
+          res.redirect("/profile/");
+        });
     }
-    let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
-    console.log("success!");
-    res.redirect("/profile/")
   }
-    
-/*  let saved = false;
-  if(!req.body.password)
-    delete req.body.old_password;
-    delete req.body.password;
-    delete req.body.confirm;
-    let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
-    saved = true;
-  else
-    
-  if(saved)
-    res.redirect("/profile/");*/
 });
 /*=======
 router.get("/profile", async function(req, res) {

@@ -2,8 +2,11 @@ doctype html
 html
   head
     title= title
+    link(rel='shortcut icon', href='/favicon.ico?=v2')
+    link(rel='icon', href='/favicon.ico?=v2')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    
     block additional-heads
 
   body
@@ -13,18 +16,18 @@ html
         |  JetFree
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-      div(class="collapse navbar-collapse" id="navbarNav")
-        ul.navbar-nav
+        //- div(class="collapse navbar-collapse" id="navbarNav")
+      .collapse.navbar-collapse#navbarNav
+        ul.navbar-nav.mr-auto
           li.nav-item
-            a.nav-link(href='#') Tour
+            a.nav-link(href='#') Hire Freelance
           li.nav-item
-            a.nav-link(href='#') Product
+            a.nav-link(href='/search') Works
           li.nav-item
-            a.nav-link(href='#') Features
+            a.nav-link(href='#') My project
           li.nav-item
-            a.nav-link(href='#') Enterprise
-          li.nav-item
-            a.nav-link(href='#') Support
+            a.nav-link(href='#') Help
+        ul.navbar-nav.navbar-right
           if user
             li.nav-item
               a.nav-link(href='/profile') My Profile

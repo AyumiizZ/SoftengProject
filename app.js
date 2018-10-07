@@ -75,7 +75,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  let title = 'Sorry 404 Not Found | JetFree by JainsBret'
+  res.render("error",{title:title});
 });
 
 module.exports = app;

@@ -22,6 +22,7 @@ router.get("/profile", async function (req, res) {
   var errors = req.validationErrors();
   let title = 'Edit Profile | JetFree by JainsBret'
   res.render("editProfile", {
+    title:title,
     user: user
   });
 });

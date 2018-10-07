@@ -49,7 +49,9 @@ router.post("/profile", async function (req, res, next) {
   if (errors || !pass) {
     console.log("error!");
     let failed = !pass;
+    let title = 'Edit Profile | JetFree by JainsBret'
     res.render("editProfile", {
+      title:title,
       errors: errors,
       failed: failed,
       user: user

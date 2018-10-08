@@ -79,7 +79,7 @@ block content
         ul.search-result-list
           each val in jobs
             li
-              a.search-result-link(href='/jobs/view/'+1, target='_blank')
+              a.search-result-link(href='/jobs/view/'+val.id, target='_blank')
                 .search-result-item
                   .project-tile
                     figure.info-card-iconBox

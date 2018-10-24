@@ -6,11 +6,8 @@ exports.viewProfile = async function(req, res) {
     .first()
     .eager("review");
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
-  res.json(user);
-  /*
   res.render("profile", {
     title: title,
     user: user
   });
-  */
 };

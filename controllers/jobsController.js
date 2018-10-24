@@ -1,13 +1,14 @@
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
+const gravatar = require("gravatar");
 
-exports.view = async function (req, res, next) {
+exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
   console.log(job);
   //res.json(job);
-  let title = 'Jobs | JetFree by JainsBret'
+  let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/view", {
     title: title,
     job: job,
@@ -16,8 +17,8 @@ exports.view = async function (req, res, next) {
   });
 };
 
-exports.interestedGet = async function (req, res, next) {
-  let title = 'Jobs | JetFree by JainsBret'
+exports.interestedGet = async function(req, res, next) {
+  let title = "Jobs | JetFree by JainsBret";
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance]");
@@ -27,7 +28,7 @@ exports.interestedGet = async function (req, res, next) {
   });
 };
 
-exports.interestedPost = async function (req, res, next) {
+exports.interestedPost = async function(req, res, next) {
   const currentUserId = req.user.id;
   const jobId = req.params.jobId;
   var data = {
@@ -47,8 +48,8 @@ exports.interestedPost = async function (req, res, next) {
   res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
-exports.showInterests = async function (req, res, next) {
-  let title = 'Jobs | JetFree by JainsBret'
+exports.showInterests = async function(req, res, next) {
+  let title = "Jobs | JetFree by JainsBret";
   console.log(req.params.jobId);
   const job = await Job.query()
     .findById(req.params.jobId)
@@ -59,7 +60,7 @@ exports.showInterests = async function (req, res, next) {
   });
 };
 
-exports.addPost = async function (req, res, next) {
+exports.addPost = async function(req, res, next) {
   console.log(req.user);
   req.body.client_id = req.user.id;
   const job = await Job.query().insert(req.body);

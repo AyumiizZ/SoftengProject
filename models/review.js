@@ -1,6 +1,5 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
-const User = require("./user.js");
 
 Model.knex(knex);
 
@@ -10,19 +9,14 @@ class Review extends Model {
   }
 
   static get relationMappings() {
+    const User = require("./user.js");
     return {
-      user: {
-        relation: Model.BelongsToOneRelation,
+      reviewer: {
+        relation: Model.HasOneRelation,
         modelClass: User,
         join: {
-          from: "users.id",
-          to: "reviewer_id"
-        },
-        relation: Model.BelongsToOneRelation,
-        modelClass: User,
-        join: {
-          from: "users.id",
-          to: "user_id"
+          to: "reviews.reviewer_id",
+          from: "users.id"
         }
       }
     };

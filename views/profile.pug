@@ -32,10 +32,10 @@ block content
       .card
         .card-body
           h3 Client Review
-          each review, index in reviews
+          each review in user.review
             .card
                 .card-body
-                  h5 #{reviewers[index].username}
+                  h5 #{review.user.username}
                   .card
                     .card-body
                       h6 #{review.review}

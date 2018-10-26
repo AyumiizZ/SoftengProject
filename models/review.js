@@ -1,5 +1,6 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
+const User = require("./user.js");
 
 Model.knex(knex);
 
@@ -24,7 +25,7 @@ class Review extends Model {
           to: "user_id"
         }
       }
-    }
+    };
   }
 }
 

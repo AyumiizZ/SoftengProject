@@ -1,8 +1,14 @@
-extends layout
+extends incontainer 
 
 block content
   h1 Register
-  form(method='POST', action='/users/register')
+  if errors
+    .alert.alert-danger
+      span Whoops! We've found some error.
+      ul
+        each error in errors
+          li=error.msg
+  form(method='POST')
     .form-group
       label Name:
       input.form-control(name='name', type='text')
@@ -12,6 +18,7 @@ block content
     .form-group
       label Username:
       input.form-control(name='username', type='text')
+      small#username-check.form-text.text-success(style="display: none") This username can be used.
     .form-group
       label Password:
       input.form-control(name='password', type='password')
@@ -25,3 +32,22 @@ block content
         a(href="#") JetMae Customer Agreement
       br
     button.btn.btn-primary.btn-block(type='submit') Create Account and Continue
+
+block js-after
+  script.
+    $("input[name=username]").change(function(){
+      var username = $("input[name=username]").val();
+      console.log(username);
+      $.post("/api/register/username_check", { username: username }, function(data){
+        if(data.inuse){
+          $('#username-check').html("The username " + data.username + " is already in use.")
+            .addClass("text-danger")
+            .removeClass("text-success");
+        } else {
+          $('#username-check').html("The username " + data.username + " can be used!")
+            .addClass("text-success")
+            .removeClass("text-danger");
+        }
+        $('#username-check').show();
+      })
+    });

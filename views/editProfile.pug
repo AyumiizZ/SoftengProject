@@ -1,7 +1,7 @@
-extends layout
+extends incontainer 
 
 block content
-    form(method='POST', action='/users/'+user.username+'/edit')
+    form(method='POST')
         .row
             input.form-control(name='name',type='text', value=user.name)
             button.btn.btn-outline-primary(type='submit') Save Changes
@@ -9,17 +9,21 @@ block content
         .row
             .col-3
                 #outerBox.card
-                    h1 image here
+                    .card-body
+                        h1 image here
                 #outerBox.card
-                    h2 Client Review
+                    .card-body
+                        h2 Client Review
                     #innerBox.card
                         h5 #{user.client_review}
             .col-9
                 #outerBox.card
-                    h2 Overview
+                    .card-body
+                        h2 Overview
                     #innerBox.card
                         input.form-control(name='overview',type='text', value=user.overview)
                 #outerBox.card
-                    h2 Past Job
+                    .card-body
+                        h2 Past Job
                     #innerBox.card
                 h5 #{user.past_job}

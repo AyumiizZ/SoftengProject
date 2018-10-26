@@ -1,43 +1,69 @@
+const {
+  check,
+  validationResult
+} = require("express-validator/check");
 const _helpers = require("../auth/_helpers");
 const User = require("../models/user");
 const passport = require("passport");
 
-exports.registerGet = function(req, res) {
-  res.render("register");
+exports.registerGet = function (req, res) {
+  let title = 'Register | JetFree by JainsBret'
+  res.render("register", {
+    title: title
+  });
 };
+exports.registerPostCheck = [
+  check("email")
+  .isEmail()
+  .withMessage("E-mail is not in a valid format.")
+  .custom(async function (value) {
+    User.query()
+      .where("email", value)
+      .then(user => {
+        if (user.length > 0) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+  })
+  .withMessage("The E-mail is already in use"),
+  check("username")
+  .custom(async function (value) {
+    const u = await User.query().where("username", value);
+    if (u.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  })
+  .withMessage("The username has already been taken."),
+  check("password")
+  .isLength({
+    min: 8
+  })
+  .withMessage("The password must be at least 8 characters."),
+  check("confirm")
+  .custom((value, {
+    req
+  }) => {
+    return value == req.body.confirm;
+  })
+  .withMessage("The password does not match the confirmation."),
+  check("agreement")
+  .equals("on")
+  .withMessage("You must agree to JainsBret user's agreement.")
+];
 
-exports.registerPost = function(req, res) {
-  req.checkBody("email", "E-mail is not in a valid format.").isEmail();
-  req
-    .checkBody("email", "The E-mail address is already in use.")
-    .custom(value => {
-      var user = User.query().where("email", value);
-      console.log(user);
-      if (user.length > 0) {
-        return Promise.reject("The E-mail address is already in use.");
-      }
+exports.registerPost = function (req, res, next) {
+  const errors = validationResult(req);
+  let title = 'Register | JetFree by JainsBret'
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    res.render("register", {
+      title: title,
+      errors: errors.array()
     });
-  req
-    .checkBody("username", "The username has already been taken.")
-    .custom(value => {
-      var user = User.query().where("username", value);
-      if (user.length > 0) {
-        console.log(user);
-        return Promise.reject("The username has already been taken.");
-      }
-    });
-  req
-    .checkBody("password", "Password must be at least 8 characters.")
-    .isLength({ min: 8 });
-  req
-    .checkBody("confirm", "Password does not match the confirmation")
-    .equals(req.body.confirm);
-  req
-    .checkBody("agreement", "You must agree to JainsBret's user agreement")
-    .equals("on");
-  var errors = req.validationErrors();
-  if (errors) {
-    res.render("register", { errors: errors });
   } else {
     _helpers
       .hashPass(req.body.password)
@@ -56,22 +82,29 @@ exports.registerPost = function(req, res) {
   }
 };
 
-exports.loginGet = function(req, res) {
+exports.loginGet = function (req, res) {
+  let title = 'Login | JetFree by JainsBret'
   if (req.user) {
     res.redirect("/");
   }
-  res.render("login");
+  res.render("login", {
+    title: title
+  });
 };
 
-exports.loginPost = function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
+exports.loginPost = function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    let title = 'Login | JetFree by JainsBret'
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.render("login", { failed: true });
+      return res.render("login", {
+        title: title,
+        failed: true
+      });
     }
-    req.logIn(user, function(err) {
+    req.logIn(user, function (err) {
       if (err) {
         return next(err);
       }
@@ -80,18 +113,22 @@ exports.loginPost = function(req, res, next) {
   })(req, res, next);
 };
 
-exports.logout = function(req, res) {
+exports.logout = function (req, res) {
   req.logout();
   res.redirect("/");
 };
 
-exports.resetPasswordGet = function(req, res) {
-  res.render("resetPassword");
+exports.resetPasswordGet = function (req, res) {
+  let title = 'Reset Password | JetFree by JainsBret'
+  res.render("resetPassword", {
+    title: title
+  });
 };
 
-exports.resetPasswordPost = function(req, res) {
+exports.resetPasswordPost = function (req, res) {
   const username = req.body.username;
   const answer = req.body.answer.toLowerCase();
+  let title = 'Register | JetFree by JainsBret'
 
   console.log("click");
   if (
@@ -104,5 +141,7 @@ exports.resetPasswordPost = function(req, res) {
   } else {
     console.log("noob");
   }
-  res.render("resetPassword");
+  res.render("resetPassword", {
+    title: title
+  });
 };

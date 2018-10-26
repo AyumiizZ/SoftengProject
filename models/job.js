@@ -26,9 +26,9 @@ class Job extends Model {
           from: "jobs.id",
           through: {
             from: "jobs_interests.job_id",
-            to: "jobs_interests.user_username"
+            to: "jobs_interests.user_id"
           },
-          to: "users.username"
+          to: "users.id"
         }
       },
       freelance: {

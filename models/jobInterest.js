@@ -10,7 +10,7 @@ class JobInterest extends Model {
     return "jobs_interests";
   }
   static get idColumn() {
-    return ["job_id", "user_username"];
+    return ["job_id", "user_id"];
   }
 
   static get relationMappings() {
@@ -19,8 +19,8 @@ class JobInterest extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: "users.username",
-          to: "jobs_interests.user_username"
+          from: "users.id",
+          to: "jobs_interests.user_id"
         }
       },
       job: {

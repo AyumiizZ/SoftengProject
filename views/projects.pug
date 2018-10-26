@@ -1,47 +1,193 @@
 extends incontainer 
 
 block content
-  .row
-    .col-3
-      .row
-        lable project type
-        .container
-          .form-check
-            label.form-check-label(name='accept')
-              input.form-check-input(name='agreement',type='checkbox')
-              | Fixed Project
-          .form-check
-            label.form-check-label(name='accept')
-              input.form-check-input(name='agreement',type='checkbox')
-              | Hourly Project
-      .row
-        lable Skills
-        .tags-input(data-name='tags-input')
-          <span class="tag">CSS<span class="close"></span></span>
-        .container
-          button.btn.btn-primary(type='button') Clear Skills
-        .container
-          button.btn.btn-link(type='button') Edit Profile Skills
-      .row
-        lable Fixed Price
-        input#fixedPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
-        lable Hourly Price
-        input#hourlyPriceRange.slider(type='range', min='1', max='100000', value='50000',step='1')
-      .row
-        lable Specific Location
-        input.form-control(name='location',type='text')
-      .row
-        lable Language
-        input.form-control(name='Language',type='text')
-        button.btn.btn-primary(type='button') Clear Language
-      button.btn.btn-link(type='button') Reset Filter
-    .col-9
-      label Search jobs
-      input.form-control(name='Search',type='text')
-      p sort by date/popular
-      ul.list-group
-        li.list-group-item
-          a(href='#')= "articles"
+  .search-page.row
+    .search-filter
+      .box
+        li.filter-item
+          ul.filter-item-expansion
+            li.filter-item-group
+              label#head Project Type
+              .form-check
+                label.form-check-label(name='project_types')
+                  input.form-check-input(name='fixed_projects', type='checkbox')
+                  | Fixed projects
+              .form-check
+                label.form-check-label(name='project_types')
+                  input.form-check-input(name='hourly_projects', type='checkbox')
+                  | Hourly projects
+            li.filter-item-group
+              label#head Skills
+              .filter-item-scroll
+                .filter-tag-input
+                  each val in skills
+                    .input-tag=val
+                      .delete-tag ×
+                  input(type="text", placeholder='Select Skill')
+              .filter-item-button-group
+                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                  | Clear Skills
+                button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
+            li.filter-item-group
+              label#head Fixed Price
+              .filter-slider(floor='0', ceiling='10000', prefix='$', dragstop='true')
+                .slider-range
+                  .slider-bar.selection(style='left: 5%; width: 90%;')
+                .slider-handle.low(style='left: 0%;')
+                .slider-handle.high(style='left: 92.5%;')
+                .filter-ui-slider-value
+                  span.filter-ui-slider-value-min(style='left: -0.5px;')
+                    | 0฿
+                  |  - 
+                  span.filter-ui-slider-value-max(style='left: 141.5px;')
+                    | 1000000฿
+            li.filter-item-group
+              label#head Hourly Price
+              .filter-slider(floor='1', ceiling='10000', prefix='$', dragstop='true')
+                .slider-range
+                  .slider-bar.selection(style='left: 5%; width: 90%;')
+                .slider-handle.low(style='left: 0%;')
+                .slider-handle.high(style='left: 92.5%;')
+                .filter-ui-slider-value
+                  span.filter-ui-slider-value-min(style='left: -0.5px;')
+                    | 0฿
+                  |  - 
+                  span.filter-ui-slider-value-max(style='left: 141.5px;')
+                    | 1000฿
+            li.filter-item-group
+              label#head Language
+              .filter-item-scroll
+                .filter-tag-input
+                  each val in lang
+                    .input-tag=val
+                      .delete-tag ×
+                  input(type="text", placeholder='Select Language')
+              .filter-item-button-group
+                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                  | Clear Languages
+            button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
+
+    .search-result
+      .box
+        .search-result-header
+          .search-result-header-input
+            input.form-control(name='Search',type='text',placeholder='Search Jobs')
+          .search-result-amount
+            .result-amount=n_results+' Result'
+          .search-result-input-sort
+            .sort sort by date
+        ul.search-result-list
+          each val in jobs
+            li
+              a.search-result-link(href='/jobs/view/'+val.id, target='_blank')
+                .search-result-item
+                  .project-tile
+                    figure.info-card-iconBox
+                      span.Icon
+                        if val.job_type == 'Fixed'
+                          fl-icon(name='ui-fixed-project')
+                            svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+                              path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
+                        if val.job_type == 'Hourly'
+                          fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+                            svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+                              path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
+                    .info-card-inner
+                      h2.info-card-title=val.job
+                      p.info-card-description=val.job_info
+                      .info-card-grid
+                        .info-card-details.info-card-grid-item
+                          img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+                          span.open Open
+                          time  1 hour ago 
+                          //- span - 10 bid
+                        .info-card-details.info-card-grid-item
+                          img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+                          span No jobs completed yet
+                        .info-card-details.info-card-grid-item.info-card-skills-container
+                          img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+                          span=val.tag
+                    .info-card-rate
+                      .info-card-price
+                        span=val.price
+                      .info-card-price-type
+                        if val.job_type == 'Fixed'
+                          span THB
+                        if val.job_type == 'Hourly'
+                          span THB per hour
+              
+              
+          //- li
+          //-   a.search-result-link(href='/job', target='_blank')
+          //-   .search-result-item
+          //-     .project-tile
+          //-       figure.info-card-iconBox
+          //-         span.Icon
+          //-           fl-icon(name='ui-fixed-project', ng-if="ProjectTile.project.price.type === 'fixed'")
+          //-             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+          //-               path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
+          //-       .info-card-inner
+          //-         h2.info-card-title Build me a website
+          //-         p.info-card-description We are a home business dealing with Multigrain health mix and elderberry syrup .. I need help in designing a blog or website ( the job seems too cumbersome for me since I have no time ) I have all the content and pictures I need to be posted.. I just need the blog or website to be pleasing to the eyes and easy to navigate for customers.
+          //-         .info-card-grid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+          //-             span.open Open
+          //-             time  1 hour ago 
+          //-             span - 10 bid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+          //-             span No jobs completed yet
+          //-           .info-card-details.info-card-grid-item.info-card-skills-container
+          //-             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+          //-             span Website Design, Graphic Design, WordPress, HTML
+          //-       .info-card-rate
+          //-         .info-card-price
+          //-           span 10000฿
+          //-         .info-card-price-type
+          //-           span THB
+          //- li
+          //-   a.search-result-link(href='/job', target='_blank')
+          //-   .search-result-item
+          //-     .project-tile
+          //-       figure.info-card-iconBox
+          //-         span.Icon
+          //-           fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+          //-             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
+          //-               path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
+          //-       .info-card-inner
+          //-         h2.info-card-title Hire a SQL / MySQL / database developer for your work.
+          //-         p.info-card-description I'm a software developer with more than 4 years of experience. I have worked on Microsoft SQL server, Oracle, MySQL, DB2 , Amazon Redsift etc. For any database related development , queries writing and database development work I can help you. Looking forward for your response.
+          //-         .info-card-grid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
+          //-             span.open Open
+          //-             time  2 hour ago 
+          //-             span - 5 bid
+          //-           .info-card-details.info-card-grid-item
+          //-             img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
+          //-             span 4.5/5.0 stars (69 reviews)
+          //-           .info-card-details.info-card-grid-item.info-card-skills-container
+          //-             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+          //-             span Testing/QA, Software Architecture, MacOS
+          //-       .info-card-rate
+          //-         .info-card-price
+          //-           span 100฿
+          //-         .info-card-price-type
+          //-           span THB per hour
+                
+
+  #edit_skills.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Modal Header
+          button.close(type='button', data-dismiss='modal') ×
+        .modal-body
+          p Some text in the modal.
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+
         //- each article, i in articles
           li.list-group-item
             a(href="/articles/"+article._id)= article.title

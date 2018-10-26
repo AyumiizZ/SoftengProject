@@ -2,40 +2,42 @@ doctype html
 html
   head
     title= title
+    link(rel='shortcut icon', href='/favicon.ico?=v2')
+    link(rel='icon', href='/favicon.ico?=v2')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    
     block additional-heads
 
   body
     nav(class="navbar navbar-top navbar-expand-lg navbar-dark bg-dark")
-      <a class="navbar-brand" href="/">
-        <img src="/images/jainsbret_logo_green.svg" width="30" height="30" alt=""> JetFree
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      div(class="collapse navbar-collapse" id="navbarNav")
-        ul.navbar-nav
+      a.navbar-brand(href='/')
+        img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
+        |  JetFree
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+        //- div(class="collapse navbar-collapse" id="navbarNav")
+      .collapse.navbar-collapse#navbarNav
+        ul.navbar-nav.mr-auto
           li.nav-item
-            a.nav-link(href='#') Tour
+            a.nav-link(href='/jobs/add') จ้างฟรีแลนซ์
           li.nav-item
-            a.nav-link(href='#') Product
+            a.nav-link(href='/search') หางาน
           li.nav-item
-            a.nav-link(href='#') Features
+            a.nav-link(href='#') โปรเจคของฉัน
           li.nav-item
-            a.nav-link(href='#') Enterprise
-          li.nav-item
-            a.nav-link(href='#') Support
+            a.nav-link(href='#') ช่วยเหลือ
+        ul.navbar-nav.navbar-right
           if user
             li.nav-item
-              a.nav-link(href='/profile') My Profile
+              a.nav-link(href='/profile') ข้อมูลส่วนตัว
             li.nav-item
-              a.nav-link(href='/logout') Logout
+              a.nav-link(href='/logout') ลงชื่อออก
           else
             li.nav-item
-              a.nav-link(href='/register') Register
+              a.nav-link(href='/register') ลงทะเบียน
             li.nav-item
-              a.nav-link(href='/login') Login
+              a.nav-link(href='/login') ลงชื่อเข้าใช้
     
     block body
 
@@ -43,7 +45,7 @@ html
       .row
         .col-12.col-md
           //logo start
-          <img src="/images/jainsbret_logo_green.svg" width="30" height="30" alt="">
+          img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
           small.d-block.mb-3.text-muted JainsBret © 2017-2018
         //logo end
         .col-6.col-md

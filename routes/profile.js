@@ -27,6 +27,9 @@ router.get("/:username", async function(req, res) {
         .first()
     );
   }
+  if (user.overview) {
+    user.overview = await user.overview.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  }
   let authen = await (user.username == req.user.username);
   res.render("profile", { user: user, reviews: reviews, reviewers: reviewers, authen: authen });
 });

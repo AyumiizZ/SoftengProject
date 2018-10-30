@@ -32,7 +32,9 @@ block content
                                     <textarea class="form-control" rows="5" name="overview">#{user.overview}</textarea>
                                 else
                                     <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
-
+        
+        button.btn.btn-outline-primary(type='submit') Save Changes
+//
         #outerBox.card
             .card-body
                 h1 Password
@@ -46,29 +48,3 @@ block content
                         input.form-control(name='confirm',type='password')
 
         button.btn.btn-outline-primary(type='submit') Save Changes
-        //.row
-            input.form-control(name='name',type='text', value=user.name)
-            button.btn.btn-outline-primary(type='submit') Save Changes
-        //hr
-        //.row
-            .col-3
-                #outerBox.card
-                    .card-body
-                        h1 image here
-                #outerBox.card
-                    .card-body
-                        h2 Client Review
-                    #innerBox.card
-                        h5 #{user.client_review}
-            .col-9
-                #outerBox.card
-                    .card-body
-                        h2 Overview
-                    #innerBox.card
-                        <textarea class="form-control" name="overview">#{user.overview}</textarea>
-                        //input.form-control(name='overview',type='text', value=user.overview)
-                #outerBox.card
-                    .card-body
-                        h2 Past Job
-                    #innerBox.card
-                h5 #{user.past_job}

@@ -29,7 +29,7 @@ router.get(
   jobsController.showInterests
 );
 
-router.get("/add", function(req, res) {
+router.get("/add", authMiddleware.isAuthenticated, function(req, res) {
   let title = "Add job | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
@@ -37,6 +37,6 @@ router.get("/add", function(req, res) {
   });
 });
 
-router.post("/add", jobsController.addPost);
+router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
 
 module.exports = router;

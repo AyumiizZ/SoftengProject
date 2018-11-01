@@ -38,7 +38,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "2.0.0-beta11",
-    "session": "^0.1.0"
+    "session": "^0.1.0",
+    "showdown": "^1.8.7"
   },
   "devDependencies": {
     "sqlite": "^3.0.0"

@@ -64,6 +64,26 @@ main {
   margin-bottom: 10px;
 }
 
+#dashboard .panel {
+  padding: 10px;
+}
+
+#dashboard a {
+  color: black;
+}
+
+#dashboard a.active {
+  font-weight: bold;
+}
+
+#dashboard a:hover {
+  color: #4D525B;
+}
+
+#editable-contents {
+
+}
+
 .search-page {
   padding-top: 30px;
   width: 100%;

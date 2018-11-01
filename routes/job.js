@@ -5,7 +5,7 @@ var authMiddleware = require("../middlewares/authMiddleware");
 
 const Job = require("../models/job");
 
-router.get("/", function (req, res) {
+router.get("/", function(req, res) {
   // Showing all available jobs, not available at this time.
 });
 
@@ -26,10 +26,11 @@ router.get(
   jobsController.showInterests
 );
 
-router.get("/add", function (req, res) {
-  let title = 'Add job | JetFree by JainsBret'
-  res.render("addjob", {
-    title: title
+router.get("/add", function(req, res) {
+  let title = "Add job | JetFree by JainsBret";
+  res.render("jobs/addedit", {
+    title: title,
+    h1_title: "ลงประกาศงาน"
   });
 });
 

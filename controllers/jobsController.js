@@ -3,6 +3,11 @@ const JobInterest = require("../models/jobInterest");
 const gravatar = require("gravatar");
 var md = require("markdown-it")();
 
+function redirectIfNotAuthenticated(req, res, next, userId) {
+  if (userId != req.user.id) {
+    res.status(403).render("errors/403");
+  }
+}
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
@@ -17,13 +22,16 @@ exports.view = async function(req, res, next) {
   });
 };
 
+exports.addPost = async function(req, res, next) {
+  console.log(req.user);
+  req.body.client_id = req.user.id;
+  const job = await Job.query().insert(req.body);
+  res.redirect("/jobs/view/" + job.id);
+};
+
 exports.editGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
-  console.log(job.user_id);
-  console.log(req.user.id);
-  if (job.client_id != req.user.id) {
-    res.status(403).render("errors/403");
-  }
+  redirectIfNotAuthenticated(req, res, next, job.client_id);
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
@@ -33,9 +41,7 @@ exports.editGet = async function(req, res, next) {
 };
 exports.editPost = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
-  if (job.client_id != req.user.id) {
-    res.status(403).render("errors/403");
-  }
+  redirectIfNotAuthenticated(req, res, next, job.client_id);
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body
@@ -84,11 +90,4 @@ exports.showInterests = async function(req, res, next) {
     title: title,
     job: job
   });
-};
-
-exports.addPost = async function(req, res, next) {
-  console.log(req.user);
-  req.body.client_id = req.user.id;
-  const job = await Job.query().insert(req.body);
-  res.redirect("/jobs/view/" + job.id);
 };

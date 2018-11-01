@@ -6,8 +6,6 @@ exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
-  console.log(job);
-  //res.json(job);
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/view", {
     title: title,
@@ -15,6 +13,23 @@ exports.view = async function(req, res, next) {
     interestCount: job.freelance_interests.length,
     query: req.query
   });
+};
+
+exports.editGet = async function(req, res, next) {
+  const job = await Job.query().findById(req.params.jobId);
+  let title = "Jobs | JetFree by JainsBret";
+  res.render("jobs/addedit", {
+    title: title,
+    h1_title: "แก้ไขประกาศงาน",
+    job: job
+  });
+};
+exports.editPost = async function(req, res, next) {
+  const updatedJob = await Job.query().updateAndFetchById(
+    req.params.jobId,
+    req.body
+  );
+  res.redirect("/jobs/view/" + updatedJob.id);
 };
 
 exports.interestedGet = async function(req, res, next) {

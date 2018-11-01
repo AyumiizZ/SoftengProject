@@ -1,15 +1,14 @@
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const gravatar = require("gravatar");
-var showdown = require("showdown"),
-  converter = new showdown.Converter();
+var md = require("markdown-it")();
 
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
 
-  job.job_info = converter.makeHtml(job.job_info);
+  job.job_info = md.render(job.job_info);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
     job: job,

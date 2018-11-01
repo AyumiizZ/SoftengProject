@@ -19,6 +19,11 @@ exports.view = async function(req, res, next) {
 
 exports.editGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
+  console.log(job.user_id);
+  console.log(req.user.id);
+  if (job.user_id != req.user.id) {
+    res.status(403).send("You are not permitted.");
+  }
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,

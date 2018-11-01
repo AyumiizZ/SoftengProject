@@ -31,6 +31,7 @@
     "gravatar": "^1.6.0",
     "holder": "0.0.0",
     "http-errors": "~1.6.2",
+    "jstransformer-markdown-it": "^2.1.0",
     "knex": "^0.15.2",
     "morgan": "~1.9.0",
     "nodemon": "^1.18.4",

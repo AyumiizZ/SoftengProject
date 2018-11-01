@@ -7,7 +7,7 @@ exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
-
+  console.log(job);
   job.job_info = md.render(job.job_info);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
@@ -21,8 +21,8 @@ exports.editGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   console.log(job.user_id);
   console.log(req.user.id);
-  if (job.user_id != req.user.id) {
-    res.status(403).send("You are not permitted.");
+  if (job.client_id != req.user.id) {
+    res.status(403).render("errors/403");
   }
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
@@ -32,6 +32,10 @@ exports.editGet = async function(req, res, next) {
   });
 };
 exports.editPost = async function(req, res, next) {
+  const job = await Job.query().findById(req.params.jobId);
+  if (job.client_id != req.user.id) {
+    res.status(403).render("errors/403");
+  }
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body

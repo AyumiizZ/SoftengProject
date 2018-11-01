@@ -10,8 +10,16 @@ router.get("/", function(req, res) {
 });
 
 router.get("/view/:jobId", jobsController.view);
-router.get("/edit/:jobId", jobsController.editGet);
-router.post("/edit/:jobId", jobsController.editPost);
+router.get(
+  "/edit/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.editGet
+);
+router.post(
+  "/edit/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.editPost
+);
 
 router.get(
   "/interested/:jobId",

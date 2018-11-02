@@ -25,6 +25,7 @@ block content
         .card-body
           h2 ผู้ว่าจ้าง 
           if job.client
+            img.rounded.mb-3(style='text-align: center', src=user.gravatar_url(300), width="60%")
             h4 #{job.client.name}
             p #{job.client.overview}
             a.btn.btn-outline-info(href="/profile/"+job.client.username) ดูโปรไฟล์ผู้ว่าจ้าง

@@ -9,8 +9,9 @@ block content
         .flex-grow-1
           span ประกาศงาน
           h1 #{job.job}
-        div
-          a.btn.btn-outline-info(href="edit") แก้ไข
+        if job.client.id == user.id
+          div
+            a.btn.btn-outline-info(href="edit") แก้ไข
   .row.mb-3
     .col-12
       .card

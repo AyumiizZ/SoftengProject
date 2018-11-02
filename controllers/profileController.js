@@ -6,7 +6,7 @@ exports.viewProfile = async function(req, res) {
     .where("username", req.params.username)
     .first()
     .eager("review");
-  user.gravatar_url = gravatar.url(user.email, { s: 400 });
+  console.log(user);
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,

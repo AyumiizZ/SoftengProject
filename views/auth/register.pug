@@ -1,0 +1,159 @@
+extends ../incontainer 
+
+block content
+  h1 Register
+  if errors
+    .alert.alert-danger
+      span Whoops! We've found some error.
+      ul
+        each error in errors
+          li=error.msg
+  form(method='POST')
+    .form-group
+      label Name:
+      input.form-control(name='name', type='text')
+    .form-group
+      label Email:
+      input.form-control(name='email', type='text')
+    .form-group
+      label Username:
+      input.form-control(name='username', type='text')
+      small#username-check.form-text.text-success(style="display: none") This username can be used.
+    .form-group
+      label Password:
+      input.form-control(name='password', type='password')
+    .form-group
+      label Confirm:
+      input.form-control(name='confirm', type='password')
+    .form-check
+      label.form-check-label(name='accept')
+        input.form-check-input(name='agreement',type='checkbox')
+        | Check here to indicate that you have read and agree to the terms of the 
+        a(href='#',data-toggle='modal', data-target='#user_agreement') JetMae Customer Agreement
+    br
+    button.btn.btn-primary.btn-block(type='submit') Create Account and Continue
+  
+  #user_agreement.modal.fade(role='dialog')
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          h2.modal-title User Argeement
+        .modal-body
+          p This argeement was last modified on 8th October 2018.
+          h3 1. Introduction
+          h4 1.1 Contract
+          p
+            | You agree that by clicking “Join Now”, “Join JetFree”, “Sign Up” or similar, 
+            | registering, accessing or using our services (described below), 
+            strong you are agreeing to enter into a legally binding contract 
+            | with JainsBret (even if you are using our Services on behalf of a company). 
+            | If you do not agree to this contract (“Contract” or “User Agreement”), 
+            | do not click “Join Now” (or similar) and do not access or otherwise use any of our Services. 
+            | If you wish to terminate this contract, at any time you can do so by closing your account 
+            | and no longer accessing or using our Services.
+          br
+          h5 Services
+          p This Contract applies to JainBrets.ayumiizz.com, JetFree-branded apps, and other 
+            | JainBrets-related sites, apps, communications and other services that state that 
+            | they are offered under this Contract (“Services”), including the offsite collection of data 
+            | for those Services, such as our ads. Registered users of our Services are “Members” and 
+            | unregistered users are “Visitors”. This Contract applies to both Members and Visitors. 
+            | You are entering into this Contract with JainsBret (also referred to as “we” and “us”). 
+            | This Contract applies to Members and Visitors.
+          br
+          p As a Visitor or Member of our Services, the collection, 
+            | use and sharing of your personal data is subject to this Privacy Policy (which includes our 
+            | Cookie Policy and other documents referenced in this Privacy Policy) and updates.
+          br
+          h4 1.2 Members and Visitors
+          p When you register and join the JainBrets Service or become a registered user on JetFree, 
+            | you become a Member. If you have chosen not to register for our Services, 
+            | you may access certain features as a “Visitor.”
+          br
+          h4 1.3 Change
+          p We may modify this Contract, our Privacy Policy and our Cookies Policies from time to time. 
+            | If we make material changes to it, we will provide you notice through our Services, 
+            | or by other means, to provide you the opportunity to review the changes before they become 
+            | effective. We agree that changes cannot be retroactive. If you object to any changes, you may 
+            strong close your account
+            | . Your continued use of our Services after we publish or send a notice about 
+            | our changes to these terms means that you are consenting to the updated terms.
+          br
+          h3 2. Eligibility
+          p You will not use the Website if you:
+            ol
+              li Are not able to form legally binding contracts
+              li Are under the age of 16
+              li A person barred from receiving and rendering services under the laws
+              li Are suspended from using the Website, or
+              li Do not hold a valid email address.
+            | All free user accounts are associated with individuals. Login credentials should not be 
+            | shared by users with others. The individual associated with the account will be held 
+            | responsible for all actions taken by the account, without limitation.
+          br
+          p Subject to your local laws, a person over 15 but under 18 can use an adult's account with the 
+            | permission of the account holder. However, the account holder is responsible for all actions 
+            | taken by the account, without limitation.
+          br
+          p Users may provide a business name or a company name, which is associated with the User's Account. 
+            | Users acknowledge and agree that where a business name or company name is associated with their 
+            | Account, this User Agreement is a contract with the User as an individual (not the business or 
+            | company) and Users remain solely responsible for all activity undertaken in respect of their 
+            | Account.
+          br
+          p A company, corporation, trust, partnership or other non-individual corporate entity may be 
+            | a User subject to an eligible corporate account which pays corporate subscriptions.
+          br
+          p We may, at our absolute discretion, refuse to register any person or entity as a User.
+          br
+          p You cannot transfer or assign any rights or obligations you have under this agreement without prior written consent.
+          br
+          h3 3. Using JetFree
+          p While using the Website, you will not attempt to or otherwise do any of the following:
+            ol
+              li post content or items in inappropriate categories or areas on our Websites and services
+              li infringe any laws, third party rights or our policies, such as the Code of Conduct
+              li fail to deliver payment for services delivered to you
+              li fail to deliver Seller Services purchased from you
+              li circumvent or manipulate our fee structure, the billing process, or fees owed to JetFree
+              li post false, inaccurate, misleading, deceptive, defamatory or offensive content (including personal information)
+              li take any action that may undermine the feedback or reputation systems (such as displaying, importing or exporting feedback information or using it for purposes unrelated to the Website)
+              li transfer your JetFree account (including feedback) and Username to another party without our consent
+              li distribute or post spam, unsolicited, or bulk electronic communications, chain letters, or pyramid schemes
+              li distribute viruses or any other technologies that may harm JetFree, the Website, or the interests or property of JetFree users (including their Intellectual Property Rights, privacy and publicity rights) or is unlawful, threatening, abusive, defamatory, invasive of privacy, vulgar, obscene, profane or which may harass or cause distress or inconvenience to, or incite hatred of, any person
+              li download and aggregate listings from our website for display with listings from other websites without our express written permission, "frame", "mirror" or otherwise incorporate any part of the Website into any other website without our prior written authorisation
+              li attempt to modify, translate, adapt, edit, decompile, disassemble, or reverse engineer any software programs used by us in connection with the Website
+              li copy, modify or distribute rights or content from the Website or JetFree's copyrights and trademarks, or
+              li harvest or otherwise collect information about Users, including email addresses, without their consent.
+          br
+          h3 4. Fees and Services
+          p We charge fees for certain services, such as introduction fees for Projects, listing 
+            | upgrades and memberships. When you use a service that has a fee, you have an opportunity 
+            | to review and accept the fees that you will be charged based on our schedule of 
+            a(href='/feesandcharges') Fees and Charges
+            |, which we may change from time to time and will update by placing on our Website. 
+            | We may choose to temporarily change the fees for our services for promotional events 
+            | (for example, discounts on memberships) or new services, and such changes are effective 
+            | when we post a temporary promotional event or new service on the Websites, or as notified 
+            | through promotional correspondence. Unless otherwise stated, all fees are quoted in Thai Baht.
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+block js-after
+  script.
+    $("input[name=username]").change(function(){
+      var username = $("input[name=username]").val();
+      console.log(username);
+      $.post("/api/register/username_check", { username: username }, function(data){
+        if(data.inuse){
+          $('#username-check').html("The username " + data.username + " is already in use.")
+            .addClass("text-danger")
+            .removeClass("text-success");
+        } else {
+          $('#username-check').html("The username " + data.username + " can be used!")
+            .addClass("text-success")
+            .removeClass("text-danger");
+        }
+        $('#username-check').show();
+      })
+    });

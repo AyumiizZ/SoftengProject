@@ -9,7 +9,17 @@ class User extends Model {
   }
 
   static get relationMappings() {
-    return {};
+    const Review = require("./review.js");
+    return {
+      review: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        join: {
+          from: "users.id",
+          to: "reviews.user_id"
+        }
+      }
+    };
   }
 }
 

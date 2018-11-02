@@ -16,7 +16,8 @@ block content
       .card
         .card-body
           h2 รายละเอียดงาน
-          .p #{job.job_info}
+          span.
+            !{job.job_info}
   .row
     .col-4
       .card.text-center
@@ -24,7 +25,8 @@ block content
           h2 ผู้ว่าจ้าง 
           if job.client
             h4 #{job.client.name}
-            p #{job.freelance.overview}
+            p #{job.client.overview}
+            a.btn.btn-outline-info(href="/profile/"+job.client.username) ดูโปรไฟล์ผู้ว่าจ้าง
           else
             h4 งานนี้ไม่ปรากฏผู้ว่าจ้าง
     .col-4

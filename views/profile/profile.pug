@@ -1,0 +1,40 @@
+extends ../incontainer 
+
+block content
+  .row
+    .col-10
+      h1 #{user.name}
+    .col-2
+        if authen
+          a(href='/settings/profile').btn.btn-outline-dark Setting
+  hr
+  .row
+    .col-3
+      img.rounded.mb-3(src=user.gravatar_url, width="100%")
+      a(href='/settings/profile').btn.btn-outline-dark Edit
+    .col-9
+      .card.mb-3
+        .card-body
+          h3 Overview
+          span #{user.overview}
+      .card.mb-3
+        .card-body
+          h3 Past Jobs
+          .card.mb-3
+            .card-body
+              h5 Job #1
+              p Lorem Ipsum...
+          .card.mb-3
+            .card-body
+              h5 Job #1
+              p Lorem Ipsum...
+      .card
+        .card-body
+          h3 Client Review
+          each review in user.review
+            .card
+                .card-body
+                  h5 #{review.user.username}
+                  .card
+                    .card-body
+                      h6 #{review.review}

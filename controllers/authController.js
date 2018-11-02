@@ -4,7 +4,10 @@ const User = require("../models/user");
 const passport = require("passport");
 
 exports.registerGet = function(req, res) {
-  res.render("register");
+  let title = "Register | JetFree by JainsBret";
+  res.render("register", {
+    title: title
+  });
 };
 exports.registerPostCheck = [
   check("email")
@@ -49,9 +52,13 @@ exports.registerPostCheck = [
 
 exports.registerPost = function(req, res, next) {
   const errors = validationResult(req);
+  let title = "Register | JetFree by JainsBret";
   console.log(errors);
   if (!errors.isEmpty()) {
-    res.render("register", { errors: errors.array() });
+    res.render("auth/register", {
+      title: title,
+      errors: errors.array()
+    });
   } else {
     _helpers
       .hashPass(req.body.password)
@@ -71,19 +78,26 @@ exports.registerPost = function(req, res, next) {
 };
 
 exports.loginGet = function(req, res) {
+  let title = "Login | JetFree by JainsBret";
   if (req.user) {
     res.redirect("/");
   }
-  res.render("login");
+  res.render("auth/login", {
+    title: title
+  });
 };
 
 exports.loginPost = function(req, res, next) {
   passport.authenticate("local", function(err, user, info) {
+    let title = "Login | JetFree by JainsBret";
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.render("login", { failed: true });
+      return res.render("auth/login", {
+        title: title,
+        failed: true
+      });
     }
     req.logIn(user, function(err) {
       if (err) {
@@ -100,12 +114,16 @@ exports.logout = function(req, res) {
 };
 
 exports.resetPasswordGet = function(req, res) {
-  res.render("resetPassword");
+  let title = "Reset Password | JetFree by JainsBret";
+  res.render("auth/resetPassword", {
+    title: title
+  });
 };
 
 exports.resetPasswordPost = function(req, res) {
   const username = req.body.username;
   const answer = req.body.answer.toLowerCase();
+  let title = "Register | JetFree by JainsBret";
 
   console.log("click");
   if (
@@ -118,5 +136,7 @@ exports.resetPasswordPost = function(req, res) {
   } else {
     console.log("noob");
   }
-  res.render("resetPassword");
+  res.render("auth/resetPassword", {
+    title: title
+  });
 };

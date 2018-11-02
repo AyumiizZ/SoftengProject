@@ -1,0 +1,38 @@
+extends ../incontainer 
+
+block content
+
+    if (errors)
+        .alert.alert-danger
+            span Whoops! We've found some error.
+            ul
+                each error in errors
+                    li=error.msg
+
+    form(method='POST')
+        .row
+            .col-2
+                #dashboard
+                    #outerBox.card
+                        .panel
+                            a.active(href='/settings/profile') Profile
+                        .panel
+                            a.active(href='#') Account
+                        .panel
+                            a(href='/settings/password') Password    
+            .col-10
+                #editable-contents
+                    #outerBox.card
+                        .card-body
+                            h1 Account
+                            #innerBox.card
+                                .card-body
+                                    .form-group
+                                        label Username:
+                                        input.form-control(name='username',type='text', value=user.username)
+                                        small#username-check.form-text.text-success(style="display: none") This username can be used.
+                                    .form-group
+                                        label Email:
+                                        input.form-control(name='email',type='text', value=user.email)
+                                        
+                        button.btn.btn-outline-primary(type='submit') Save Changes

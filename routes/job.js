@@ -37,13 +37,7 @@ router.get(
   jobsController.showInterests
 );
 
-router.get("/add", authMiddleware.isAuthenticated, function(req, res) {
-  let title = "Add job | JetFree by JainsBret";
-  res.render("jobs/addedit", {
-    title: title,
-    h1_title: "ลงประกาศงาน"
-  });
-});
+router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);
 
 router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
 

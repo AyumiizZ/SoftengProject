@@ -22,6 +22,14 @@ exports.view = async function(req, res, next) {
   });
 };
 
+exports.addGet = function(req, res) {
+  let title = "Add job | JetFree by JainsBret";
+  res.render("jobs/addedit", {
+    title: title,
+    h1_title: "ลงประกาศงาน"
+  });
+};
+
 exports.addPost = async function(req, res, next) {
   console.log(req.user);
   req.body.client_id = req.user.id;
@@ -39,6 +47,7 @@ exports.editGet = async function(req, res, next) {
     job: job
   });
 };
+
 exports.editPost = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);

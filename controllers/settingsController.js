@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const gravatar = require("gravatar");
 
 exports.settingsRedirect = function(req, res) {
   res.redirect(req.baseUrl + "/profile");
@@ -8,7 +9,7 @@ exports.profileGet = async function(req, res) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
-  console.log(user);
+  user.gravatar_url = gravatar.url(user.email, { s: 400 });
   let title = "Edit Profile | JetFree by JainsBret";
   res.render("profile/editProfile", {
     title: title,

@@ -4,30 +4,22 @@ block content
     form(method='POST')
         .row
             .col-2
-                a.list-group-item.list-group-item-action.active(href="profile") Profile
-                a.list-group-item.list-group-item-action(href="account") Account
-                a.list-group-item.list-group-item-action(href="password") Password
+                a.list-group-item.list-group-item-action.active(href="profile") โปรไฟล์ 
+                a.list-group-item.list-group-item-action(href="account") บัญชี
+                a.list-group-item.list-group-item-action(href="password") รหัสผ่าน 
             .col-10
-                #editable-contents
-                    #outerBox.card
-                        .card-body
-                            h1 Profile
-                            #innerBox.card
-                                .row
-                                    .col-3
-                                        #innerBox.card
-                                            .card-body
-                                                h1 image here
-                                    .col-9
-                                        .card-body
-                                            .form-group
-                                                label Name:
-                                                input.form-control(name='name',type='text', value=user.name)
-                                            .form-group
-                                                label Overview:
-                                                if user.overview
-                                                    <textarea class="form-control" rows="5" name="overview">#{user.overview}</textarea>
-                                                else
-                                                    <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
-                    
-                        button.btn.btn-outline-primary(type='submit') Save Changes
+                h1 แก้ไขโปรไฟล์ 
+                .row
+                    .col-3
+                        figure.figure
+                            img.rounded.mb-3(src=user.gravatar_url, width="100%")
+                            figcaption.figure-caption คุณสามารถเปลี่ยนรูปของคุณได้ที่&nbsp;
+                                a(href="https://www.gravatar.com") Gravatar
+                    .col-9
+                        .form-group
+                            label Name:
+                            input.form-control(name='name',type='text', value=user.name)
+                        .form-group
+                            label Overview:
+                            <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!">#{user.overview}</textarea>
+                        button.btn.btn-primary(type='submit') บันทึกการเปลี่ยนแปลง 

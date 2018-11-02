@@ -17,9 +17,17 @@ block content
                                 a(href="https://www.gravatar.com") Gravatar
                     .col-9
                         .form-group
-                            label Name:
+                            label Name
                             input.form-control(name='name',type='text', value=user.name)
                         .form-group
-                            label Overview:
-                            <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!">#{user.overview}</textarea>
+                            label Overview
+                            textarea(class="form-control" rows="5" name="overview" placeholder="Say something about yourself!")=user.overview
                         button.btn.btn-primary(type='submit') บันทึกการเปลี่ยนแปลง 
+
+block js-after
+  script.
+    var simplemde = new SimpleMDE({
+      spellChecker: false,
+      status: false,
+      toolbar: ["bold", "italic", "|", "quote", "code", "|", "unordered-list", "ordered-list", "|", "link", "image", "|", "guide"]
+     });

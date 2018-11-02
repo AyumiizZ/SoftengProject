@@ -10,13 +10,13 @@ block content
   hr
   .row
     .col-3
-      img.rounded.mb-3(src=user.gravatar_url, width="100%")
+      img.rounded.mb-3(src=user.gravatar_url(400), width="100%")
       a(href='/settings/profile').btn.btn-outline-dark Edit
     .col-9
       .card.mb-3
         .card-body
           h3 Overview
-          span #{user.overview}
+          span !{user.overview}
       .card.mb-3
         .card-body
           h3 Past Jobs

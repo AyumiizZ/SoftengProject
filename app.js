@@ -14,7 +14,6 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var jobRouter = require("./routes/job");
 var profileRouter = require("./routes/profile");
-var searchRouter = require("./routes/search");
 var settingsRouter = require("./routes/settings");
 var apiRouter = require("./routes/api");
 var staticRouter = require("./routes/static");
@@ -59,7 +58,6 @@ app.use("/", staticRouter);
 app.use("/api", apiRouter);
 app.use("/jobs", jobRouter);
 app.use("/profile", profileRouter);
-app.use("/search", searchRouter);
 app.use("/settings", settingsRouter);
 app.use("/jobs", jobRouter);
 

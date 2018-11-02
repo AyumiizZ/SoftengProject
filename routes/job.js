@@ -5,11 +5,11 @@ var authMiddleware = require("../middlewares/authMiddleware");
 
 const Job = require("../models/job");
 
-router.get("/", function(req, res) {
-  // Showing all available jobs, not available at this time.
-});
+router.get("/", jobsController.redirectToBrowse);
+router.get("/browse", jobsController.browse);
 
 router.get("/view/:jobId", jobsController.view);
+
 router.get(
   "/edit/:jobId",
   authMiddleware.isAuthenticated,

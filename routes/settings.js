@@ -24,7 +24,7 @@ router.get("/profile", authMiddleware.isAuthenticated, async function(
     .first();
   var errors = req.validationErrors();
   let title = "Edit Profile | JetFree by JainsBret";
-  res.render("editProfile", {
+  res.render("profile/edit", {
     title: title,
     user: user
   });

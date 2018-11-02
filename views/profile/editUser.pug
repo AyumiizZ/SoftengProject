@@ -1,7 +1,5 @@
 extends ../incontainer 
-
 block content
-
     if (errors)
         .alert.alert-danger
             span Whoops! We've found some error.
@@ -12,14 +10,10 @@ block content
     form(method='POST')
         .row
             .col-2
-                #dashboard
-                    #outerBox.card
-                        .panel
-                            a.active(href='/settings/profile') Profile
-                        .panel
-                            a.active(href='#') Account
-                        .panel
-                            a(href='/settings/password') Password    
+                .list-group
+                    a.list-group-item.list-group-item-action(href="profile") Profile
+                    a.list-group-item.list-group-item-action.active(href="account") Account
+                    a.list-group-item.list-group-item-action(href="password") Password
             .col-10
                 #editable-contents
                     #outerBox.card

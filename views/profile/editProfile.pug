@@ -4,14 +4,9 @@ block content
     form(method='POST')
         .row
             .col-2
-                #dashboard
-                    #outerBox.card
-                        .panel
-                            a.active(href='#') Profile
-                        .panel
-                            a(href='/settings/account') Account
-                        .panel
-                            a(href='/settings/password') Password    
+                a.list-group-item.list-group-item-action.active(href="profile") Profile
+                a.list-group-item.list-group-item-action(href="account") Account
+                a.list-group-item.list-group-item-action(href="password") Password
             .col-10
                 #editable-contents
                     #outerBox.card

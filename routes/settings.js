@@ -49,7 +49,7 @@ router.post("/account", async function(req, res, next) {
   req
     .checkBody("email", "E-mail is not in a valid format.")
     .isEmail();
-  
+
   var errors = req.validationErrors();
   if (errors) {
     console.log("error!");

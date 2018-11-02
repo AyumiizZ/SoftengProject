@@ -1,14 +1,14 @@
 extends incontainer 
 
 block content
-  h1 Addannouncement
+  h1 Add Announcement
   form(method='POST', action='/addjob')
     .form-group
       label Topic:
       input.form-control(name='job', type='text')
     .form-group
       label Detail:
-      input.form-control(name='job_info', type='text')
+      <textarea class="form-control" rows="5" name="job_info"></textarea>
 
       br
     button.btn.btn-primary.btn-block(type='submit') Submit 

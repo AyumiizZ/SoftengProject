@@ -11,7 +11,7 @@ block content
                     li=error.msg
 
     form(method='POST')
-        #outerBox.card
+        .card.mb-3
             .card-body
                 h1 Account
                 #innerBox.card
@@ -32,7 +32,7 @@ block content
                                 else
                                     <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
 
-        #outerBox.card
+        .card
             .card-body
                 h1 Password
                 #innerBox-card
@@ -51,22 +51,22 @@ block content
         //hr
         //.row
             .col-3
-                #outerBox.card
+                .card
                     .card-body
                         h1 image here
-                #outerBox.card
+                .card
                     .card-body
                         h2 Client Review
                     #innerBox.card
                         h5 #{user.client_review}
             .col-9
-                #outerBox.card
+                .card
                     .card-body
                         h2 Overview
                     #innerBox.card
                         <textarea class="form-control" name="overview">#{user.overview}</textarea>
                         //input.form-control(name='overview',type='text', value=user.overview)
-                #outerBox.card
+                .card
                     .card-body
                         h2 Past Job
                     #innerBox.card

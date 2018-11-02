@@ -67,14 +67,6 @@ main {
   text-align: center;
 }
 
-#innerBox {
-  margin: 10px;
-}
-
-#outerBox {
-  margin-bottom: 10px;
-}
-
 .search-page {
   padding-top: 30px;
   width: 100%;

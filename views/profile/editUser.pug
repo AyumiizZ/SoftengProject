@@ -1,7 +1,5 @@
 extends ../incontainer 
-
 block content
-
     if (errors)
         .alert.alert-danger
             span Whoops! We've found some error.
@@ -12,27 +10,18 @@ block content
     form(method='POST')
         .row
             .col-2
-                #dashboard
-                    #outerBox.card
-                        .panel
-                            a.active(href='/settings/profile') Profile
-                        .panel
-                            a.active(href='#') Account
-                        .panel
-                            a(href='/settings/password') Password    
+                .list-group
+                    a.list-group-item.list-group-item-action(href="profile") โปรไฟล์ 
+                    a.list-group-item.list-group-item-action.active(href="account") บัญชี 
+                    a.list-group-item.list-group-item-action(href="password") รหัสผ่าน
             .col-10
-                #editable-contents
-                    #outerBox.card
-                        .card-body
-                            h1 Account
-                            #innerBox.card
-                                .card-body
-                                    .form-group
-                                        label Username:
-                                        input.form-control(name='username',type='text', value=user.username)
-                                        small#username-check.form-text.text-success(style="display: none") This username can be used.
-                                    .form-group
-                                        label Email:
-                                        input.form-control(name='email',type='text', value=user.email)
-                                        
-                        button.btn.btn-outline-primary(type='submit') Save Changes
+                h1 บัญชี 
+                .form-group
+                    label ชื่อผู้ใช้:
+                    input.form-control(name='username',type='text', value=user.username)
+                    small#username-check.form-text.text-success(style="display: none") This username can be used.
+                .form-group
+                    label อีเมล:
+                    input.form-control(name='email',type='text', value=user.email)
+                                
+                button.btn.btn-primary(type='submit') บันทึกการเปลี่ยนแปลง

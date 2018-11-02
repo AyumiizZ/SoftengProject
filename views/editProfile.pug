@@ -2,13 +2,6 @@ extends incontainer
 
 block content
 
-    if (errors)
-        .alert.alert-danger
-            span Whoops! We've found some error.
-            ul
-                each error in errors
-                    li=error.msg
-
     form(method='POST')
         .row
             .col-2
@@ -17,12 +10,14 @@ block content
                         .panel
                             a.active(href='#') Profile
                         .panel
+                            a(href='/settings/account') Account
+                        .panel
                             a(href='/settings/password') Password    
             .col-10
                 #editable-contents
                     #outerBox.card
                         .card-body
-                            h1 Account
+                            h1 Profile
                             #innerBox.card
                                 .row
                                     .col-3
@@ -31,14 +26,14 @@ block content
                                                 h1 image here
                                     .col-9
                                         .card-body
-                                            h5 Name:
-                                            input.form-control(name='name',type='text', value=user.name)
-                                            h5 Email:
-                                            input.form-control(name='email',type='text', value=user.email)
-                                            h5 Overview:
-                                            if user.overview
-                                                <textarea class="form-control" rows="5" name="overview">#{user.overview}</textarea>
-                                            else
-                                                <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
+                                            .form-group
+                                                label Name:
+                                                input.form-control(name='name',type='text', value=user.name)
+                                            .form-group
+                                                label Overview:
+                                                if user.overview
+                                                    <textarea class="form-control" rows="5" name="overview">#{user.overview}</textarea>
+                                                else
+                                                    <textarea class="form-control" rows="5" name="overview" placeholder="Say something about yourself!"></textarea>
                     
                         button.btn.btn-outline-primary(type='submit') Save Changes

@@ -1,11 +1,18 @@
+/*
+ ==============================
+ Imports
+ ==============================
+ */
+
 @import url('https://fonts.googleapis.com/css?family=Mitr:300');
+/*
+ ****************************** 
+ * Typography 
+ ****************************** 
+ */
+
 h1, h2, h3, h4, h5, h6, .headline-font {
   font-family: "Mitr";
-}
-
-.no-margin {
-  margin-top: 0px;
-  margin-bottom: 0px;
 }
 
 .center-text {
@@ -401,7 +408,7 @@ main {
   width: 100%;
 }
 
-.info-card-grid-item .open{
+.info-card-grid-item .open {
   color: #5dc26a;
 }
 

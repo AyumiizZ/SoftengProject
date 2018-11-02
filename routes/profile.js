@@ -7,13 +7,7 @@ const profileController = require("../controllers/profileController");
 
 router.use(expressValidator());
 
-router.get("/", function(req, res) {
-  if (!req.user) {
-    res.redirect("/");
-  }
-  res.redirect(req.baseUrl + "/" + req.user.username);
-});
-
+router.get("/", profileController.redirectToUserProfile);
 router.get("/:username", profileController.viewProfile);
 
 module.exports = router;

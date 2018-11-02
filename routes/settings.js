@@ -4,37 +4,42 @@ const expressValidator = require("express-validator");
 const User = require("../models/user");
 const passport = require("passport");
 const _helpers = require("../auth/_helpers");
-
+var authMiddleware = require("../middlewares/authMiddleware");
 
 router.use(expressValidator());
 
-router.get("/", function (req, res) {
+router.get("/", function(req, res) {
   if (!req.user) {
     res.redirect("/");
   }
   res.redirect(req.baseUrl + "/profile");
 });
 
-router.get("/profile", async function (req, res) {
+router.get("/profile", authMiddleware.isAuthenticated, async function(
+  req,
+  res
+) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
   var errors = req.validationErrors();
-  let title = 'Edit Profile | JetFree by JainsBret'
-  res.render("editProfile", {
-    title:title,
+  let title = "Edit Profile | JetFree by JainsBret";
+  res.render("profile/edit", {
+    title: title,
     user: user
   });
 });
 
-router.post("/profile", async function (req, res, next) {
+router.post("/profile", authMiddleware.isAuthenticated, async function(
+  req,
+  res,
+  next
+) {
   var pass = true;
   let user = await User.query()
     .where("username", req.user.username)
-    .first()
-  req
-    .checkBody("email", "E-mail is not in a valid format.")
-    .isEmail();
+    .first();
+  req.checkBody("email", "E-mail is not in a valid format.").isEmail();
   if (req.body.password) {
     req
       .checkBody("password", "Password must be at least 8 characters.")
@@ -50,9 +55,9 @@ router.post("/profile", async function (req, res, next) {
   if (errors || !pass) {
     console.log("error!");
     let failed = !pass;
-    let title = 'Edit Profile | JetFree by JainsBret'
+    let title = "Edit Profile | JetFree by JainsBret";
     res.render("editProfile", {
-      title:title,
+      title: title,
       errors: errors,
       failed: failed,
       user: user
@@ -63,7 +68,10 @@ router.post("/profile", async function (req, res, next) {
 
     if (!req.body.password) {
       delete req.body.password;
-      let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
+      let updatedUser = await User.query().updateAndFetchById(
+        user.id,
+        req.body
+      );
       res.redirect("/profile/");
     } else {
       _helpers
@@ -79,30 +87,5 @@ router.post("/profile", async function (req, res, next) {
     }
   }
 });
-/*=======
-router.get("/profile", async function(req, res) {
-  let user = await User.query()
-    .where("username", req.user.username)
-    .first();
-  res.render("profile", { user: user });
-});
-
-router.get("/profile/edit", async function(req, res) {
-  let user = await User.query()
-    .where("username", req.user.username)
-    .first();
-  res.render("editProfile", { user: user });
-});
-
-router.post("/profile/edit", function(req, res, next) {
-  res.redirect("/users/profile");
-});
-
-router.get("/profile/:username", async function(req, res) {
-  let user = await User.query()
-    .where("username", req.params.username)
-    .first();
-  res.render("profile", { user: user });
-});*/
 
 module.exports = router;

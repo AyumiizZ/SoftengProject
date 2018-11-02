@@ -3,11 +3,36 @@ const JobInterest = require("../models/jobInterest");
 const gravatar = require("gravatar");
 var md = require("markdown-it")();
 
+function redirectIfNotAuthenticated(req, res, next, userId) {
+  if (userId != req.user.id) {
+    res.status(403).render("errors/403");
+  }
+}
+
+exports.redirectToBrowse = function(req, res, next) {
+  res.redirect(req.baseUrl + "/browse");
+};
+
+exports.browse = async function(req, res, next) {
+  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
+  var user_lang = ["Thai", "English"];
+  const jobs = await Job.query();
+  // var jobs = [{id:1,job:'test',job_info:'Lorem',job_type:'Hourly',tag:'Python',price:500},{id:2,job:'test2',job_info:'Lorem2',job_type:'Fixed',tag:'PHP',price:7500}]
+  let title = "Projects | JetFree by JainsBret";
+  res.render("jobs/browse", {
+    title: title,
+    jobs: jobs,
+    n_results: jobs.length,
+    skills: user_skills,
+    lang: user_lang
+  });
+};
+
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
-
+  console.log(job);
   job.job_info = md.render(job.job_info);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
@@ -17,8 +42,24 @@ exports.view = async function(req, res, next) {
   });
 };
 
+exports.addGet = function(req, res) {
+  let title = "Add job | JetFree by JainsBret";
+  res.render("jobs/addedit", {
+    title: title,
+    h1_title: "ลงประกาศงาน"
+  });
+};
+
+exports.addPost = async function(req, res, next) {
+  console.log(req.user);
+  req.body.client_id = req.user.id;
+  const job = await Job.query().insert(req.body);
+  res.redirect("/jobs/view/" + job.id);
+};
+
 exports.editGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
+  redirectIfNotAuthenticated(req, res, next, job.client_id);
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
@@ -26,7 +67,10 @@ exports.editGet = async function(req, res, next) {
     job: job
   });
 };
+
 exports.editPost = async function(req, res, next) {
+  const job = await Job.query().findById(req.params.jobId);
+  redirectIfNotAuthenticated(req, res, next, job.client_id);
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body
@@ -75,11 +119,4 @@ exports.showInterests = async function(req, res, next) {
     title: title,
     job: job
   });
-};
-
-exports.addPost = async function(req, res, next) {
-  console.log(req.user);
-  req.body.client_id = req.user.id;
-  const job = await Job.query().insert(req.body);
-  res.redirect("/jobs/view/" + job.id);
 };

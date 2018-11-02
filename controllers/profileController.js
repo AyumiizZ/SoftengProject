@@ -8,7 +8,6 @@ exports.viewProfile = async function(req, res) {
     .first()
     .eager("review");
   user.overview = md.render(user.overview);
-  user.gravatar_url = gravatar.url(user.email, { s: 400 });
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,

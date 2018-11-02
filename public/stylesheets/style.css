@@ -67,6 +67,13 @@ main {
   text-align: center;
 }
 
+/*
+ ****************************** 
+ * Job browse page 
+ ****************************** 
+ This section of CSS should only related with the `jobs/browse.pug` file
+ */
+
 .search-page {
   padding-top: 30px;
   width: 100%;
@@ -427,36 +434,3 @@ main {
   line-height: 1.43;
   margin-bottom: 16px;
 }
-
-/* 
-.input-search {
-  padding-left: 40px;
-}
-
-.input-search::-webkit-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-moz-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-ms-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-o-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-} */

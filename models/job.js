@@ -1,12 +1,17 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
 const User = require("./user.js");
+const showdownParse = require("../lib/showdownParse");
 
 Model.knex(knex);
 
 class Job extends Model {
   static get tableName() {
     return "jobs";
+  }
+
+  job_info_md() {
+    return showdownParse(this.job_info);
   }
 
   static get relationMappings() {

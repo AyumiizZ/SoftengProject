@@ -34,7 +34,12 @@ router.post(
 router.get(
   "/view/:jobId/interests",
   authMiddleware.isAuthenticated,
-  jobsController.showInterests
+  jobsController.showInterestsGet
+);
+router.post(
+  "/view/:jobId/interests",
+  authMiddleware.isAuthenticated,
+  jobsController.showInterestsPost
 );
 
 router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);

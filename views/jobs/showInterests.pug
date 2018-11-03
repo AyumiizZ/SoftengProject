@@ -13,6 +13,9 @@ block content
         each freelance in job.freelance_interests
           .card.text-center
             .card-body
-              h5.card-title=freelance.name
-              a.btn.btn-outline-primary.btn-sm(href="/profile/"+freelance.username) ดูหน้าโปรไฟล์
-              p.card-text=freelance.overview
+              form(method='POST')
+                h5.card-title=freelance.name
+                a.btn.btn-outline-primary.btn-sm(href="/profile/"+freelance.username) ดูหน้าโปรไฟล์
+                p.card-text=freelance.overview
+                if user.id == job.client_id
+                  button.btn.btn-outline-info.btn-sm(type='submit', name='user_id', value=freelance.id) เลือก freelancer

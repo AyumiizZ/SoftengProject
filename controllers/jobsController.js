@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const gravatar = require("gravatar");
@@ -109,14 +110,28 @@ exports.interestedPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
-exports.showInterests = async function(req, res, next) {
+exports.showInterestsGet = async function(req, res, next) {
+  let user = await User.query()
+    .where("username", req.user.username)
+    .first();
   let title = "Jobs | JetFree by JainsBret";
   console.log(req.params.jobId);
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("freelance_interests");
   res.render("jobs/showInterests", {
+    user: user,
     title: title,
     job: job
   });
 };
+
+exports.showInterestsPost = async function(req, res, next) {
+  let jobId = req.params.jobId;
+  const updatedFreelance = await Job.query().updateAndFetchById(
+    jobId,
+    req.body
+  );
+  console.log("success!");
+  res.redirect("/jobs/view/" + jobId);
+}; 

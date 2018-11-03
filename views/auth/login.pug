@@ -2,7 +2,6 @@ extends ../incontainer
 
 block content
   h1 Login
-  script(src='https://www.google.com/recaptcha/api.js')
   if failed 
     .alert.alert-danger.
       That doesn't work, please try again.
@@ -13,7 +12,6 @@ block content
     .form-group
       label Password:
       input.form-control(name='password',type='password')
-    .g-recaptcha(data-sitekey='')
     br
     button.btn.btn-primary.btn-block(type='submit') Login
     br

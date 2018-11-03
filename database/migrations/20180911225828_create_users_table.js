@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
     table.string("email").notNullable();
     table.boolean("email_verified").defaultTo(false);
     table.string("overview");
+    table.string("g-recaptcha-response");
   });
 };
 

@@ -2,6 +2,7 @@ extends ../incontainer
 
 block content
   h1 Register
+  script(src='https://www.google.com/recaptcha/api.js')
   if errors
     .alert.alert-danger
       span Whoops! We've found some error.
@@ -25,6 +26,7 @@ block content
     .form-group
       label Confirm:
       input.form-control(name='confirm', type='password')
+    .g-recaptcha(data-sitekey='6Lcbf3gUAAAAAIQjajxMjs3JKbVHpJ72KFnRv79u')
     .form-check
       label.form-check-label(name='accept')
         input.form-check-input(name='agreement',type='checkbox')

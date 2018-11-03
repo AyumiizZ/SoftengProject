@@ -9,6 +9,7 @@ exports.registerGet = function(req, res) {
     title: title
   });
 };
+
 exports.registerPostCheck = [
   check("email")
     .isEmail()
@@ -47,7 +48,12 @@ exports.registerPostCheck = [
     .withMessage("The password does not match the confirmation."),
   check("agreement")
     .equals("on")
-    .withMessage("You must agree to JainsBret user's agreement.")
+    .withMessage("You must agree to JainsBret user's agreement."),
+  check("g-recaptcha-response")
+    .isLength({
+      min: 3
+    })
+    .withMessage("You must complete the recaptcha.")
 ];
 
 exports.registerPost = function(req, res, next) {

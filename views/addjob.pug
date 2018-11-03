@@ -1,14 +1,14 @@
 extends incontainer 
 
 block content
-  h1 ลงประกาศงาน 
-  form(method='POST')
+  h1 Add Announcement
+  form(method='POST', action='/addjob')
     .form-group
-      label หัวข้องาน
+      label Topic:
       input.form-control(name='job', type='text')
-      .small ควรอธิบายว่าหาฟรีแลนซ์ทำงานอะไร, ต้องการอะไรจากงาน
     .form-group
-      label รายละเอียดงาน 
-      textarea.form-control(name='job_info')
-      .small อธิบายงานที่ต้องทำ รวมถึงรายละเอียด (เช่นเวลาทำงาน, กำหนดส่ง)
+      label Detail:
+      <textarea class="form-control" rows="5" name="job_info"></textarea>
+
+      br
     button.btn.btn-primary.btn-block(type='submit') Submit 

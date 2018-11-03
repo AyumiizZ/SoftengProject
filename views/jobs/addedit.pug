@@ -1,0 +1,28 @@
+extends ../incontainer 
+
+block content
+  h1=h1_title
+  form(method='POST')
+    .form-group
+      label หัวข้องาน
+      if locals.job
+        input.form-control(name='job', type='text', value=job.job)
+      else
+        input.form-control(name='job', type='text')
+      .small ควรอธิบายว่าหาฟรีแลนซ์ทำงานอะไร, ต้องการอะไรจากงาน
+    .form-group
+      label รายละเอียดงาน 
+      textarea.form-control.mde(name='job_info')
+        if locals.job
+          | #{job.job_info}
+
+      .small อธิบายงานที่ต้องทำ รวมถึงรายละเอียด (เช่นเวลาทำงาน, กำหนดส่ง), สามารถใช้ภาษา Markdown ได้
+    button.btn.btn-primary.btn-block(type='submit') Submit 
+  
+block js-after
+  script.
+    var simplemde = new SimpleMDE({
+      spellChecker: false,
+      status: false,
+      toolbar: ["bold", "italic", "|", "quote", "code", "|", "unordered-list", "ordered-list", "|", "link", "image", "|", "guide"]
+     });

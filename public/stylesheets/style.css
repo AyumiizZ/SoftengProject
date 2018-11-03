@@ -1,16 +1,28 @@
+/*
+ ==============================
+ Imports
+ ==============================
+ */
+
 @import url('https://fonts.googleapis.com/css?family=Mitr:300');
+/*
+ ****************************** 
+ * Typography 
+ ****************************** 
+ */
+
 h1, h2, h3, h4, h5, h6, .headline-font {
   font-family: "Mitr";
 }
 
-.no-margin {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.center-text {
-  text-align: center;
-}
+/*
+ ****************************** 
+ * Main layout file 
+ ****************************** 
+ This section of CSS should only related with the `layout.pug` file,
+ or be any CSS which will be GLOBALLY applied to the entire project.
+ Edit codes with caution.
+ */
 
 main {
   padding-top: 20px;
@@ -20,23 +32,26 @@ main {
   border-radius: 0px;
 }
 
-.counter-fullpage {
+/*
+ ****************************** 
+ * Home page 
+ ****************************** 
+ This section of CSS should only related with the `index.pug` file
+ */
+
+#counter-fullpage {
   padding-top: 40px;
   padding-bottom: 40px;
 }
 
-.counter-fullpage .counter-freelance-categories ul {
+#counter-fullpage .counter-freelance-categories ul {
   columns: 2;
   -webkit-columns: 2;
   -moz-columns: 2;
 }
 
-.counter-fullpage .counter-freelance-categories li {
+#counter-fullpage .counter-freelance-categories li {
   list-style-type: none;
-}
-
-.center-wrapper {
-  text-align: center;
 }
 
 .counter-wrapper h1 {
@@ -52,16 +67,31 @@ main {
   text-align: center;
 }
 
-.container.contents {
-  padding: 1em
+/*
+ ****************************** 
+ * Job browse page 
+ ****************************** 
+ This section of CSS should only related with the `jobs/browse.pug` file
+ */
+
+#dashboard .panel {
+  padding: 10px;
 }
 
-#innerBox {
-  margin: 10px;
+#dashboard a {
+  color: black;
 }
 
-#outerBox {
-  margin-bottom: 10px;
+#dashboard a.active {
+  font-weight: bold;
+}
+
+#dashboard a:hover {
+  color: #4D525B;
+}
+
+#editable-contents {
+
 }
 
 .search-page {
@@ -401,7 +431,7 @@ main {
   width: 100%;
 }
 
-.info-card-grid-item .open{
+.info-card-grid-item .open {
   color: #5dc26a;
 }
 
@@ -424,36 +454,3 @@ main {
   line-height: 1.43;
   margin-bottom: 16px;
 }
-
-/* 
-.input-search {
-  padding-left: 40px;
-}
-
-.input-search::-webkit-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-moz-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-ms-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.input-search::-o-input-placeholder {
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-  font-weight: 700;
-} */

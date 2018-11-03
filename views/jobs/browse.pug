@@ -10,16 +10,16 @@ block content
               label#head Project Type
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input(name='fixed_projects', type='checkbox')
+                  input.form-check-input#fix(name='fixed_projects', type='checkbox')
                   | Fixed projects
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input(name='hourly_projects', type='checkbox')
+                  input.form-check-input#hour(name='hourly_projects', type='checkbox')
                   | Hourly projects
             li.filter-item-group
               label#head Skills
               .filter-item-scroll
-                .filter-tag-input
+                .filter-tag-input#skills
                   each val in skills
                     .input-tag=val
                       .delete-tag ×
@@ -187,7 +187,5 @@ block content
           p Some text in the modal.
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-
-        //- each article, i in articles
-          li.list-group-item
-            a(href="/articles/"+article._id)= article.title
+  script(src='/scripts/jquery.min.js')
+  script(src='/scripts/job_scripts.js')

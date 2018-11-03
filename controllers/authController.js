@@ -5,7 +5,7 @@ const passport = require("passport");
 
 exports.registerGet = function(req, res) {
   let title = "Register | JetFree by JainsBret";
-  res.render("register", {
+  res.render("auth/register", {
     title: title
   });
 };

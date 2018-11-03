@@ -4,14 +4,13 @@ block content
   .row
     .col-10
       h1 #{user.name}
-    .col-2
-        if authen
-          a(href='/settings/profile').btn.btn-outline-dark Setting
+
   hr
   .row
     .col-3
       img.rounded.mb-3(src=user.gravatar_url, width="100%")
-      a(href='/settings/profile').btn.btn-outline-dark Edit
+      if user.username == current.username
+        a(href='/settings/profile').btn.btn-outline-dark Edit
     .col-9
       .card.mb-3
         .card-body
@@ -20,14 +19,14 @@ block content
       .card.mb-3
         .card-body
           h3 Past Jobs
-          .card.mb-3
-            .card-body
-              h5 Job #1
-              p Lorem Ipsum...
-          .card.mb-3
-            .card-body
-              h5 Job #1
-              p Lorem Ipsum...
+          each job in past_job
+            .card.mb-3
+              .card-body
+                h5 #{job.job}
+                p #{job.job_info}
+          if amount > 0
+            a.btn.btn-outline-secondary.btn-block(href='/profile/'+user.username+'/jobs') View all past jobs
+
       .card
         .card-body
           h3 Client Review

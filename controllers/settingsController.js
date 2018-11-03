@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const gravatar = require("gravatar");
+const passport = require("passport");
+const _helpers = require("../auth/_helpers");
 
 exports.settingsRedirect = function(req, res) {
   res.redirect(req.baseUrl + "/profile");

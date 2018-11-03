@@ -1,0 +1,20 @@
+extends ../incontainer 
+
+block content
+    .row
+        .col-10
+            h1 #{user.name}'s Past Jobs
+
+    hr
+    .row
+        .col-3
+            img.rounded.mb-3(src=user.gravatar_url, width="100%")
+            a(href='/profile/'+user.username).btn.btn-outline-dark Back
+        .col-9
+            .card.mb-3
+                .card-body
+                    each job in past_job
+                        .card.mb-3
+                            .card-body
+                                h4 #{job.job}
+                                p #{job.job_info}

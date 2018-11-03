@@ -1,7 +1,5 @@
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
-const gravatar = require("gravatar");
-var md = require("markdown-it")();
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -33,7 +31,6 @@ exports.view = async function(req, res, next) {
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
   console.log(job);
-  job.job_info = md.render(job.job_info);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
     job: job,

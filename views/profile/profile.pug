@@ -15,11 +15,11 @@ block content
     .col-9
       .card.mb-3
         .card-body
-          h3 Overview
-          span !{user.overview}
+          h2 Overview
+          span !{user.overview_md()}
       .card.mb-3
         .card-body
-          h3 Past Jobs
+          h2 Past Jobs
           .card.mb-3
             .card-body
               h5 Job #1
@@ -30,7 +30,7 @@ block content
               p Lorem Ipsum...
       .card
         .card-body
-          h3 Client Review
+          h2 Client Review
           each review in user.review
             .card
                 .card-body

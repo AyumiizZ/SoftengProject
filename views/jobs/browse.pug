@@ -104,12 +104,15 @@ block content
                       .info-card-grid
                         .info-card-details.info-card-grid-item
                           img(src='/svgs/solid/hourglass-start.svg', width='16', height='16', alt='')
-                          span.open Open
-                          time  1 hour ago 
+                          
+                          time #{val.created_at}
                           //- span - 10 bid
                         .info-card-details.info-card-grid-item
                           img(src='/svgs/solid/user.svg', width='16', height='16', alt='')
-                          span No jobs completed yet
+                          if val.freelance
+                            span #{val.freelance.name}
+                          else
+                            span.open Open
                         .info-card-details.info-card-grid-item.info-card-skills-container
                           img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
                           span=val.tag
@@ -193,5 +196,4 @@ block content
           p Some text in the modal.
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-  script(src='/scripts/jquery.min.js')
   script(src='/scripts/job_scripts.js')

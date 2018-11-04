@@ -1,4 +1,14 @@
 $(document).ready(function () {
+    // var xhr = new XMLHttpRequest();
+    // var url = "url"
+    // xhr.open("POST",url,true);
+    // xhr.setRequestHeader("Content-Type","application/json");
+    // xhr.onreadystatechange = function(){
+    //     if (xhr.readyState === 4 && xhr.status === 200){
+    //         var json = JSON.parse(xhr.responseText);
+    //         console.log(json)
+    //     }
+    // }
     setInterval(() => {
         var skills = $('#skills .input-tag');
         var langs = $('#langs .input-tag');
@@ -23,8 +33,9 @@ $(document).ready(function () {
             'max_hour': 10000,
             'sort': 'date'
         }
-        var json = JSON.stringify(ret)
-        console.log(json)
+        var ret_json = JSON.stringify(ret)
+        console.log(ret_json)
+        // xhr.send(ret_json)
     }, 100);
 
 });

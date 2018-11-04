@@ -22,6 +22,7 @@ exports.profilePost = async function(req, res, next) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
+  delete req.body._csrf;
   let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
   res.redirect("/settings/profile");
 };
@@ -37,6 +38,7 @@ exports.accountPost = async function(req, res, next) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
+  delete req.body._csrf;
   req.checkBody("username", "Username must not be empty.").notEmpty();
   req.checkBody("email", "E-mail is not in a valid format.").isEmail();
 
@@ -72,9 +74,6 @@ exports.passwordPost = async function(req, res, next) {
     .checkBody("confirm", "Password does not match the confirmation")
     .equals(req.body.password);
   pass = _helpers.comparePassSync(req.body.old_password, user.password);
-
-  console.log(pass);
-
   var errors = req.validationErrors();
   if (errors || !pass) {
     console.log("error!");
@@ -85,9 +84,9 @@ exports.passwordPost = async function(req, res, next) {
       user: user
     });
   } else {
+    delete req.body._csrf;
     delete req.body.old_password;
     delete req.body.confirm;
-
     _helpers
       .hashPass(req.body.password)
       .then(hashed => {

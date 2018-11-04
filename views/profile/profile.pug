@@ -24,8 +24,9 @@ block content
               .card-body
                 h5 #{job.job}
                 p #{job.job_info}
-          if amount > 0
-            a.btn.btn-outline-secondary.btn-block(href='/profile/'+user.username+'/jobs') View all past jobs
+
+        if amount > 0
+          a.btn.btn-outline-secondary.btn-block(href='/profile/'+user.username+'/jobs') View all past jobs
 
       .card
         .card-body

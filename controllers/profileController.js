@@ -29,15 +29,21 @@ exports.viewPastJobs = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
     .first()
+  
+  var perPage = 5;
+  var page = req.params.page || 1;
+  
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
   const title = req.params.username + "'s Past Jobs | JetFree by JainsBret";
   user.gravatar_url = gravatar.url(user.email, { s: 400 });
+
   res.render("profile/pastJobs", {
     user: user,
     past_job: past_job,
-    title: title
+    title: title,
+    page: page
   });
 };
 

@@ -75,7 +75,13 @@ block content
           .search-result-amount
             .result-amount=n_results+' Result'
           .search-result-input-sort
-            .sort sort by date
+            .sort.dropdown
+              button.btn.bth-link.dropdown-toggle(type='button', data-toggle="dropdown") Sort by date
+              .dropdown-menu
+                a.dropdown-item(href="#")
+                  | Date
+                a.dropdown-item(href="#")
+                  | Temp
         ul.search-result-list
           each val in jobs
             li

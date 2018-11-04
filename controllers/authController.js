@@ -100,10 +100,11 @@ exports.loginPost = function(req, res, next) {
       });
     }
     req.logIn(user, function(err) {
+      console.log(req.query.redirect);
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
+      return res.redirect(req.query.redirect);
     });
   })(req, res, next);
 };

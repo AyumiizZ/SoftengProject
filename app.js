@@ -59,7 +59,7 @@ app.use("/api", apiRouter);
 app.use("/jobs", jobRouter);
 app.use("/profile", profileRouter);
 app.use("/settings", settingsRouter);
-app.use("/jobs", jobRouter);
+// app.use("/jobs", jobRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

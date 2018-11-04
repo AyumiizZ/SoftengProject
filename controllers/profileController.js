@@ -30,9 +30,6 @@ exports.viewPastJobs = async function(req, res) {
     .where("username", req.params.username)
     .first()
   
-  var perPage = 5;
-  var page = req.params.page || 1;
-  
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
@@ -43,7 +40,6 @@ exports.viewPastJobs = async function(req, res) {
     user: user,
     past_job: past_job,
     title: title,
-    page: page
   });
 };
 

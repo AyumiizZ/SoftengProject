@@ -104,6 +104,9 @@ exports.loginPost = function(req, res, next) {
       if (err) {
         return next(err);
       }
+      if (req.query.redirect == undefined) {
+        return res.redirect("/");
+      }
       return res.redirect(req.query.redirect);
     });
   })(req, res, next);

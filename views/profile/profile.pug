@@ -4,37 +4,17 @@ block content
   .row
     .col-10
       h1 #{user.name}
-    .col-2
-        if authen
-          a(href='/settings/profile').btn.btn-outline-dark Setting
   hr
   .row
     .col-3
       img.rounded.mb-3(src=user.gravatar_url(400), width="100%")
-      a(href='/settings/profile').btn.btn-outline-dark Edit
+      a(href='/settings/profile').btn.btn-outline-dark แก้ไข
     .col-9
-      .card.mb-3
-        .card-body
-          h2 Overview
-          span !{user.overview_md()}
-      .card.mb-3
-        .card-body
-          h2 Past Jobs
-          .card.mb-3
-            .card-body
-              h5 Job #1
-              p Lorem Ipsum...
-          .card.mb-3
-            .card-body
-              h5 Job #1
-              p Lorem Ipsum...
-      .card
-        .card-body
-          h2 Client Review
-          each review in user.review
-            .card
-                .card-body
-                  h5 #{review.user.username}
-                  .card
-                    .card-body
-                      h6 #{review.review}
+      ul.nav.nav-tabs.mb-2
+        li.nav-item
+          a.nav-link.active(href="#") เกี่ยวกับ
+        li.nav-item
+          a.nav-link(href="works") ผลงาน
+        li.nav-item
+          a.nav-link(href="reviews") รีวิว 
+      span !{user.overview_md()}

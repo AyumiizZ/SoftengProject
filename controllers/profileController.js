@@ -39,5 +39,5 @@ exports.redirectToUserProfile = function(req, res) {
   if (!req.user) {
     res.redirect("/");
   }
-  res.redirect(req.baseUrl + "/" + req.user.username);
+  res.redirect(req.baseUrl + "/" + req.user.username + "/");
 };

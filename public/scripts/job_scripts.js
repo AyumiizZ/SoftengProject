@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // var skill_len = 0
-    var skill_arr = [];
+    
     // setInterval(() => {
     //     if ($("#fix").is(":checked")) {
     //         console.log("fix checked")
@@ -16,19 +16,20 @@ $(document).ready(function () {
     // }, 100);
 
     setInterval(() => {
-        // var s = document.getElementById("skills").getElementsByClassName("input-tag");
-        var skills = $('#skills .input-tag') 
-        // console.log(skills)
+        var skills = $('#skills .input-tag') ;
+        var langs = $('#langs .input-tag');
+        var skill_arr = [];
+        var lang_arr = [];
         for (i=0;i<skills.length;i++){
-            console.log(skills[i].innerText.substring(0,skills[i].innerText.length-1))
-            // console.log(skills[i].length)
+            skill_arr.push(skills[i].innerText.substring(0,skills[i].innerText.length-1));
         }
-        // console.log($('#skills .input-tag')[0].innerText.substring(0,3))
-        // $('.skills').each(function(){
-        //     var skill = $(this);
-        //     console.log(skill)
-        // });
-        // // console.log(skill_arr)
+        for (i=0;i<langs.length;i++){
+            lang_arr.push(langs[i].innerText.substring(0,langs[i].innerText.length-1));
+        }
+        console.log(skill_arr);
+        console.log(lang_arr);
+        var j = JSON.stringify(skills)
+        console.log(j)
     }, 100);
 
 });

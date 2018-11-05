@@ -5,20 +5,22 @@ const passport = require("passport");
 const _helpers = require("../auth/_helpers");
 var authMiddleware = require("../middlewares/authMiddleware");
 var settingsController = require("../controllers/settingsController");
+var csrf = require("csurf");
+var csrfProtection = csrf({ cookie: true });
 
 router.use(expressValidator());
 router.use(authMiddleware.isAuthenticated);
 
 router.get("/", settingsController.settingsRedirect);
 
-router.get("/profile", settingsController.profileGet);
-router.post("/profile", settingsController.profilePost);
+router.get("/profile", csrfProtection, settingsController.profileGet);
+router.post("/profile", csrfProtection, settingsController.profilePost);
 
-router.get("/account", settingsController.accountGet);
-router.post("/account", settingsController.accountPost);
+router.get("/account", csrfProtection, settingsController.accountGet);
+router.post("/account", csrfProtection, settingsController.accountPost);
 
-router.get("/password", settingsController.passwordGet);
-router.post("/password", settingsController.passwordPost);
+router.get("/password", csrfProtection, settingsController.passwordGet);
+router.post("/password", csrfProtection, settingsController.passwordPost);
 
 /*=======
 router.get("/profile", async function(req, res) {

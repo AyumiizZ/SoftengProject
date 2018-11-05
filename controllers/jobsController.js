@@ -1,8 +1,6 @@
 const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
-const gravatar = require("gravatar");
-var md = require("markdown-it")();
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -17,7 +15,10 @@ exports.redirectToBrowse = function(req, res, next) {
 exports.browse = async function(req, res, next) {
   var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query();
+  const jobs = await Job.query()
+  .eager("[client, freelance]");
+  console.log(jobs);
+
   // var jobs = [{id:1,job:'test',job_info:'Lorem',job_type:'Hourly',tag:'Python',price:500},{id:2,job:'test2',job_info:'Lorem2',job_type:'Fixed',tag:'PHP',price:7500}]
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
@@ -34,7 +35,6 @@ exports.view = async function(req, res, next) {
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests]");
   console.log(job);
-  job.job_info = md.render(job.job_info);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
     job: job,
@@ -134,4 +134,4 @@ exports.showInterestsPost = async function(req, res, next) {
   );
   console.log("success!");
   res.redirect("/jobs/view/" + jobId);
-}; 
+};

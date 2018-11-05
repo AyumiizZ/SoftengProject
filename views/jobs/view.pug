@@ -9,23 +9,25 @@ block content
         .flex-grow-1
           span ประกาศงาน
           h1 #{job.job}
-        div
-          a.btn.btn-outline-info(href="edit") แก้ไข
+        if job.client != null && user != null
+          if job.client.id == user.id
+            div
+              a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
   .row.mb-3
     .col-12
       .card
         .card-body
           h2 รายละเอียดงาน
           span.
-            !{job.job_info}
+            !{job.job_info_md()}
   .row
     .col-4
       .card.text-center
         .card-body
           h2 ผู้ว่าจ้าง 
           if job.client
+            img.rounded.mb-3(style='text-align: center', src=job.client.gravatar_url(300), width="60%")
             h4 #{job.client.name}
-            p #{job.client.overview}
             a.btn.btn-outline-info(href="/profile/"+job.client.username) ดูโปรไฟล์ผู้ว่าจ้าง
           else
             h4 งานนี้ไม่ปรากฏผู้ว่าจ้าง

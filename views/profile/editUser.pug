@@ -8,6 +8,7 @@ block content
                     li=error.msg
 
     form(method='POST')
+        input(type="hidden" name="_csrf" value=csrfToken)
         .row
             .col-2
                 .list-group

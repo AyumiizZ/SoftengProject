@@ -5,18 +5,39 @@ const gravatar = require("gravatar");
 exports.viewProfile = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
+    .first();
+  const title = req.params.username + "'s Profile | JetFree by JainsBret";
+  res.render("profile/profile", {
+    title: title,
+    user: user
+  });
+};
+
+exports.viewPastWorks = async function(req, res) {
+  const user = await User.query()
+    .where("username", req.params.username)
+    .first();
+  const title = req.params.username + "'s Profile | JetFree by JainsBret";
+  res.render("profile/pastWorks", {
+    title: title,
+    user: user
+  });
+};
+
+exports.viewReviews = async function(req, res) {
+  const user = await User.query()
+    .where("username", req.params.username)
     .first()
     .eager("review");
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
   let amount = past_job.length;
-  if(past_job.length > 5) {
+  if (past_job.length > 5) {
     past_job = past_job.slice(0, 5);
   }
-  user.gravatar_url = gravatar.url(user.email, { s: 400 });
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
-  res.render("profile/profile", {
+  res.render("profile/reviews", {
     title: title,
     current: req.user,
     user: user,
@@ -28,8 +49,8 @@ exports.viewProfile = async function(req, res) {
 exports.viewPastJobs = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
-    .first()
-  
+    .first();
+
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
@@ -39,7 +60,7 @@ exports.viewPastJobs = async function(req, res) {
   res.render("profile/pastJobs", {
     user: user,
     past_job: past_job,
-    title: title,
+    title: title
   });
 };
 
@@ -47,5 +68,5 @@ exports.redirectToUserProfile = function(req, res) {
   if (!req.user) {
     res.redirect("/");
   }
-  res.redirect(req.baseUrl + "/" + req.user.username);
+  res.redirect(req.baseUrl + "/" + req.user.username + "/");
 };

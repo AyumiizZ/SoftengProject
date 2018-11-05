@@ -10,5 +10,6 @@ router.use(expressValidator());
 router.get("/", profileController.redirectToUserProfile);
 router.get("/:username", profileController.viewProfile);
 router.get("/:username/jobs", profileController.viewPastJobs);
+router.get("/:username/reviews", profileController.viewReviews);
 
 module.exports = router;

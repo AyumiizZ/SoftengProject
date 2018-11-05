@@ -5,7 +5,7 @@ const passport = require("passport");
 
 exports.registerGet = function(req, res) {
   let title = "Register | JetFree by JainsBret";
-  res.render("register", {
+  res.render("auth/register", {
     title: title
   });
 };
@@ -100,10 +100,14 @@ exports.loginPost = function(req, res, next) {
       });
     }
     req.logIn(user, function(err) {
+      console.log(req.query.redirect);
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
+      if (req.query.redirect == undefined) {
+        return res.redirect("/");
+      }
+      return res.redirect(req.query.redirect);
     });
   })(req, res, next);
 };

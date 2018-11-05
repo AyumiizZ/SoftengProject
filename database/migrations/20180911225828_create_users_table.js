@@ -9,10 +9,10 @@ exports.up = function(knex, Promise) {
     table
       .timestamp("created_at")
       .notNullable()
-      .defaultTo(knex.raw("NOW"));
+      .defaultTo(knex.fn.now());
     table.string("email").notNullable();
     table.boolean("email_verified").defaultTo(false);
-    table.string("overview");
+    table.text("overview");
   });
 };
 

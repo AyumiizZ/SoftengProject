@@ -1,0 +1,45 @@
+extends ../incontainer 
+
+block content
+  .row
+    .col-10
+      h1 #{user.name}
+  hr
+  .row
+    .col-3
+      img.rounded.mb-3(src=user.gravatar_url(400), width="100%")
+      a(href='/settings/profile').btn.btn-outline-dark Edit
+    .col-9
+      ul.nav.nav-tabs.mb-2
+        li.nav-item
+          a.nav-link(href=".") เกี่ยวกับ 
+        li.nav-item
+          a.nav-link(href="works") ผลงาน 
+        li.nav-item
+          a.nav-link.active(href="#") รีวิว
+      h2 รีวิว 
+      .row
+        .col-3
+          .card
+            .card-body
+              h1.text-center 4.5
+              p.text-center จากผู้ใช้ 0 คน
+        .col-9
+          .card.mb-2
+            .card-body
+              .d-flex
+                .d-2.flex-grow-1
+                  blockquote.blockquote.mb-0
+                    p.mb-0 ใช้ดีมากๆ เลยค่ะ
+                    footer.blockquote-footer ฉันทนา
+                .d-2
+                  h5 4.5
+          .card.mb-2
+            .card-body
+              .d-flex
+                .d-2.flex-grow-1
+                  blockquote.blockquote.mb-0
+                    p.mb-0 ใช้ดีมากๆ เลยค่ะ
+                    footer.blockquote-footer ฉันทนา
+                .d-2
+                  h5 4.5

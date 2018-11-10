@@ -25,7 +25,7 @@ block content
                       .delete-tag(onclick="delete_tag(this)") ×
                   input(type="text", placeholder='Select Skill')
               .filter-item-button-group
-                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
                   | Clear Skills
                 button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
             li.filter-item-group
@@ -63,7 +63,7 @@ block content
                       .delete-tag(onclick="delete_tag(this)") ×
                   input(type="text", placeholder='Select Language')
               .filter-item-button-group
-                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")
                   | Clear Languages
             button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
 

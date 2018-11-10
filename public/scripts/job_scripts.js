@@ -34,4 +34,13 @@ function sent_query() {
 function delete_tag(element){
   console.log(element.parentNode)
   element.parentNode.remove()
+  sent_query()
+}
+
+function delete_all_tag(id){
+  var tag_box = $('#'+id+' .input-tag')
+  for (i = 0; i < tag_box.length; i++) {
+    tag_box[i].remove()
+  }
+  sent_query()
 }

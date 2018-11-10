@@ -1,7 +1,7 @@
 require("dotenv").config({ path: ".env" });
 
 module.exports = {
-  development: {
+  sqlite: {
     client: "sqlite",
     useNullAsDefault: true,
     connection: {

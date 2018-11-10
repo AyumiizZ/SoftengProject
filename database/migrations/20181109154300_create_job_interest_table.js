@@ -1,5 +1,6 @@
+
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable("freelance_interests", table => {
+  return knex.schema.createTable("jobs_interests", table => {
     table.integer("job_id");
     table.integer("user_id");
     table.text("message");

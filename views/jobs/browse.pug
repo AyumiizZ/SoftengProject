@@ -75,13 +75,19 @@ block content
           .search-result-amount
             .result-amount=n_results+' Result'
           .search-result-input-sort
-            .sort.dropdown
-              button.btn.bth-link.dropdown-toggle(type='button', data-toggle="dropdown") Sort by date
-              .dropdown-menu
-                a.dropdown-item(href="#")
-                  | Date
-                a.dropdown-item(href="#")
-                  | Temp
+            .sort
+              .btn-group 
+                button.btn.btn-trans.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Sort By Latest
+                .dropdown-menu
+                  //- a.dropdown-item(href='#') Recommended
+                  a.dropdown-item(href='#') Latest
+                  a.dropdown-item(href='#') Oldest
+                  a.dropdown-item(href='#') Lowest Price
+                  a.dropdown-item(href='#') Highest Price
+                  a.dropdown-item(href='#') Most Bid
+                  a.dropdown-item(href='#') Fewest Bid
+
         ul.search-result-list
           each val in jobs
             li

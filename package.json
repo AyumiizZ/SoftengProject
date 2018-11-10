@@ -45,6 +45,7 @@
     "pug": "2.0.0-beta11",
     "session": "^0.1.0",
     "showdown": "^1.8.7",
+    "sqlite3": "^4.0.3",
     "xss": "^1.0.3"
   },
   "devDependencies": {

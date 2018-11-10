@@ -10,11 +10,11 @@ block content
               label#head Project Type
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input#fix(name='fixed_projects', type='checkbox', checked='')
+                  input.form-check-input#fix(name='fixed_projects', type='checkbox', checked='', onchange='sent_query()')
                   | Fixed projects
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input#hour(name='hourly_projects', type='checkbox', checked='')
+                  input.form-check-input#hour(name='hourly_projects', type='checkbox', checked='', onchange='sent_query()')
                   | Hourly projects
             li.filter-item-group
               label#head Skills
@@ -22,7 +22,7 @@ block content
                 .filter-tag-input#skills
                   each val in skills
                     .input-tag=val
-                      .delete-tag ×
+                      .delete-tag(onclick="delete_tag(this)") ×
                   input(type="text", placeholder='Select Skill')
               .filter-item-button-group
                 button.btn.btn-primary.btn-small.filter-item-button(type='button')
@@ -60,7 +60,7 @@ block content
                 .filter-tag-input#langs
                   each val in lang
                     .input-tag=val
-                      .delete-tag ×
+                      .delete-tag(onclick="delete_tag(this)") ×
                   input(type="text", placeholder='Select Language')
               .filter-item-button-group
                 button.btn.btn-primary.btn-small.filter-item-button(type='button')

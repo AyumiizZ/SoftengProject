@@ -1,0 +1,28 @@
+extends ../incontainer 
+block content
+    if (errors)
+        .alert.alert-danger
+            span Whoops! We've found some error.
+            ul
+                each error in errors
+                    li=error.msg
+
+    form(method='POST')
+        input(type="hidden" name="_csrf" value=csrfToken)
+        .row
+            .col-2
+                .list-group
+                    a.list-group-item.list-group-item-action(href="profile") โปรไฟล์ 
+                    a.list-group-item.list-group-item-action.active(href="account") บัญชี 
+                    a.list-group-item.list-group-item-action(href="password") รหัสผ่าน
+            .col-10
+                h1 บัญชี 
+                .form-group
+                    label ชื่อผู้ใช้:
+                    input.form-control(name='username',type='text', value=user.username)
+                    small#username-check.form-text.text-success(style="display: none") This username can be used.
+                .form-group
+                    label อีเมล:
+                    input.form-control(name='email',type='text', value=user.email)
+                                
+                button.btn.btn-primary(type='submit') บันทึกการเปลี่ยนแปลง

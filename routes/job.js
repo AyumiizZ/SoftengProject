@@ -5,11 +5,22 @@ var authMiddleware = require("../middlewares/authMiddleware");
 
 const Job = require("../models/job");
 
-router.get("/", function (req, res) {
-  // Showing all available jobs, not available at this time.
-});
+router.get("/", jobsController.redirectToBrowse);
+router.get("/browse", jobsController.browse);
 
 router.get("/view/:jobId", jobsController.view);
+
+router.get(
+  "/edit/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.editGet
+);
+router.post(
+  "/edit/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.editPost
+);
+
 router.get(
   "/interested/:jobId",
   authMiddleware.isAuthenticated,
@@ -23,16 +34,16 @@ router.post(
 router.get(
   "/view/:jobId/interests",
   authMiddleware.isAuthenticated,
-  jobsController.showInterests
+  jobsController.showInterestsGet
+);
+router.post(
+  "/view/:jobId/interests",
+  authMiddleware.isAuthenticated,
+  jobsController.showInterestsPost
 );
 
-router.get("/add", function (req, res) {
-  let title = 'Add job | JetFree by JainsBret'
-  res.render("addjob", {
-    title: title
-  });
-});
+router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);
 
-router.post("/add", jobsController.addPost);
+router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
 
 module.exports = router;

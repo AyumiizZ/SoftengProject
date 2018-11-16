@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         table.string("job");
         table.string("job_info");
         table
-          .timestamp('created_at')
+          .timestamp('created_at', 5)
           .defaultTo(knex.fn.now());
         table
           .boolean("done")

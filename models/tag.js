@@ -4,15 +4,15 @@ const Job = require("./job.js");
 
 Model.knex(knex);
 
-class Job extends Model {
+class Tag extends Model {
   static get tableName() {
-    return "jobs";
+    return "tags";
   }
 
   static get relationMappings() {
     return {
-      client: {
-        relation: Model.HasManyRelation,
+      tag: {
+        relation: Model.HasOneRelation,
         modelClass: Job,
         join: {
           from: "jobs.id",
@@ -23,4 +23,4 @@ class Job extends Model {
   }
 }
 
-module.exports = Job;
+module.exports = Tag;

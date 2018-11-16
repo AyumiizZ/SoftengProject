@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
+const Tag = require('../models/tag');
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -15,26 +16,31 @@ exports.redirectToBrowse = function(req, res, next) {
 exports.browse = async function(req, res, next) {
   // JSON SENT FROM FRONT-END ////////
   ret = {
-    "fix":true,
-    "hour":true,
-    "skills":["PHP","Python","MySQL","Linux","JavaScript"],
-    "langs":["Thai","English"],
-    "min_fix":0,
-    "max_fix":1000000,
-    "min_hour":0,
-    "max_hour":10000,
-    "sort":"Latest"
+    fix:true,
+    hour:true,
+    tag:["PHP"],
+    langs:["Thai","English"],
+    // "min_fix":0,
+    // "max_fix":1000000,
+    // "min_hour":0,
+    // "max_hour":10000,
+    // "sort":"Latest"
   }
   var ret_json = JSON.stringify(ret)
   ////////////////////////////////////
 
   var ret = JSON.parse(ret_json);
-  console.log(ret);
 
-  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
+  var user_skills = await Tag.query()
+    .groupBy('tag');
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query()
-    .where("ret.skills");
+  const jobs = await Job.query();
+  var tags = await Tag.query();
+
+  console.log(user_skills)
+
+  // console.log(jobs);
+  // console.log(tags);
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,

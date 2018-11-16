@@ -13,18 +13,32 @@ exports.redirectToBrowse = function(req, res, next) {
 };
 
 exports.browse = async function(req, res, next) {
+  // JSON SENT FROM FRONT-END ////////
+  ret = {
+    "fix":true,
+    "hour":true,
+    "skills":["PHP","Python","MySQL","Linux","JavaScript"],
+    "langs":["Thai","English"],
+    "min_fix":0,
+    "max_fix":1000000,
+    "min_hour":0,
+    "max_hour":10000,
+    "sort":"Latest"
+  }
+  var ret_json = JSON.stringify(ret)
+  ////////////////////////////////////
+
+  var ret = JSON.parse(ret_json);
+  console.log(ret);
+
   var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query()
-  .eager("[client, freelance]");
-  console.log(jobs);
-
+  const jobs = await Job.query();
   // var jobs = [{id:1,job:'test',job_info:'Lorem',job_type:'Hourly',tag:'Python',price:500},{id:2,job:'test2',job_info:'Lorem2',job_type:'Fixed',tag:'PHP',price:7500}]
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: jobs,
-    n_results: jobs.length,
     skills: user_skills,
     lang: user_lang
   });

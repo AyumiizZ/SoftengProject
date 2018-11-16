@@ -17,7 +17,6 @@ exports.up = function(knex, Promise) {
         .integer("user_id")
         .references("users_id");
       table.string("job_type");
-      table.string("tag");
       table.integer("price");
     })
   ])

@@ -12,7 +12,6 @@ exports.seed = function(knex, Promise) {
           client_id: 1,
           user_id: 1,
           job_type: 'Fixed',
-          tag: 'Graphic Design, HTML, PHP, Website Design, WordPress',
           price: 7500
         },
         {
@@ -22,7 +21,6 @@ exports.seed = function(knex, Promise) {
           client_id: 2,
           user_id: 2,
           job_type: 'Hourly',
-          tag: 'C Programming, C++ Programming, Linux, Python, Software Architecture',
           price: 360
         },
         {
@@ -32,7 +30,6 @@ exports.seed = function(knex, Promise) {
           client_id: 3,
           user_id: 3,
           job_type: 'Fixed',
-          tag: 'Graphic Design, HTML, PHP, Website Design, WordPress',
           price: 2000
         },
         {
@@ -42,7 +39,6 @@ exports.seed = function(knex, Promise) {
           client_id: 4,
           user_id: 4,
           job_type: 'Hourly',
-          tag: 'CSS, HTML, Javascript, PHP, Website Design',
           price: 300
         },
         {
@@ -52,7 +48,6 @@ exports.seed = function(knex, Promise) {
           client_id: 5,
           user_id: 5,
           job_type: 'Fixed',
-          tag: 'Django, PHP, Python, Software Architecture, Web Scraping',
           price: 6000
         },
         {
@@ -62,7 +57,6 @@ exports.seed = function(knex, Promise) {
           client_id: 6,
           user_id: 6,
           job_type: 'Hourly',
-          tag: 'Angular.js, Express JS, Javascript, node.js, NoSQL Couch & Mongo',
           price: 1200
         }
       ]);

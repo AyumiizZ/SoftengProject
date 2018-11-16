@@ -33,8 +33,8 @@ exports.browse = async function(req, res, next) {
 
   var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query();
-  // var jobs = [{id:1,job:'test',job_info:'Lorem',job_type:'Hourly',tag:'Python',price:500},{id:2,job:'test2',job_info:'Lorem2',job_type:'Fixed',tag:'PHP',price:7500}]
+  const jobs = await Job.query()
+    .where("ret.skills");
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,

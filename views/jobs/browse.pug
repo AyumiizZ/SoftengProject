@@ -10,11 +10,11 @@ block content
               label#head Project Type
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input#fix(name='fixed_projects', type='checkbox', checked='')
+                  input.form-check-input#fix(name='fixed_projects', type='checkbox', checked='', onchange='sent_query()')
                   | Fixed projects
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input#hour(name='hourly_projects', type='checkbox', checked='')
+                  input.form-check-input#hour(name='hourly_projects', type='checkbox', checked='', onchange='sent_query()')
                   | Hourly projects
             li.filter-item-group
               label#head Skills
@@ -22,10 +22,10 @@ block content
                 .filter-tag-input#skills
                   each val in skills
                     .input-tag=val
-                      .delete-tag ×
-                  input(type="text", placeholder='Select Skill')
+                      .delete-tag(onclick="delete_tag(this)") ×
+                  input#skill_input(type="text", placeholder='Select Skill')
               .filter-item-button-group
-                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
                   | Clear Skills
                 button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
             li.filter-item-group
@@ -60,10 +60,10 @@ block content
                 .filter-tag-input#langs
                   each val in lang
                     .input-tag=val
-                      .delete-tag ×
-                  input(type="text", placeholder='Select Language')
+                      .delete-tag(onclick="delete_tag(this)") ×
+                  input#lang_input(type="text", placeholder='Select Language')
               .filter-item-button-group
-                button.btn.btn-primary.btn-small.filter-item-button(type='button')
+                button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")
                   | Clear Languages
             button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
 
@@ -77,16 +77,16 @@ block content
           .search-result-input-sort
             .sort
               .btn-group 
-                button.btn.btn-trans.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                button.btn.btn-trans.dropdown-toggle#sort_by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | Sort By Latest
                 .dropdown-menu
                   //- a.dropdown-item(href='#') Recommended
-                  a.dropdown-item(href='#') Latest
-                  a.dropdown-item(href='#') Oldest
-                  a.dropdown-item(href='#') Lowest Price
-                  a.dropdown-item(href='#') Highest Price
-                  a.dropdown-item(href='#') Most Bid
-                  a.dropdown-item(href='#') Fewest Bid
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Latest
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
+                  a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
 
         ul.search-result-list
           each val in jobs

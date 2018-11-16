@@ -1,0 +1,26 @@
+extends ../incontainer 
+
+block content
+    .row
+        .col-10
+            h1 #{user.name}
+
+    hr
+    .row
+        .col-3
+            img.rounded.mb-3(src=user.gravatar_url, width="100%")
+            a(href='/profile/'+user.username).btn.btn-outline-dark Back
+        .col-9
+          ul.nav.nav-tabs.mb-2
+            li.nav-item
+              a.nav-link(href=".") เกี่ยวกับ 
+            li.nav-item
+              a.nav-link.active(href="#") ผลงาน 
+            li.nav-item
+              a.nav-link(href="reviews") รีวิว
+          h2 งานที่ผ่านมา
+          each job in past_job
+            .card.mb-3
+                .card-body
+                    h4 #{job.job}
+                    p #{job.job_info}

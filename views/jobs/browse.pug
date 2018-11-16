@@ -10,16 +10,16 @@ block content
               label#head Project Type
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input(name='fixed_projects', type='checkbox')
+                  input.form-check-input#fix(name='fixed_projects', type='checkbox', checked='')
                   | Fixed projects
               .form-check
                 label.form-check-label(name='project_types')
-                  input.form-check-input(name='hourly_projects', type='checkbox')
+                  input.form-check-input#hour(name='hourly_projects', type='checkbox', checked='')
                   | Hourly projects
             li.filter-item-group
               label#head Skills
               .filter-item-scroll
-                .filter-tag-input
+                .filter-tag-input#skills
                   each val in skills
                     .input-tag=val
                       .delete-tag ×
@@ -53,11 +53,11 @@ block content
                     | 0฿
                   |  - 
                   span.filter-ui-slider-value-max(style='left: 141.5px;')
-                    | 1000฿
+                    | 10000฿
             li.filter-item-group
               label#head Language
               .filter-item-scroll
-                .filter-tag-input
+                .filter-tag-input#langs
                   each val in lang
                     .input-tag=val
                       .delete-tag ×
@@ -75,7 +75,19 @@ block content
           .search-result-amount
             .result-amount=n_results+' Result'
           .search-result-input-sort
-            .sort sort by date
+            .sort
+              .btn-group 
+                button.btn.btn-trans.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Sort By Latest
+                .dropdown-menu
+                  //- a.dropdown-item(href='#') Recommended
+                  a.dropdown-item(href='#') Latest
+                  a.dropdown-item(href='#') Oldest
+                  a.dropdown-item(href='#') Lowest Price
+                  a.dropdown-item(href='#') Highest Price
+                  a.dropdown-item(href='#') Most Bid
+                  a.dropdown-item(href='#') Fewest Bid
+
         ul.search-result-list
           each val in jobs
             li
@@ -190,7 +202,4 @@ block content
           p Some text in the modal.
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-
-        //- each article, i in articles
-          li.list-group-item
-            a(href="/articles/"+article._id)= article.title
+  script(src='/scripts/job_scripts.js')

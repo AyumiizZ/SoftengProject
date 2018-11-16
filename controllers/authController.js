@@ -9,6 +9,7 @@ exports.registerGet = function(req, res) {
     title: title
   });
 };
+
 exports.registerPostCheck = [
   check("email")
     .isEmail()
@@ -47,10 +48,16 @@ exports.registerPostCheck = [
     .withMessage("The password does not match the confirmation."),
   check("agreement")
     .equals("on")
-    .withMessage("You must agree to JainsBret user's agreement.")
+    .withMessage("You must agree to JainsBret user's agreement."),
+  check("g-recaptcha-response")
+    .isLength({
+      min: 3
+    })
+    .withMessage("You must complete the recaptcha.")
 ];
 
 exports.registerPost = function(req, res, next) {
+  
   const errors = validationResult(req);
   let title = "Register | JetFree by JainsBret";
   console.log(errors);
@@ -63,10 +70,14 @@ exports.registerPost = function(req, res, next) {
     _helpers
       .hashPass(req.body.password)
       .then(hashed => {
+        console.log(req.body);
+        console.log("woohoo");
         req.body.password = hashed;
-        delete req.body.confirm;
-        delete req.body.agreement;
-        return User.query().insert(req.body);
+        const userJson = req.body;
+        delete userJson.confirm;
+        delete userJson.agreement;
+        delete userJson["g-recaptcha-response"];
+        return User.query().insert(userJson);
       })
       .then(newUser => {
         res.redirect(req.baseUrl + "/login");
@@ -100,10 +111,14 @@ exports.loginPost = function(req, res, next) {
       });
     }
     req.logIn(user, function(err) {
+      console.log(req.query.redirect);
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
+      if (req.query.redirect == undefined) {
+        return res.redirect("/");
+      }
+      return res.redirect(req.query.redirect);
     });
   })(req, res, next);
 };

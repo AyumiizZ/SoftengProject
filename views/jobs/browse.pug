@@ -21,7 +21,7 @@ block content
               .filter-item-scroll
                 .filter-tag-input#skills
                   each val in skills
-                    .input-tag=val
+                    .input-tag=val.tag
                       .delete-tag(onclick="delete_tag(this)") ×
                   input#skill_input(type="text", placeholder='Select Skill')
               .filter-item-button-group

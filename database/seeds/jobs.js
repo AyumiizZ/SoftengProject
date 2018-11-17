@@ -12,6 +12,7 @@ exports.seed = function(knex, Promise) {
           client_id: 1,
           user_id: 1,
           job_type: 'Fixed',
+          fixed: 1,
           price: 7500
         },
         {
@@ -21,6 +22,7 @@ exports.seed = function(knex, Promise) {
           client_id: 2,
           user_id: 2,
           job_type: 'Hourly',
+          hourly: 1,
           price: 360
         },
         {
@@ -30,6 +32,7 @@ exports.seed = function(knex, Promise) {
           client_id: 3,
           user_id: 3,
           job_type: 'Fixed',
+          fixed: 1,
           price: 2000
         },
         {
@@ -39,6 +42,7 @@ exports.seed = function(knex, Promise) {
           client_id: 4,
           user_id: 4,
           job_type: 'Hourly',
+          hourly: 1,
           price: 300
         },
         {
@@ -48,6 +52,7 @@ exports.seed = function(knex, Promise) {
           client_id: 5,
           user_id: 5,
           job_type: 'Fixed',
+          fixed: 1,
           price: 6000
         },
         {
@@ -57,6 +62,7 @@ exports.seed = function(knex, Promise) {
           client_id: 6,
           user_id: 6,
           job_type: 'Hourly',
+          hourly: 1,
           price: 1200
         }
       ]);

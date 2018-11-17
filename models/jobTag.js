@@ -11,7 +11,16 @@ class JobTag extends Model {
   }
 
   static get relationMappings() {
-    return {};
+    return {
+      job_tag: {
+        relation: Model.BelongToOneRelation,
+        modelClass: "jobs",
+        join: {
+          from: "jobs.id",
+          to: "jobs_tags.job_id"
+        }
+      }
+    };
   }
 }
 

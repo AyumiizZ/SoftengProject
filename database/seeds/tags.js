@@ -52,12 +52,12 @@ exports.seed = function(knex, Promise) {
         {
           job_id: 3,
           tag: 'HTML'
+        },
         {
           job_id: 3,
           tag: 'PHP'
         },
         {
-        },
           job_id: 3,
           tag: 'Website Design'
         },

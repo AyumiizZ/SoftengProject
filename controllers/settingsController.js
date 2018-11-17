@@ -36,12 +36,13 @@ exports.accountGet = async function(req, res) {
   var errors = req.validationErrors();
   res.render("profile/editUser", { user: user, csrfToken: req.csrfToken() });
 };
+
 exports.accountPost = async function(req, res, next) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
   delete req.body._csrf;
-  req.checkBody("username", "Username must not be empty.").notEmpty();
+  //req.checkBody("username", "Username must not be empty.").notEmpty();
   req.checkBody("email", "E-mail is not in a valid format.").isEmail();
 
   var errors = req.validationErrors();
@@ -64,6 +65,7 @@ exports.passwordGet = async function(req, res) {
     csrfToken: req.csrfToken()
   });
 };
+
 exports.passwordPost = async function(req, res, next) {
   var pass = true;
   let user = await User.query()

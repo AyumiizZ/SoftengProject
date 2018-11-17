@@ -6,21 +6,20 @@ exports.viewProfile = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
     .first();
+  var past_job = await Job.query()
+    .where("user_id", user.id)
+    .where("done", 1);
+  let amount = past_job.length;
+  if (past_job.length > 5) {
+    past_job = past_job.slice(0, 5);
+  }
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,
-    user: user
-  });
-};
-
-exports.viewPastWorks = async function(req, res) {
-  const user = await User.query()
-    .where("username", req.params.username)
-    .first();
-  const title = req.params.username + "'s Profile | JetFree by JainsBret";
-  res.render("profile/pastWorks", {
-    title: title,
-    user: user
+    current: req.user,
+    user: user,
+    past_job: past_job,
+    amount: amount
   });
 };
 
@@ -33,7 +32,7 @@ exports.viewReviews = async function(req, res) {
     .where("user_id", user.id)
     .where("done", 1);
   let amount = past_job.length;
-  if(past_job.length > 5) {
+  if (past_job.length > 5) {
     past_job = past_job.slice(0, 5);
   }
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
@@ -49,8 +48,8 @@ exports.viewReviews = async function(req, res) {
 exports.viewPastJobs = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
-    .first()
-  
+    .first();
+
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
@@ -60,7 +59,7 @@ exports.viewPastJobs = async function(req, res) {
   res.render("profile/pastJobs", {
     user: user,
     past_job: past_job,
-    title: title,
+    title: title
   });
 };
 

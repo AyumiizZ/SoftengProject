@@ -14,18 +14,19 @@ exports.registerPostCheck = [
     .isEmail()
     .withMessage("E-mail is not in a valid format.")
     .custom(async function(value) {
-      User.query()
-        .where("email", value)
-        .then(user => {
-          if (user.length > 0) {
-            return false;
-          } else {
-            return true;
-          }
-        });
+      const u = await User.query().where("email", value); 
+      if (user.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
     })
     .withMessage("The E-mail is already in use"),
   check("username")
+    .isLength({
+      min: 1
+    })
+    .withMessage("Username must not be empty.")
     .custom(async function(value) {
       const u = await User.query().where("username", value);
       if (u.length > 0) {

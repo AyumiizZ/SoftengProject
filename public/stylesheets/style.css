@@ -454,3 +454,7 @@ main {
   line-height: 1.43;
   margin-bottom: 16px;
 }
+
+.btn-trans {
+  background-color: transparent;
+}

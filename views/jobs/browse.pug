@@ -75,13 +75,19 @@ block content
           .search-result-amount
             .result-amount=n_results+' Result'
           .search-result-input-sort
-            .sort.dropdown
-              button.btn.bth-link.dropdown-toggle(type='button', data-toggle="dropdown") Sort by date
-              .dropdown-menu
-                a.dropdown-item(href="#")
-                  | Date
-                a.dropdown-item(href="#")
-                  | Temp
+            .sort
+              .btn-group 
+                button.btn.btn-trans.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Sort By Latest
+                .dropdown-menu
+                  //- a.dropdown-item(href='#') Recommended
+                  a.dropdown-item(href='#') Latest
+                  a.dropdown-item(href='#') Oldest
+                  a.dropdown-item(href='#') Lowest Price
+                  a.dropdown-item(href='#') Highest Price
+                  a.dropdown-item(href='#') Most Bid
+                  a.dropdown-item(href='#') Fewest Bid
+
         ul.search-result-list
           each val in jobs
             li
@@ -115,6 +121,8 @@ block content
                             span.open Open
                         .info-card-details.info-card-grid-item.info-card-skills-container
                           img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
+                          each tag, index in val.tags_array()
+                            .btn.btn-outline-secondary.btn-sm(style="padding: 0px 3px; margin-right: 3px")=tag
                           span=val.tag
                     .info-card-rate
                       .info-card-price

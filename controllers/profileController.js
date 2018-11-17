@@ -16,10 +16,14 @@ exports.viewProfile = async function(req, res) {
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,
+<<<<<<< HEAD
     current: req.user,
     user: user,
     past_job: past_job,
     amount: amount
+=======
+    user: user
+>>>>>>> dev
   });
 };
 

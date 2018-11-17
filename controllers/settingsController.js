@@ -41,7 +41,7 @@ exports.accountPost = async function(req, res, next) {
     .where("username", req.user.username)
     .first();
   delete req.body._csrf;
-  req.checkBody("username", "Username must not be empty.").notEmpty();
+  //req.checkBody("username", "Username must not be empty.").notEmpty();
   req.checkBody("email", "E-mail is not in a valid format.").isEmail();
 
   var errors = req.validationErrors();

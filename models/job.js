@@ -56,7 +56,6 @@ class Job extends Model {
       tags: {
         relation: Model.HasManyRelation,
         modelClass: JobTag,
-        filter: query => query.select("tag"),
         join: {
           from: "jobs.id",
           to: "jobs_tags.job_id"

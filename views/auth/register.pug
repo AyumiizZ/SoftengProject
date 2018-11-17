@@ -2,7 +2,7 @@ extends ../incontainer
 
 block content
   h1 Register
-  script(src='https://www.google.com/recaptcha/api.js')
+  script(src='https://www.google.com/recaptcha/api.js?render='+recaptchaKey)
   if errors
     .alert.alert-danger
       span Whoops! We've found some error.
@@ -26,13 +26,14 @@ block content
     .form-group
       label Confirm:
       input.form-control(name='confirm', type='password') 
-    .g-recaptcha(data-sitekey='แทนบอกให้ลบ')
+    .g-recaptcha(data-sitekey=recaptchaKey)
     .form-check
       label.form-check-label(name='accept')
         input.form-check-input(name='agreement',type='checkbox')
         | Check here to indicate that you have read and agree to the terms of the 
         a(href='#',data-toggle='modal', data-target='#user_agreement') JetMae Customer Agreement    
     br
+    input(type='hidden' name='g-recaptcha-response' value='')
     button.btn.btn-primary.btn-block(type='submit') Create Account and Continue
   
   #user_agreement.modal.fade(role='dialog')
@@ -158,4 +159,11 @@ block js-after
         }
         $('#username-check').show();
       })
+    });
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LeR13kUAAAAADpA53RE2UHu2ZoMUF_SucLYq-Td', {action: 'action_name'})
+        .then(function(token) {
+          $("input[name='g-recaptcha-response']").val(token);
+          console.log(token);
+      });
     });

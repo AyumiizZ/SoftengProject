@@ -5,8 +5,10 @@ const passport = require("passport");
 
 exports.registerGet = function(req, res) {
   let title = "Register | JetFree by JainsBret";
+  console.log(process.env.RECAPTCHA_KEY);
   res.render("auth/register", {
-    title: title
+    title: title,
+    recaptchaKey: process.env.RECAPTCHA_KEY
   });
 };
 
@@ -57,7 +59,6 @@ exports.registerPostCheck = [
 ];
 
 exports.registerPost = function(req, res, next) {
-  
   const errors = validationResult(req);
   let title = "Register | JetFree by JainsBret";
   console.log(errors);

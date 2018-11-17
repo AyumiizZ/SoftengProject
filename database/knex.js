@@ -1,4 +1,4 @@
 require("dotenv").config();
 
-const config = require("../knexfile.js")[process.env.NODE_ENV || "development"];
+const config = require("../knexfile.js")[process.env.DATABASE || "sqlite"];
 module.exports = require("knex")(config);

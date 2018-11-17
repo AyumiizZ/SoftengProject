@@ -15,6 +15,14 @@ class Job extends Model {
     return showdownParse(this.job_info);
   }
 
+  tags_array() {
+    var res = [];
+    this.tags.forEach(function(item, index) {
+      res.push(item.tag);
+    });
+    return res;
+  }
+
   static get relationMappings() {
     return {
       client: {
@@ -48,6 +56,7 @@ class Job extends Model {
       tags: {
         relation: Model.HasManyRelation,
         modelClass: JobTag,
+        filter: query => query.select("tag"),
         join: {
           from: "jobs.id",
           to: "jobs_tags.job_id"

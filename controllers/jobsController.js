@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
-const Tag = require('../models/tag');
+const Tag = require('../models/jobTag');
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {

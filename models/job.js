@@ -1,5 +1,6 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
+const JobTag = require("./jobTag.js");
 const User = require("./user.js");
 const showdownParse = require("../lib/showdownParse");
 
@@ -12,6 +13,14 @@ class Job extends Model {
 
   job_info_md() {
     return showdownParse(this.job_info);
+  }
+
+  tags_array() {
+    var res = [];
+    this.tags.forEach(function(item, index) {
+      res.push(item.tag);
+    });
+    return res;
   }
 
   static get relationMappings() {
@@ -42,6 +51,15 @@ class Job extends Model {
         join: {
           from: "users.id",
           to: "jobs.user_id"
+        }
+      },
+      tags: {
+        relation: Model.HasManyRelation,
+        modelClass: JobTag,
+        filter: query => query.select("tag"),
+        join: {
+          from: "jobs.id",
+          to: "jobs_tags.job_id"
         }
       }
     };

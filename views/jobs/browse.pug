@@ -121,7 +121,9 @@ block content
                             span.open Open
                         .info-card-details.info-card-grid-item.info-card-skills-container
                           img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
-                          //- span=val.tag
+                          each tag, index in val.tags_array()
+                            .btn.btn-outline-secondary.btn-sm(style="padding: 0px 3px; margin-right: 3px")=tag
+                          span=val.tag
                     .info-card-rate
                       .info-card-price
                         span=val.price

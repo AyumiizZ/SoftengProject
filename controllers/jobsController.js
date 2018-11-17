@@ -34,13 +34,8 @@ exports.browse = async function(req, res, next) {
   var user_skills = await Tag.query()
     .groupBy('tag');
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query();
-  var tags = await Tag.query();
+  const jobs = await Job.query().eager("[client, freelance, tags]");
 
-  console.log(user_skills)
-
-  // console.log(jobs);
-  // console.log(tags);
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,

@@ -17,8 +17,8 @@ exports.registerPostCheck = [
     .isEmail()
     .withMessage("E-mail is not in a valid format.")
     .custom(async function(value) {
-      const u = await User.query().where("email", value); 
-      if (user.length > 0) {
+      const u = await User.query().where("email", value);
+      if (u.length > 0) {
         return false;
       } else {
         return true;
@@ -46,17 +46,13 @@ exports.registerPostCheck = [
     .withMessage("The password must be at least 8 characters."),
   check("confirm")
     .custom((value, { req }) => {
-      return value == req.body.confirm;
+      return value == req.body.password;
     })
     .withMessage("The password does not match the confirmation."),
   check("agreement")
     .equals("on")
-    .withMessage("You must agree to JainsBret user's agreement."),
-  check("g-recaptcha-response")
-    .isLength({
-      min: 3
-    })
-    .withMessage("You must complete the recaptcha.")
+    .withMessage("You must agree to JainsBret user's agreement.")
+  
 ];
 
 exports.registerPost = function(req, res, next) {
@@ -73,7 +69,6 @@ exports.registerPost = function(req, res, next) {
       .hashPass(req.body.password)
       .then(hashed => {
         console.log(req.body);
-        console.log("woohoo");
         req.body.password = hashed;
         const userJson = req.body;
         delete userJson.confirm;

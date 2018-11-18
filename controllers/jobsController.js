@@ -18,11 +18,11 @@ exports.browse = async function(req, res, next) {
   const temp = {
     "fix":1,
     "hour":1,
-    "tag":["Django", "PHP", "Python", "Software Architecture", "Web Scraping"],
+    "tag":["Python"],
     "langs":["Thai","English"],
-    "min_fix":7500,
+    "min_fix": 0,
     "max_fix":1000000,
-    "min_hour":360,
+    "min_hour":0,
     "max_hour":10000,
     "sort":"Lowest Price"
   }
@@ -39,19 +39,6 @@ exports.browse = async function(req, res, next) {
   var user_skills = await Tag.query()
     .groupBy('tag');
 
-  // var all_tags = [];
-  //
-  // user_skills.forEach(tag => {
-  //   all_tags.push(tag.tag)
-  // })
-  //
-  // var filter = all_tags.filter(
-  //   function(e) {
-  //     return this.indexOf(e) < 0;
-  //   },
-  //   ret.tag
-  // );
-
   var user_lang = ["Thai", "English"];
   const jobs = await Job.query()
   .joinRelation('tags')
@@ -64,12 +51,8 @@ exports.browse = async function(req, res, next) {
     subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
     .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
   })
-  .eager('tags');
-  // .orderBy((sort, inc) => {
-  //   if (ret.sort === 'Lowest Price'){
-  //     return 'price', 'desc'
-  //   }}
-  // )
+  .eager('tags')
+  .orderBy("created_at", 'desc');
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {

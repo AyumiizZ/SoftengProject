@@ -7,24 +7,45 @@ function get_tag(id) {
   return arr
 }
 
+function get_sort(){
+  var dropbtn = $('#sort-by');
+  return dropbtn[0].innerText.substring(8);
+}
+
+function get_min_max(id,thisdefault){
+  var input = document.getElementById(id).value;
+  if(parseInt(input) == input){
+    return input
+  }
+  else{
+    return thisdefault
+  }
+}  
 
 function sent_query() {
-  var dropbtn = $('#sort-by');
-  var sort = dropbtn[0].innerText.substring(8);
+  var sort = get_sort();
   var skill_arr = get_tag('skills');
   var lang_arr = get_tag('langs');
-  var fix = $("#fix").is(":checked");
-  var hour = $("#hour").is(":checked")
+  var fixed_check = $("#fix").is(":checked");
+  var fixed_min = get_min_max('min-fix',0);
+  var fixed_max = get_min_max('max-fix',1000000);
+  var hourly_min = get_min_max('min-hour',0);
+  var hourly_max = get_min_max('max-hour',100000);
+  var hourly_check = $("#hour").is(":checked");
   var ret = {
-    'fix': fix,
-    'hour': hour,
-    'skills': skill_arr,
-    'langs': lang_arr,
-    'min_fix': 0,
-    'max_fix': 1000000,
-    'min_hour': 0,
-    'max_hour': 10000,
-    'sort': sort
+    sort: sort,
+    fixed: {
+      checked : fixed_check,
+      min: fixed_min,
+      max: fixed_max
+    },
+    hourly: {
+      checked: hourly_check,
+      min: hourly_min,
+      max: hourly_max
+    },
+    skills: skill_arr,
+    langs: lang_arr
   }
   var ret_json = JSON.stringify(ret)
   console.log(ret_json)

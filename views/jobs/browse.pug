@@ -11,26 +11,26 @@ block body
                 label#head Project Type
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='sent_query()')
+                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='click()')
                     | Fixed price projects
-                .row.min-max#fix_input
+                .row.min-max#fix-input
                   .col-5.min
-                    input.form-control#fix_min(type="text", placeholder='Min')
+                    input.form-control#min-fix(type="text", placeholder='Min')
                   .col-md-2
                     span to
                   .col-5.max
-                    input.form-control#fix_min(type="text", placeholder='Max')
+                    input.form-control#max-fix(type="text", placeholder='Max')
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='sent_query()')
+                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='click()')
                     | Hourly projects
-                .row.min-max#fix_input
+                .row.min-max#hour-input
                   .col-5.min
-                    input.form-control#fix_min(type="text", placeholder='Min')
+                    input.form-control#min-hour(type="text", placeholder='Min')
                   .col-md-2
                     span to
                   .col-5.max
-                    input.form-control#fix_min(type="text", placeholder='Max')
+                    input.form-control#max-hour(type="text", placeholder='Max')
               li.filter-item-group
                 label#head Skills
                 .filter-item-scroll
@@ -38,7 +38,7 @@ block body
                     each val in skills
                       .input-tag=val
                         .delete-tag(onclick="delete_tag(this)") ×
-                    input#skill_input(type="text", placeholder='Select Skill')
+                    input#skill-input(type="text", placeholder='Select Skill')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
                     | Clear Skills
@@ -80,7 +80,7 @@ block body
                     each val in lang
                       .input-tag=val
                         .delete-tag(onclick="delete_tag(this)") ×
-                    input#lang_input(type="text", placeholder='Select Language')
+                    input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")
                     | Clear Languages
@@ -96,7 +96,7 @@ block body
             .search-result-input-sort
               .sort
                 .btn-group 
-                  button.btn.btn-trans.dropdown-toggle#sort_by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  button.btn.btn-trans.dropdown-toggle#sort-by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     | Sort By Recommend
                   .dropdown-menu
                     a.dropdown-item(href='#', onclick='change_sort(this)') Recommend

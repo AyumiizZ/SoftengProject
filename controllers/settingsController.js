@@ -38,6 +38,18 @@ exports.accountGet = async function(req, res) {
 };
 
 exports.accountPostCheck = [
+  check("email")
+    .isEmail()
+    .withMessage("E-mail is not in a valid format.")
+    .custom(async function(value) {
+      var u = await User.query().where("email", value);
+      if (u.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    })
+    .withMessage("The E-mail is already in use"),
   check("username")
     .isLength({
       min: 1
@@ -51,19 +63,7 @@ exports.accountPostCheck = [
         return true;
       }
     })
-    .withMessage("The username has already been taken."),
-    check("email")
-    .isEmail()
-    .withMessage("E-mail is not in a valid format.")
-    .custom(async function(value) {
-      var u = await User.query().where("email", value);
-      if (u.length > 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .withMessage("The E-mail is already in use")
+    .withMessage("The username has already been taken.")
 ];
 
 exports.accountPost = async function(req, res, next) {
@@ -75,47 +75,30 @@ exports.accountPost = async function(req, res, next) {
   req.checkBody("email", "E-mail is not in a valid format.").isEmail();
 
   var errors = req.validationErrors();*/
-  const errors = validationResult(req);
-  var err = errors.array();
-  if(err.length == 1) {
-    let error = err[0];
+  const err = validationResult(req).array();
+  var errors = [];
+  
+  while(err && err != 0) {
     let u;
-    if(error.param == "username") {
+    let temp = err.pop();
+    if(temp.param == "username") {
       u = await User.query()
-        .where("username", error.value)
+        .where("username", temp.value)
         .first();
     }
     else {
       u = await User.query()
-        .where("email", error.value)
+        .where("email", temp.value)
         .first();
     }
-    if(u.id == req.user.id) {
-      err.pop();
-    }
-  }
-  else if(err.length == 2) {
-    let username = err[0].value;
-    let email = err[1].value;
-
-    let u = await User.query()
-      .where("username", username)
-      .first();
-    if(u.id == req.user.id) {
-      err.splice(0, 1);
-    }
-
-    let x = await User.query()
-      .where("email", email)
-      .first();
-    if(x.id == req.user.id) {
-        err.pop();
+    if(u.id != req.user.id) {
+      errors.push(temp);
     }
   }
 
-  if (err && err != 0) {
+  if (errors && errors != 0) {
     console.log("error!");
-    res.render("profile/editAccount", { errors: err, user: user });
+    res.render("profile/editAccount", { errors: errors, user: user });
   } else {
     let updatedUser = await User.query().updateAndFetchById(user.id, req.body);
     res.redirect("/settings/account");

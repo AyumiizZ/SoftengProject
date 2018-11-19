@@ -1,11 +1,3 @@
-// $(document).ready(function () {
-//   $('lang_input').keypress(function (e) {
-//     if (e.which == '13') {
-//         alert('code');
-//     }
-//   });
-// });
-
 function sent_query() {
   var skills = $('#skills .input-tag');
   var langs = $('#langs .input-tag');
@@ -56,7 +48,7 @@ function change_sort(element) {
   sent_query()
 }
 
-var lang_input = document.getElementById("lang_input");
+var lang_input = document.getElementById("lang-input");
 
 lang_input.addEventListener("keyup", function (event) {
   event.preventDefault();
@@ -71,7 +63,7 @@ lang_input.addEventListener("keyup", function (event) {
   }
 });
 
-var skill_input = document.getElementById("skill_input");
+var skill_input = document.getElementById("skill-input");
 skill_input.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {
@@ -84,17 +76,3 @@ skill_input.addEventListener("keyup", function (event) {
     }
   }
 });
-
-$( function() {
-  $( "#slider-range" ).slider({
-    range: true,
-    min: 0,
-    max: 500,
-    values: [ 75, 300 ],
-    slide: function( event, ui ) {
-      $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-    }
-  });
-  $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-    " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-} );

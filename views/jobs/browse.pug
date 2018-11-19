@@ -11,7 +11,7 @@ block body
                 label#head Project Type
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='click()')
+                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='choose_this()')
                     | Fixed price projects
                 .row.min-max#fix-input
                   .col-5.min
@@ -22,7 +22,7 @@ block body
                     input.form-control#max-fix(type="text", placeholder='Max')
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='click()')
+                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='choose_this()')
                     | Hourly projects
                 .row.min-max#hour-input
                   .col-5.min

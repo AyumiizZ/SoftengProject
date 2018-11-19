@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   $('#min-fix').on('keyup change', function () {
     sent_query()
   });
@@ -80,7 +79,7 @@ function delete_all_tag(id) {
 }
 
 function change_sort(element) {
-  var dropbtn = $('#sort_by');
+  var dropbtn = $('#sort-by');
   dropbtn[0].innerText = "Sort By " + element.innerText
   sent_query()
 }

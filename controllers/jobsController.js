@@ -40,6 +40,7 @@ exports.browse = async function(req, res, next) {
     .groupBy('tag');
 
   var user_lang = ["Thai", "English"];
+
   const jobs = await Job.query()
   .joinRelation('tags')
   .groupBy('id')
@@ -53,6 +54,7 @@ exports.browse = async function(req, res, next) {
   })
   .eager('tags')
   .orderBy("created_at", 'desc');
+
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {

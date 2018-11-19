@@ -132,3 +132,12 @@ exports.showInterestsPost = async function(req, res, next) {
   console.log("success!");
   res.redirect("/jobs/view/" + jobId);
 };
+
+exports.boostGet = async function(req, res, next) {
+  const job = await Job.query().findById(req.params.jobId);
+  redirectIfNotAuthenticated(req, res, next, job.client_id);
+  res.render("jobs/boost", {
+    title: job.job + " | JetFree by JainsBret",
+    job: job
+  });
+};

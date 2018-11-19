@@ -43,7 +43,12 @@ router.post(
 );
 
 router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);
-
 router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
+
+router.get(
+  "/boost/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.boostGet
+);
 
 module.exports = router;

@@ -1,0 +1,14 @@
+extends ../incontainer 
+
+block content
+  .row
+    .col-12
+      .d-flex
+        .flex-grow-1
+          span ลงโฆษณาให้งาน
+          h1 #{job.job}
+        if job.client != null && user != null
+          if job.client.id == user.id
+            div
+              a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
+              a.btn.btn-outline-info(href="../boost/"+job.id) ลงโฆษณา

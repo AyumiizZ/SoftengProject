@@ -1,6 +1,6 @@
-function get_tag(id){
+function get_tag(id) {
   var arr = [];
-  var inputs = $('#'+id+' .input-tag');
+  var inputs = $('#' + id + ' .input-tag');
   for (i = 0; i < inputs.length; i++) {
     arr.push(inputs[i].innerText.substring(0, inputs[i].innerText.length - 1));
   }
@@ -49,29 +49,31 @@ function change_sort(element) {
   sent_query()
 }
 
-function choose_this(){
+function choose_this() {
   sent_query()
 }
 
+function add_tag(input, id) {
+  if (input.value != '') {
+    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
+    var input_tag = $('#' + id + ' .input-tag');
+    var input_arr = get_tag(id+'s');
+    if (input_arr.indexOf(input.value) === -1) {
+      if (langs.length > 0)
+        $(tag).insertAfter(input_tag[input_tag.length - 1])
+      else
+        $(tag).insertBefore(input);
+      sent_query()
+    }
+    lang_input.value = ''
+  }
+}
 
 var lang_input = document.getElementById("lang-input");
-
 lang_input.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {
-    if (lang_input.value != '') {
-      var tag = "<div class='input-tag'>" + lang_input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
-      var langs = $('#langs .input-tag');
-      if(langs.length > 0)
-        $(tag).insertAfter(langs[langs.length - 1])
-      else{
-        var lang = $('#langs #lang-input');
-        $(tag).insertBefore(lang);
-      }
-      // console.log(langs.innerHTML)
-      lang_input.value = ''
-      sent_query()
-    }
+    add_tag(lang_input, 'lang')
   }
 });
 
@@ -79,12 +81,6 @@ var skill_input = document.getElementById("skill-input");
 skill_input.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {
-    var skills = $('#skills .input-tag');
-    if (skill_input.value != '') {
-      var tag = "<div class='input-tag'>" + skill_input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
-      $(tag).insertAfter(skills[skills.length - 1])
-      skill_input.value = ''
-      sent_query()
-    }
+    add_tag(skill_input, 'skill')
   }
 });

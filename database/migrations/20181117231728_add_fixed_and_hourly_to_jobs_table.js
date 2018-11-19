@@ -2,8 +2,8 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.table("jobs",table => {
-      table.integer("fixed").default(0)
-      table.integer("hourly").default(0)
+      table.boolean("fixed").default(false)
+      table.boolean("hourly").default(false)
     })
   ])
 };

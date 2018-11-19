@@ -8,7 +8,8 @@ block content
   .row
     .col-3
       img.rounded.mb-3(src=user.gravatar_url(), width="100%")
-      a(href='/settings/profile').btn.btn-outline-dark Edit
+      if current.username==user.username
+        a(href='/settings/profile').btn.btn-outline-dark Edit
     .col-9
       ul.nav.nav-tabs.mb-2
         li.nav-item

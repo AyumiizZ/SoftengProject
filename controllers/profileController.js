@@ -6,9 +6,17 @@ exports.viewProfile = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
     .first();
+  var past_job = await Job.query()
+    .where("user_id", user.id)
+    .where("done", 1);
+  let amount = past_job.length;
+  if (past_job.length > 5) {
+    past_job = past_job.slice(0, 5);
+  }
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,
+    current: req.user,
     user: user
   });
 };
@@ -49,6 +57,7 @@ exports.viewPastJobs = async function(req, res) {
   res.render("profile/pastJobs", {
     user: user,
     past_job: past_job,
+    current: req.user,
     title: title
   });
 };

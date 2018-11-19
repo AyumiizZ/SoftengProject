@@ -16,6 +16,7 @@ exports.viewProfile = async function(req, res) {
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,
+    current: req.user,
     user: user
   });
 };
@@ -56,6 +57,7 @@ exports.viewPastJobs = async function(req, res) {
   res.render("profile/pastJobs", {
     user: user,
     past_job: past_job,
+    current: req.user,
     title: title
   });
 };

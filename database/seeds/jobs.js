@@ -11,8 +11,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'I need website for my upcoming project For that I need expert freelancer',
           client_id: 1,
           user_id: 1,
-          job_type: 'Fixed',
-          tag: 'Graphic Design, HTML, PHP, Website Design, WordPress',
+          fixed: true,
           price: 7500
         },
         {
@@ -21,8 +20,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'Python help. C, C++, networking experience is a plus. More in PM. Ongoing, small tasks.',
           client_id: 2,
           user_id: 2,
-          job_type: 'Hourly',
-          tag: 'C Programming, C++ Programming, Linux, Python, Software Architecture',
+          hourly: true,
           price: 360
         },
         {
@@ -31,8 +29,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'Create a cost-effective Wordpress Theme for a new website.',
           client_id: 3,
           user_id: 3,
-          job_type: 'Fixed',
-          tag: 'Graphic Design, HTML, PHP, Website Design, WordPress',
+          fixed: true,
           price: 2000
         },
         {
@@ -41,8 +38,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'I would like to interview you and see if you\'d be a good freelancer to work with,Any Web Devs/Front End Devs. Lets chat!',
           client_id: 4,
           user_id: 4,
-          job_type: 'Hourly',
-          tag: 'CSS, HTML, Javascript, PHP, Website Design',
+          hourly: true,
           price: 300
         },
         {
@@ -51,8 +47,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'Looking for web crawler expert who create crawler for one online shope in Python 3.X (scrapy)',
           client_id: 5,
           user_id: 5,
-          job_type: 'Fixed',
-          tag: 'Django, PHP, Python, Software Architecture, Web Scraping',
+          fixed: true,
           price: 6000
         },
         {
@@ -61,8 +56,7 @@ exports.seed = function(knex, Promise) {
           job_info: 'Hi , we are looking for longterm Node/react developer. Must know react and node. Interviews will be condcuted via skype.',
           client_id: 6,
           user_id: 6,
-          job_type: 'Hourly',
-          tag: 'Angular.js, Express JS, Javascript, node.js, NoSQL Couch & Mongo',
+          hourly: true,
           price: 1200
         }
       ]);

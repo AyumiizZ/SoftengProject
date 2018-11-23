@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.integer("job_id");
     table.date("start");
     table.date("end");
-    table.date("price");
+    table.integer("price");
   });
 };
 

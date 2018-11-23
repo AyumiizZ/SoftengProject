@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
+const JobBoost = require("../models/jobBoost");
+const moment = require("moment");
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -140,4 +142,19 @@ exports.boostGet = async function(req, res, next) {
     title: job.job + " | JetFree by JainsBret",
     job: job
   });
+};
+
+exports.boostPost = async function(req, res, next) {
+  var regex = /\d{2}\/\d{2}\/\d{4}/g;
+  var dates = req.body.time.match(regex);
+  var startDate = moment(dates[0], "DD/MM/YYYY");
+  var endDate = moment(dates[1], "DD/MM/YYYY");
+  var job_data = {
+    job_id: req.params.jobId,
+    start: moment(startDate).format("YYYY-MM-DD"),
+    end: moment(endDate).format("YYYY-MM-DD"),
+    price: req.body.price
+  };
+  var jobBoost = await JobBoost.query().insert(job_data);
+  res.redirect("/jobs/boost/" + jobBoost.job_id + "/" + jobBoost.id + "/pay");
 };

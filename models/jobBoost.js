@@ -10,16 +10,7 @@ class JobBoost extends Model {
   }
 
   static get relationMappings() {
-    return {
-      client: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Job,
-        join: {
-          from: "jobs_boosts.job_id",
-          to: "jobs.id"
-        }
-      }
-    };
+    return {};
   }
 }
 

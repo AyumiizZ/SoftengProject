@@ -1,6 +1,5 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
-const Job = require("./job.js");
 const showdownParse = require("../lib/showdownParse");
 
 Model.knex(knex);

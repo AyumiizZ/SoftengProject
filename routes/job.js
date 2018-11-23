@@ -50,5 +50,10 @@ router.get(
   authMiddleware.isAuthenticated,
   jobsController.boostGet
 );
+router.post(
+  "/boost/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.boostPost
+);
 
 module.exports = router;

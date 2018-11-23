@@ -1,5 +1,10 @@
 extends ../incontainer 
 
+block additional-heads
+  script(src='/scripts/jquery.min.js')
+  script(src='/scripts/datepicker.min.js')
+  script(src='/scripts/i18n/datepicker.th.js')
+
 block content
   .row
     .col-12
@@ -12,3 +17,29 @@ block content
             div
               a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
               a.btn.btn-outline-info(href="../boost/"+job.id) ลงโฆษณา
+  form(method="post")
+    .row
+      .col-4
+        .card
+          .card-header เลือกวันเริ่มต้นและสิ้นสุดของการลงโฆษณา
+          .card-body
+            .form-group
+              input.form-control.datepicker-here(data-language='th' data-range="true" data-multiple-dates-separator=" - " name="time")
+      .col-4
+        .card
+          .card-header เลือกจำนวนเงิน 
+          .card-body
+            .form-group
+              .input-group
+                .input-group-prepend
+                  .input-group-text ฿
+                input.form-control(name="price_per_day")
+              .small ราคาในที่นี้เป็นบาทต่อวัน โดยยิ่งจ่ายมาก โอกาสการได้แสดงในหน้าแรกและแสดงในลำดับแรกของหน้าค้นหางานจะมีมากขึ้น
+      .col-4
+        .card
+          .card-header ชำระเงิน
+          .card-body
+            p ชำระเงินผ่านบัตรเครดิต หรือบัตรเดบิต
+            button.btn.btn-primary.btn-lg(action="submit") ชำระเงิน
+  block js-after
+  script.

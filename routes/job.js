@@ -48,10 +48,16 @@ router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
 router.get(
   "/boost/:jobId",
   authMiddleware.isAuthenticated,
+  jobsController.boostList
+);
+
+router.get(
+  "/boost/:jobId/add",
+  authMiddleware.isAuthenticated,
   jobsController.boostGet
 );
 router.post(
-  "/boost/:jobId",
+  "/boost/:jobId/add",
   authMiddleware.isAuthenticated,
   jobsController.boostPost
 );

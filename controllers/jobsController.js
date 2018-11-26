@@ -158,3 +158,18 @@ exports.boostPost = async function(req, res, next) {
   var jobBoost = await JobBoost.query().insert(job_data);
   res.redirect("/jobs/boost/" + jobBoost.job_id + "/" + jobBoost.id + "/pay");
 };
+
+exports.boostList = async function(req, res, next) {
+  var job = await Job.query()
+    .findById(req.params.jobId)
+    .eager("boosts");
+  console.log(job);
+  res.render("jobs/boostsList", {
+    job: job
+  });
+};
+
+exports.payBoostGet = async function(req, res, next) {
+  var boost = await JobBoost.query().findById(req.params.boostId);
+  res.json(boost);
+};

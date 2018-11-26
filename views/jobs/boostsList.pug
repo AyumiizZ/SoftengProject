@@ -14,14 +14,16 @@ block content
           td รหัสการซื้อ
           td วันเริ่มต้น
           td วันสิ้นสุด
+          td จำนวนวัน
           td ราคารวม
           td การจ่ายเงิน
         for b in job.boosts
           tr
             td=b.id
-            td=b.start
-            td=b.end
-            td=b.price
+            td=b.formatted_date[0]
+            td=b.formatted_date[1]
+            td=b.duration
+            td=b.total_price
             td
               a.btn.btn-outline-secondary จ่ายเงิน
 

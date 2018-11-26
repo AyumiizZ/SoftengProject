@@ -138,7 +138,7 @@ exports.showInterestsPost = async function(req, res, next) {
 exports.boostGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
-  res.render("jobs/boost", {
+  res.render("jobs/createBoost", {
     title: job.job + " | JetFree by JainsBret",
     job: job
   });

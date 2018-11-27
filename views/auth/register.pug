@@ -148,7 +148,10 @@ block js-after
       var username = $("input[name=username]").val();
       console.log(username);
       $.post("/api/register/username_check", { username: username }, function(data){
-        if(data.inuse){
+        if(data.username == null){
+          $('#username-check').html(null)
+        }
+        else if(data.inuse){
           $('#username-check').html("The username " + data.username + " is already in use.")
             .addClass("text-danger")
             .removeClass("text-success");

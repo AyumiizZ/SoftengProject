@@ -70,6 +70,7 @@ exports.browse = async function(req, res, next) {
   }
   let n_results = jobs.length;
 
+
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,

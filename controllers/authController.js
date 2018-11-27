@@ -51,7 +51,7 @@ exports.registerPostCheck = [
     .withMessage("The password does not match the confirmation."),
   check("agreement")
     .equals("on")
-    .withMessage("You must agree to JainsBret user's agreement."),
+    .withMessage("You must agree to JainsBret user's agreement.")
   
 ];
 

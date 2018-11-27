@@ -62,6 +62,7 @@ exports.viewPastJobs = async function(req, res) {
     title: title,
     page: page,
     n: 1,
+    amount: amount,
     limit: Math.ceil(amount/per_page)
   });
 };

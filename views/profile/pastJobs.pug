@@ -28,22 +28,23 @@ block content
             
             nav(aria-label='Page navigation')
                 ul.pagination.justify-content-center
-                    if page<=1
-                        li.page-item.disabled
-                            a.page-link(href='#', tabindex='-1') «
-                    else
-                        li.page-item
-                            a.page-link(href=(page-1)) «
-                    while n<=limit
-                        if n==page
-                            li.page-item.active
-                                a.page-link(href=n)=n++
+                    if amount>0
+                        if page<=1
+                            li.page-item.disabled
+                                a.page-link(href='#', tabindex='-1') «
                         else
                             li.page-item
-                                a.page-link(href=n)=n++
-                    if page>=limit
-                        li.page-item.disabled
-                            a.page-link(href='#', tabindex='-1') »
-                    else
-                        li.page-item
-                            a.page-link(href=(page+1)) »
+                                a.page-link(href=(page-1)) «
+                        while n<=limit
+                            if n==page
+                                li.page-item.active
+                                    a.page-link(href=n)=n++
+                            else
+                                li.page-item
+                                    a.page-link(href=n)=n++
+                        if page>=limit
+                            li.page-item.disabled
+                                a.page-link(href='#', tabindex='-1') »
+                        else
+                            li.page-item
+                                a.page-link(href=(page+1)) »

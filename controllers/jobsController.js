@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
+const Tag = require('../models/jobTag');
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -13,15 +14,52 @@ exports.redirectToBrowse = function(req, res, next) {
 };
 
 exports.browse = async function(req, res, next) {
-  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"];
+  // JSON SENT FROM FRONT-END ////////
+  const temp = {
+    "fix":1,
+    "hour":1,
+    "tag":["Python"],
+    "langs":["Thai","English"],
+    "min_fix": 0,
+    "max_fix":1000000,
+    "min_hour":0,
+    "max_hour":10000,
+    "sort":"Lowest Price"
+  }
+  var ret_json = JSON.stringify(temp)
+  ////////////////////////////////////
+
+  var ret = JSON.parse(ret_json);
+  var filter_tag = {tag: []}
+  filter_tag.tag = ret.tag;
+  filter_tag = JSON.stringify(filter_tag)
+
+  console.log(filter_tag);
+
+  var user_skills = await Tag.query()
+    .groupBy('tag');
+
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query().eager("[client, freelance, tags]");
+
+  const jobs = await Job.query()
+  .joinRelation('tags')
+  .groupBy('id')
+  .where(subquery => {
+    subquery
+    .where('tag', 'in', ret.tag)
+  })
+  .where(subquery => {
+    subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
+    .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
+  })
+  .eager('tags')
+  .orderBy("created_at", 'desc');
+
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: jobs,
-    n_results: jobs.length,
     skills: user_skills,
     lang: user_lang
   });

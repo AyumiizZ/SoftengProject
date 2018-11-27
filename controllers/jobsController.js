@@ -171,5 +171,7 @@ exports.boostList = async function(req, res, next) {
 
 exports.payBoostGet = async function(req, res, next) {
   var boost = await JobBoost.query().findById(req.params.boostId);
-  res.json(boost);
+  res.render("jobs/payBoost", {
+    boost: boost
+  });
 };

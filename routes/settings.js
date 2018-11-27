@@ -17,7 +17,12 @@ router.get("/profile", csrfProtection, settingsController.profileGet);
 router.post("/profile", csrfProtection, settingsController.profilePost);
 
 router.get("/account", csrfProtection, settingsController.accountGet);
-router.post("/account", csrfProtection, settingsController.accountPost);
+router.post(
+  "/account", 
+//  csrfProtection, 
+  settingsController.accountPostCheck, 
+  settingsController.accountPost
+);
 
 router.get("/password", csrfProtection, settingsController.passwordGet);
 router.post("/password", csrfProtection, settingsController.passwordPost);

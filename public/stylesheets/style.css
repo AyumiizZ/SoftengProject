@@ -98,7 +98,10 @@ main {
   padding-top: 30px;
   width: 100%;
   min-width: 960px;
+  max-width: 1176px;
   margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .box {
@@ -457,4 +460,24 @@ main {
 
 .btn-trans {
   background-color: transparent;
+}
+
+.search-page .default_input{
+    border-bottom: 1px solid #BEC0C2;
+    border-radius: 3px 3px 0 0;
+}
+
+.search-page .min-max{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.min-max .min{
+    padding-right: 0px;
+    /* padding-left: 0px;  */
+}
+
+.min-max .max{
+    /* padding-right: 0px; */
+    padding-left: 0px; 
 }

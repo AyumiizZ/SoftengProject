@@ -96,11 +96,11 @@ block content
                   .project-tile
                     figure.info-card-iconBox
                       span.Icon
-                        if val.job_type == 'Fixed'
+                        if val.fixed
                           fl-icon(name='ui-fixed-project')
                             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                               path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
-                        if val.job_type == 'Hourly'
+                        if val.hourly
                           fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
                             svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                               path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
@@ -128,9 +128,9 @@ block content
                       .info-card-price
                         span=val.price
                       .info-card-price-type
-                        if val.job_type == 'Fixed'
+                        if val.fixed
                           span THB
-                        if val.job_type == 'Hourly'
+                        if val.hourly
                           span THB per hour
               
               

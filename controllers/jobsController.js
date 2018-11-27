@@ -16,8 +16,8 @@ exports.redirectToBrowse = function(req, res, next) {
 exports.browse = async function(req, res, next) {
   // JSON SENT FROM FRONT-END ////////
   const temp = {
-    "fix":1,
-    "hour":1,
+    "fix": 0,
+    "hour": 0,
     "tag":["Python"],
     "langs":["Thai","English"],
     "min_fix": 0,
@@ -30,36 +30,53 @@ exports.browse = async function(req, res, next) {
   ////////////////////////////////////
 
   var ret = JSON.parse(ret_json);
-  var filter_tag = {tag: []}
-  filter_tag.tag = ret.tag;
-  filter_tag = JSON.stringify(filter_tag)
-
-  console.log(filter_tag);
+  console.log(req.user.id);
 
   var user_skills = await Tag.query()
     .groupBy('tag');
 
   var user_lang = ["Thai", "English"];
-  const jobs = await Job.query()
-  .joinRelation('tags')
-  .groupBy('id')
-  .where(subquery => {
-    subquery
-    .where('tag', 'in', ret.tag)
-  })
-  .where(subquery => {
-    subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
-    .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
-  })
-  .eager('tags')
-  .orderBy("created_at", 'desc');
+  let jobs = await Job.query().eager("tags");
+  console.log(jobs);
+  if (ret.fix || ret.hour) {
+    jobs = await Job.query()
+    .joinRelation('tags')
+    .groupBy('id')
+    .where(subquery => {
+      subquery
+      .where('tag', 'in', ret.tag)
+    })
+    .where(subquery => {
+      subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
+      .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
+    })
+    .eager('tags')
+    .orderBy("created_at", 'desc');
+  }
+  else {
+    jobs = await Job.query()
+    .joinRelation('tags')
+    .groupBy('id')
+    .where(subquery => {
+      subquery
+      .where('tag', 'in', ret.tag)
+    })
+    .where(subquery => {
+      subquery.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+      .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
+    })
+    .eager('tags')
+    .orderBy("created_at", 'desc');
+  }
+  let n_results = jobs.length;
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: jobs,
     skills: user_skills,
-    lang: user_lang
+    lang: user_lang,
+    n_results: n_results
   });
 };
 

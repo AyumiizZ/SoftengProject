@@ -3,6 +3,10 @@ const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const JobBoost = require("../models/jobBoost");
 const moment = require("moment");
+const omise = require("omise")({
+  secretKey: process.env.OMISE_SECRET,
+  omiseVersion: "2017-11-02"
+});
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -177,5 +181,21 @@ exports.payBoostGet = async function(req, res, next) {
 };
 
 exports.payBoostPost = async function(req, res, next) {
-  res.json(req.body);
+  var boost = await JobBoost.query().findById(req.params.boostId);
+  omise.charges.create(
+    {
+      description: "JainsBret charge for boost #" + boost.id,
+      amount: boost.total_price * 100,
+      currency: "thb",
+      capture: true,
+      card: req.body.token
+    },
+    function(err, resp) {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json(resp);
+      }
+    }
+  );
 };

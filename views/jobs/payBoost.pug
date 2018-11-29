@@ -47,6 +47,11 @@ block content
                 input#cvc.form-control(name="cvc" autocomplete="cc-csc")
             #error.alert.alert-warning.collapse ไม่สามารถชำระด้วยบัตรใบนี้ได้ กรุณาตรวจสอบเลขบัตรอีกครั้ง 
             button.btn.btn-lg.btn-primary(style="width: 100%")="ชำระเงิน ("+boost.total_price+" บาท)" 
+            p
+            p.text-center.text-secondary
+              i.fas.fa-lock
+              |  ชำระเงินด้วยระบบปลอดภัยจาก 
+              a(href="https://www.omise.co/th/security-overview") Omise
 
   #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
     .modal-dialog(role='document')

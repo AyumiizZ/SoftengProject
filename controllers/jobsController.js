@@ -175,3 +175,7 @@ exports.payBoostGet = async function(req, res, next) {
     boost: boost
   });
 };
+
+exports.payBoostPost = async function(req, res, next) {
+  res.json(req.body);
+};

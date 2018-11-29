@@ -67,5 +67,10 @@ router.get(
   authMiddleware.isAuthenticated,
   jobsController.payBoostGet
 );
+router.post(
+  "/boost/:jobId/:boostId/pay",
+  authMiddleware.isAuthenticated,
+  jobsController.payBoostPost
+);
 
 module.exports = router;

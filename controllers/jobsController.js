@@ -94,23 +94,28 @@ exports.addPost = async function(req, res, next) {
 };
 
 exports.editGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId);
+  const job = await Job.query().findById(req.params.jobId).eager("tags");
   redirectIfNotAuthenticated(req, res, next, job.client_id);
+  console.log(job);
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
-    job: job
+    job: job,
+    tags: job.tags,
+    current_tag: ""
   });
 };
 
 exports.editPost = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
+  console.log(req.tags);
+/*  const old_tag = await Tag.query().where("job_id", job.id).del();
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body
-  );
+  );*/
   res.redirect("/jobs/view/" + updatedJob.id);
 };
 

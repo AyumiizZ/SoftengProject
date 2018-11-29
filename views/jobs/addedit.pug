@@ -17,6 +17,35 @@ block content
           | #{job.job_info}
 
       .small อธิบายงานที่ต้องทำ รวมถึงรายละเอียด (เช่นเวลาทำงาน, กำหนดส่ง), สามารถใช้ภาษา Markdown ได้
+    .form-group
+      label ทักษะที่ต้องการ
+      .filter-item-scroll
+        .filter-tag-input#skills
+          if locals.job
+            each val in tags
+              .input-tag=val.tag
+                .delete-tag(onclick="delete_tag(this)") ×
+          input#skill_input(type="text", placeholder='Select Skill')
+    .form-group
+      label ประเภทค่าจ้าง
+      select#inlineFormCustomSelect.custom-select.mr-sm-2(name='project_type')
+        if locals.job
+          if job.fixed
+            option(value='1', selected='') อัตราคงที่
+            option(value='2') รายชั่วโมง
+          else
+            option(value='1') อัตราคงที่
+            option(value='2', selected='2') รายชั่วโมง
+        else
+          option(value='', selected='') เลือกประเภทค่าจ้าง
+          option(value='1') อัตราคงที่
+          option(value='2') รายชั่วโมง
+    .form-group
+      label ราคา
+      if locals.job
+        input.form-control(name='price', type='text', value=job.price)
+      else
+        input.form-control(name='price', type='text')
     button.btn.btn-primary.btn-block(type='submit') Submit 
   
 block js-after
@@ -25,4 +54,21 @@ block js-after
       spellChecker: false,
       status: false,
       toolbar: ["bold", "italic", "|", "quote", "code", "|", "unordered-list", "ordered-list", "|", "link", "image", "|", "guide"]
-     });
+    });
+
+    var skill_input = $("#skill_input");
+    skill_input.on("keyup", (e) => {
+      e.preventDefault();
+      if (e.keyCode === 188){
+        var skills = $("#skills .input-tag");
+        if(skill_input.val() != ","){
+          var tag = "<div class='input-tag'>" + skill_input.val().substring(0, skill_input.val().length-1) + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>";
+          $(tag).insertAfter(skills[skills.length-1]);
+        }
+        skill_input.val("");
+      }
+    });
+
+    function delete_tag(element) {
+      element.parentNode.remove()
+    }

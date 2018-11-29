@@ -57,7 +57,6 @@ function change_sort(element) {
 }
 
 var lang_input = document.getElementById("lang_input");
-
 lang_input.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {

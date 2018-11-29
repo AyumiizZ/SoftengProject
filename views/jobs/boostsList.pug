@@ -25,7 +25,13 @@ block content
             td=b.duration
             td=b.total_price
             td
-              a.btn.btn-outline-secondary(href=b.job_id+"/"+b.id+"/pay") จ่ายเงิน
+              if b.payment_success == null
+                a.btn.btn-outline-secondary(href=b.job_id+"/"+b.id+"/pay") จ่ายเงิน
+              else if b.payment_success
+                a.btn.btn-success(href=b.job_id+"/"+b.id+"/pay") จ่ายเงินแล้ว
+              else
+                a.btn.btn-danger(href=b.job_id+"/"+b.id+"/pay") จ่ายเงินไม่สำเร็จ
+              
 
 block js-after
   script.

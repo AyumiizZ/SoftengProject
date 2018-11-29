@@ -46,7 +46,9 @@ block content
                   a(href='#', data-toggle='modal', data-target='#exampleModal') (คืออะไร?)
                 input#cvc.form-control(name="cvc" autocomplete="cc-csc")
             #error.alert.alert-warning.collapse ไม่สามารถชำระด้วยบัตรใบนี้ได้ กรุณาตรวจสอบเลขบัตรอีกครั้ง 
-            button.btn.btn-lg.btn-primary(style="width: 100%")="ชำระเงิน ("+boost.total_price+" บาท)" 
+            button.btn.btn-lg.btn-primary(style="width: 100%")
+              img#loader(src="/images/loader.svg" height="30px" hidden)
+              |  ชำระเงิน - #{boost.total_price} บาท
             p
             p.text-center.text-secondary
               i.fas.fa-lock
@@ -81,6 +83,7 @@ block js-after
       e.preventDefault();
       $("#card-form .form-control").prop("disabled", true);
       $("#card-form button").prop("disabled", true);
+      $("#loader").prop("hidden", false);
       var expiry = $("#expire").val().match(/[0-9]{2}/g);
       var cardData = {
         name: $("#name").val(),
@@ -91,15 +94,13 @@ block js-after
       };
       Omise.createToken('card', cardData, function(statusCode, response) {
         if (statusCode == 200) {
-          $("#error").removeClass("alert-warning").addClass("alert-success");
-          $("#error").html("โปรดรอสักครู่ขณะเรากำลังประมวลผลธุรกรรม");
-          $("#error").slideDown(300);
           console.log(response);
         }
         else{
           $("#error").slideDown(300).delay(3000).slideUp(300);
           $("#card-form .form-control").prop("disabled", false);
           $("#card-form button").prop("disabled", false);
+          $("#loader").prop("hidden", true);
         }
       });
     }

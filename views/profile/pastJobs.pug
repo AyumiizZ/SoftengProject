@@ -12,16 +12,39 @@ block content
             if current.username==user.username
                 a(href='/settings/profile').btn.btn-outline-dark Edit
         .col-9
-          ul.nav.nav-tabs.mb-2
-            li.nav-item
-              a.nav-link(href=".") เกี่ยวกับ 
-            li.nav-item
-              a.nav-link.active(href="#") ผลงาน 
-            li.nav-item
-              a.nav-link(href="reviews") รีวิว
-          h2 งานที่ผ่านมา
-          each job in past_job
-            .card.mb-3
-                .card-body
-                    h4 #{job.job}
-                    p #{job.job_info}
+            ul.nav.nav-tabs.mb-2
+                li.nav-item
+                a.nav-link(href="..") เกี่ยวกับ 
+                li.nav-item
+                a.nav-link.active(href="#") ผลงาน 
+                li.nav-item
+                a.nav-link(href="../reviews") รีวิว
+            h2 งานที่ผ่านมา
+            each job in past_job
+                .card.mb-3
+                    .card-body
+                        h4 #{job.job}
+                        p #{job.job_info}
+            
+            nav(aria-label='Page navigation')
+                ul.pagination.justify-content-center
+                    if amount>0
+                        if page<=1
+                            li.page-item.disabled
+                                a.page-link(href='#', tabindex='-1') «
+                        else
+                            li.page-item
+                                a.page-link(href=(page-1)) «
+                        while n<=limit
+                            if n==page
+                                li.page-item.active
+                                    a.page-link(href=n)=n++
+                            else
+                                li.page-item
+                                    a.page-link(href=n)=n++
+                        if page>=limit
+                            li.page-item.disabled
+                                a.page-link(href='#', tabindex='-1') »
+                        else
+                            li.page-item
+                                a.page-link(href=(page+1)) »

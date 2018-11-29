@@ -75,6 +75,7 @@ block js-after
     function submitCardForm(e){
       e.preventDefault();
       $("#card-form .form-control").prop("disabled", true);
+      $("#card-form button").prop("disabled", true);
       var expiry = $("#expire").val().match(/[0-9]{2}/g);
       var cardData = {
         name: $("#name").val(),
@@ -93,6 +94,7 @@ block js-after
         else{
           $("#error").slideDown(300).delay(3000).slideUp(300);
           $("#card-form .form-control").prop("disabled", false);
+          $("#card-form button").prop("disabled", false);
         }
       });
     }

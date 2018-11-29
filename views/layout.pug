@@ -8,6 +8,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
     script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
+    script(src='/scripts/jquery.min.js')
 
     
     block additional-heads
@@ -41,10 +42,10 @@ html
               a.nav-link(href='/register') ลงทะเบียน
             li.nav-item
               a.nav-link(href='/login') ลงชื่อเข้าใช้
-    
+      
     block body
 
-    footer.container.py-5
+    footer(class="container py-4 container-dark bg-dark")
       .row
         .col-12.col-md
           //logo start
@@ -78,7 +79,6 @@ html
       Bootstrap core JavaScript
       ==================================================
     // Placed at the end of the document so the pages load faster
-    script(src='/scripts/jquery.min.js')
     script(src='/scripts/popper.min.js')
     script(src='/scripts/bootstrap.min.js')
     block js-after

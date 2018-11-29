@@ -54,6 +54,10 @@ block content
               i.fas.fa-lock
               |  ชำระเงินด้วยระบบปลอดภัยจาก 
               a(href="https://www.omise.co/th/security-overview") Omise
+      div(hidden)
+        h2 Card ID Payment form
+        form#pay-form(method="POST")
+          input#card-id(name="card-id")
 
   #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
     .modal-dialog(role='document')
@@ -95,6 +99,8 @@ block js-after
       Omise.createToken('card', cardData, function(statusCode, response) {
         if (statusCode == 200) {
           console.log(response);
+          $("#pay-form #card-id").val(response.id);
+          $("#pay-form").submit();
         }
         else{
           $("#error").slideDown(300).delay(3000).slideUp(300);

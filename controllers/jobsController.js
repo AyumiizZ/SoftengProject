@@ -190,11 +190,21 @@ exports.payBoostPost = async function(req, res, next) {
       capture: true,
       card: req.body.token
     },
-    function(err, resp) {
+    async function(err, resp) {
       if (err) {
         res.json(err);
       } else {
-        res.json(resp);
+        var paymentData = {
+          payment_success: resp.status == "successful",
+          omise_id: resp.id,
+          omise_transaction: resp.transaction,
+          paid_at: new Date(resp.paid_at)
+        };
+        var boost = await JobBoost.query().patchAndFetchById(
+          req.params.boostId,
+          paymentData
+        );
+        res.json(boost);
       }
     }
   );

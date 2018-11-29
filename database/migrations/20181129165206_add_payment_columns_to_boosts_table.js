@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.table("jobs_boosts", table => {
-    table.boolen("payment_success").nullable();
+    table.boolean("payment_success").nullable();
     table.string("omise_id").nullable();
     table.string("omise_transaction").nullable();
     table.dateTime("paid_at").nullable();

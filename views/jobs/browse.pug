@@ -37,7 +37,7 @@ block body
                   .filter-tag-input#skills
                     each val in skills
                       .input-tag=val.tag
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag(id=val.tag) ×
                     input#skill-input(type="text", placeholder='Select Skill')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
@@ -79,7 +79,7 @@ block body
                   .filter-tag-input#langs
                     each val in lang
                       .input-tag=val
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag(onclick="delete_tag()") ×
                     input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")

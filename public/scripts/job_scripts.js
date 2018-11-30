@@ -1,24 +1,25 @@
 $(document).ready(function () {
+  var input_tag = $('.input-tag')
   var sent_ = function(){
     sent_query()
   }
-  $('#min-fix').on('keyup change', sent_);
-  $('#min-hour').on('keyup change', function () {
-    sent_query()
-  });
-  $('#max-fix').on('keyup change', function () {
-    sent_query()
-  });
-  $('#max-hour').on('keyup change', function () {
-    sent_query()
-  });
 
-  fix.onchange = function(){
+  var delete_tag = function() {
+    $(this).remove()
     sent_query()
   }
 
+  $('#min-fix').on('keyup change', sent_);
+  $('#min-hour').on('keyup change', sent_);
+  $('#max-fix').on('keyup change', sent_);
+  $('#max-hour').on('keyup change', sent_);
 
+  fix.onchange = sent_
   hour.onchange = sent_
+  // del_tag = delete_tag(element)
+  input_tag.click(delete_tag)
+  
+  // console.log($('#del_tag'))
   
   // sent_query()
 
@@ -51,7 +52,7 @@ function get_sort() {
 function get_min_max(id, thisdefault) {
   var input = document.getElementById(id).value;
   if (parseInt(input) == input) {
-    return input
+    return parseInt(input)
   } else {
     return thisdefault
   }
@@ -87,10 +88,7 @@ function sent_query() {
   return ret_json
 }
 
-function delete_tag(element) {
-  element.parentNode.remove()
-  sent_query()
-}
+
 
 function delete_all_tag(id) {
   var tag_box = $('#' + id + ' .input-tag')
@@ -112,7 +110,7 @@ function choose_this() {
 
 function add_tag(input, id) {
   if (input.value != '') {
-    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
+    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' id='" + input.value + "'>×</div></div>"
     var input_tag = $('#' + id + ' .input-tag');
     var input_arr = get_tag(id + 's');
     if (input_arr.indexOf(input.value) === -1) {

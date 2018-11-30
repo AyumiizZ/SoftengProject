@@ -26,7 +26,7 @@ exports.browse = async function(req, res, next) {
     // "min_hour":0,
     // "max_hour":10000,
     // "sort":"Oldest"
-    'sort': 'Lowest Price',
+    'sort': 'Highest Price',
     'fixed': {
       'checked': false,
       'min': 0,
@@ -97,6 +97,12 @@ exports.browse = async function(req, res, next) {
   }
   else if (ret.sort == 'Oldest') {
     jobs.orderBy('created_at', 'increase')
+  }
+  else if (ret.sort == 'Lowest Price') {
+    jobs.orderBy('price', 'increase')
+  }
+  else if (ret.sort == 'Highest Price') {
+    jobs.orderBy('price', 'desc')
   }
   jobs = jobs.eager("tags")
   console.log(jobs);

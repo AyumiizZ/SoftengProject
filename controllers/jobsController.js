@@ -155,7 +155,7 @@ exports.showInterestsGet = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("freelance_interests");
-  res.render("jobs/showInterests/", {
+  res.render("jobs/showInterests", {
     user: user,
     title: title,
     job: job

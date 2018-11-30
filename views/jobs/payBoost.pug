@@ -64,12 +64,25 @@ block content
           .card-header
             span รายละเอียดการชำระเงิน
           .card-body
-            span
-              | สถานะการชำระเงิน 
-              if boost.payment_success
-                .badge.badge-success สำเร็จ
-              else
-                .badge.badge-danger ไม่สำเร็จ
+            if boost.payment_success
+              .alert.alert-success <b>การชำระเงินสำเร็จ</b> โฆษณาของท่านจะถูกแสดงตามระยะเวลาที่ซื้อไว้
+            else
+              .alert.alert-danger <b>การชำระเงินไม่สำเร็จ</b> หากท่านประสงค์จะลงโฆษณา สามารถกดสั่งซื้อโฆษณาใหม่โดยใช้วันและเวลาเดิม
+            h4 ข้อมูลการรับชำระ
+            .d-flex.flex-row
+              .p-2
+                if boost.card_issuer == "Visa"
+                  i.fab.fa-cc-visa
+                else if boost.card_issuer == "MasterCard"
+                  i.fab.fa-cc-mastercard
+                else if boost.card_issuer == "JCB"
+                  i.fab.fa-cc-jcb
+                else
+                  boost.card_issuer
+              .p-2.flex-grow-1
+                p •••• •••• •••• #{boost.card_number}
+                span.small ชำระเงินเมื่อวันที่ #{boost.paid_at}
+
 
   #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
     .modal-dialog(role='document')

@@ -72,16 +72,19 @@ block content
             .d-flex.flex-row
               .p-2
                 if boost.card_issuer == "Visa"
-                  i.fab.fa-cc-visa
+                  i.fab.fa-4x.fa-cc-visa
                 else if boost.card_issuer == "MasterCard"
-                  i.fab.fa-cc-mastercard
+                  i.fab.fa-4x.fa-cc-mastercard
                 else if boost.card_issuer == "JCB"
-                  i.fab.fa-cc-jcb
+                  i.fab.fa-4x.fa-cc-jcb
                 else
-                  boost.card_issuer
+                  span=boost.card_issuer
               .p-2.flex-grow-1
-                p •••• •••• •••• #{boost.card_number}
+                span(style="font-size: 24px") •••• •••• •••• #{boost.card_number}
+                br
                 span.small ชำระเงินเมื่อวันที่ #{boost.paid_at}
+                br
+                span.small รหัสการรับชำระ #{boost.omise_id}
 
 
   #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')

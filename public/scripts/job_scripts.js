@@ -104,9 +104,6 @@ function change_sort(element) {
   sent_query()
 }
 
-function choose_this() {
-  sent_query()
-}
 
 function add_tag(input, id) {
   if (input.value != '') {

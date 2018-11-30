@@ -1,7 +1,8 @@
 $(document).ready(function () {
-  $('#min-fix').on('keyup change', function () {
+  var sent_ = function(){
     sent_query()
-  });
+  }
+  $('#min-fix').on('keyup change', sent_);
   $('#min-hour').on('keyup change', function () {
     sent_query()
   });
@@ -11,6 +12,26 @@ $(document).ready(function () {
   $('#max-hour').on('keyup change', function () {
     sent_query()
   });
+
+  fix.onchange = function(){
+    sent_query()
+  }
+
+
+  hour.onchange = sent_
+  
+  // sent_query()
+
+  // $(function () {
+  //   var data = sent_query()
+  //   $.ajax({
+  //     type: "POST",
+  //     data: JSON.stringify(customer),
+  //     url: "api/Customer",
+  //     contentType: "application/json"
+  //   });
+  // });
+
 });
 
 function get_tag(id) {
@@ -63,6 +84,7 @@ function sent_query() {
   }
   var ret_json = JSON.stringify(ret)
   console.log(ret_json)
+  return ret_json
 }
 
 function delete_tag(element) {

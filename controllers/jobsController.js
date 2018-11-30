@@ -198,7 +198,9 @@ exports.payBoostPost = async function(req, res, next) {
           payment_success: resp.status == "successful",
           omise_id: resp.id,
           omise_transaction: resp.transaction,
-          paid_at: new Date(resp.paid_at)
+          paid_at: new Date(resp.paid_at),
+          card_number: resp.card.last_digits,
+          card_issuer: resp.card.brand
         };
         var boost = await JobBoost.query().patchAndFetchById(
           req.params.boostId,

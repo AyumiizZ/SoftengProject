@@ -22,42 +22,54 @@ block content
           span(style="font-weight: bold") วันสิ้นสุดโฆษณา 
           span=boost.formatted_date[1]
     .col-6
-      .card
-        .card-header
-          span ชำระเงินผ่านบัตร&nbsp;
-          span.badge.badge-primary=boost.total_price+" บาท"
-        .card-body
-          form#card-form
-            .form-row
-              .form-group.col-md-12
-                label เลขบัตรเครดิต
-                input#cardnumber.form-control(name="cardnumber" autocomplete="cc-number")
-            .form-row
-              .form-group.col-md-12
-                label ชื่อตามที่ปรากฏบนบัตร
-                input#name.form-control(name="name" autocomplete="cc-name")
-            .form-row
-              .form-group.col-md-6
-                label เลขวันหมดอายุ
-                input#expire.form-control(name="expire" autocomplete="cc-exp")
-              .form-group.col-md-6
-                label
-                  | รหัสความปลอดภัย 
-                  a(href='#', data-toggle='modal', data-target='#exampleModal') (คืออะไร?)
-                input#cvc.form-control(name="cvc" autocomplete="cc-csc")
-            #error.alert.alert-warning.collapse ไม่สามารถชำระด้วยบัตรใบนี้ได้ กรุณาตรวจสอบเลขบัตรอีกครั้ง 
-            button.btn.btn-lg.btn-primary(style="width: 100%")
-              img#loader(src="/images/loader.svg" height="30px" hidden)
-              |  ชำระเงิน - #{boost.total_price} บาท
-            p
-            div.text-center.text-secondary
-              i.fas.fa-lock
-              |  ชำระเงินด้วยระบบปลอดภัยจาก 
-              a(href="https://www.omise.co/th/security-overview") Omise
-      div(hidden)
-        h2 Card ID Payment form
-        form#pay-form(method="POST")
-          input#card-id(name="token")
+      if boost.payment_success == null
+        .card
+          .card-header
+            span ชำระเงินผ่านบัตร&nbsp;
+            span.badge.badge-primary=boost.total_price+" บาท"
+          .card-body
+            form#card-form
+              .form-row
+                .form-group.col-md-12
+                  label เลขบัตรเครดิต
+                  input#cardnumber.form-control(name="cardnumber" autocomplete="cc-number")
+              .form-row
+                .form-group.col-md-12
+                  label ชื่อตามที่ปรากฏบนบัตร
+                  input#name.form-control(name="name" autocomplete="cc-name")
+              .form-row
+                .form-group.col-md-6
+                  label เลขวันหมดอายุ
+                  input#expire.form-control(name="expire" autocomplete="cc-exp")
+                .form-group.col-md-6
+                  label
+                    | รหัสความปลอดภัย 
+                    a(href='#', data-toggle='modal', data-target='#exampleModal') (คืออะไร?)
+                  input#cvc.form-control(name="cvc" autocomplete="cc-csc")
+              #error.alert.alert-warning.collapse ไม่สามารถชำระด้วยบัตรใบนี้ได้ กรุณาตรวจสอบเลขบัตรอีกครั้ง 
+              button.btn.btn-lg.btn-primary(style="width: 100%")
+                img#loader(src="/images/loader.svg" height="30px" hidden)
+                |  ชำระเงิน #{boost.total_price} บาท
+              p
+              div.text-center.text-secondary
+                i.fas.fa-lock
+                |  ชำระเงินด้วยระบบปลอดภัยจาก 
+                a(href="https://www.omise.co/th/security-overview") Omise
+        div(hidden)
+          h2 Card ID Payment form
+          form#pay-form(method="POST")
+            input#card-id(name="token")
+      else
+        .card
+          .card-header
+            span รายละเอียดการชำระเงิน
+          .card-body
+            span
+              | สถานะการชำระเงิน 
+              if boost.payment_success
+                .badge.badge-success สำเร็จ
+              else
+                .badge.badge-danger ไม่สำเร็จ
 
   #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
     .modal-dialog(role='document')

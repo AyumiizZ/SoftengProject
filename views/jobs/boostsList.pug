@@ -28,11 +28,17 @@ block content
             td=b.total_price
             td
               if b.payment_success == null
-                a.btn.btn-outline-secondary(href=b.job_id+"/"+b.id+"/pay") จ่ายเงิน
+                a.btn.btn-secondary(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-credit-card
+                  |  จ่ายเงิน
               else if b.payment_success
-                a.btn.btn-success(href=b.job_id+"/"+b.id+"/pay") จ่ายเงินแล้ว
+                a.btn.btn-outline-success(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-check
+                  |  จ่ายเงินแล้ว
               else
-                a.btn.btn-danger(href=b.job_id+"/"+b.id+"/pay") จ่ายเงินไม่สำเร็จ
+                a.btn.btn-outline-danger(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-times
+                  |  จ่ายเงินไม่สำเร็จ
               
 
 block js-after

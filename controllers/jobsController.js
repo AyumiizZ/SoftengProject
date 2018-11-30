@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const Tag = require('../models/jobTag');
+const UserTag = require('../models/userTag');
 
 function redirectIfNotAuthenticated(req, res, next, userId) {
   if (userId != req.user.id) {
@@ -16,67 +17,85 @@ exports.redirectToBrowse = function(req, res, next) {
 exports.browse = async function(req, res, next) {
   // JSON SENT FROM FRONT-END ////////
   const temp = {
-    "fix": 0,
+    "fix": 1,
     "hour": 0,
-    "tag":["Python"],
+    "tag":["Python", "PHP", "React"],
     "langs":["Thai","English"],
     "min_fix": 0,
     "max_fix":1000000,
     "min_hour":0,
     "max_hour":10000,
-    "sort":"Lowest Price"
+    "sort":"Oldest"
   }
   var ret_json = JSON.stringify(temp)
   ////////////////////////////////////
 
   var ret = JSON.parse(ret_json);
-  console.log(req.user.id);
-
-  var user_skills = await Tag.query()
-    .groupBy('tag');
 
   var user_lang = ["Thai", "English"];
-  let jobs = await Job.query().eager("tags");
+  let jobs = Job.query()
+      .joinRelation('tags')
+      .groupBy('id');
+  // if (ret.fix || ret.hour) {
+  //   jobs = await Job.query()
+  //   .joinRelation('tags')
+  //   .groupBy('id')
+  //   .where(subquery => {
+  //     subquery
+  //     .where('tag', 'in', ret.tag)
+  //   })
+  //   .where(subquery => {
+  //     subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
+  //     .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
+  //   })
+  //   .eager('tags')
+  //   .orderBy("created_at", 'desc');
+  // }
+  // else if (!ret.fix && !ret.fix) {
+  //   jobs = await Job.query()
+  //   .joinRelation('tags')
+  //   .groupBy('id')
+  //   .where(subquery => {
+  //     subquery
+  //     .where('tag', 'in', ret.tag)
+  //   })
+  //   .where(subquery => {
+  //     subquery.where('fixed', '=', 4).whereBetween('price', [ret.min_fix, ret.max_fix])
+  //     .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
+  //   })
+  //   .eager('tags')
+  //   .orderBy("created_at", 'desc');
+  // }
+  if (ret.fix && ret.hourly) {
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+    .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
+  }
+  else if (ret.fix && !ret.hourly) {
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+  }
+  else if (!ret.fix && ret.hourly) {
+    jobs.where('hourly', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+  }
+  if (ret.tag.length > 0) {
+    jobs.where('tag', 'in', ret.tag)
+  }
+  if (ret.sort == 'Lastest') {
+    jobs.orderBy('created_at', 'desc')
+  }
+  else if (ret.sort == 'Oldest') {
+    jobs.orderBy('created_at', 'increase')
+  }
+  jobs = jobs.eager("tags")
   console.log(jobs);
-  if (ret.fix || ret.hour) {
-    jobs = await Job.query()
-    .joinRelation('tags')
-    .groupBy('id')
-    .where(subquery => {
-      subquery
-      .where('tag', 'in', ret.tag)
-    })
-    .where(subquery => {
-      subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
-      .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
-    })
-    .eager('tags')
-    .orderBy("created_at", 'desc');
-  }
-  else {
-    jobs = await Job.query()
-    .joinRelation('tags')
-    .groupBy('id')
-    .where(subquery => {
-      subquery
-      .where('tag', 'in', ret.tag)
-    })
-    .where(subquery => {
-      subquery.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-      .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
-    })
-    .eager('tags')
-    .orderBy("created_at", 'desc');
-  }
   let n_results = jobs.length;
 
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
-    jobs: jobs,
-    skills: user_skills,
+    jobs: await jobs,
     lang: user_lang,
+    skills: {},
     n_results: n_results
   });
 };

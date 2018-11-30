@@ -67,7 +67,14 @@ block js-after
         var skills = $("#skills .input-tag");
         if(skill_input.val() != ","){
           var tag = "<div class='input-tag'>" + skill_input.val().substring(0, skill_input.val().length-1) + "<div class='delete-tag' onclick='deleteTag(this)'>×</div></div>";
-          $(tag).insertAfter(skills[skills.length-1]);
+          console.log(skills.length);
+          if(skills.length == 0) {
+            console.log("jjj");
+            $(tag).prependTo("#skills");
+          }
+          else {
+            $(tag).insertAfter(skills[skills.length-1]);
+          }
           iterateOverTags();
         }
         skill_input.val("");

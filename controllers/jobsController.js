@@ -88,8 +88,21 @@ exports.addGet = function(req, res) {
 
 exports.addPost = async function(req, res, next) {
   console.log(req.user);
+  console.log(req.body);
   req.body.client_id = req.user.id;
+  const tagsText = req.body.tags.split(",");
+  delete req.body.tags;
+  delete req.body.deleted;
+  delete req.body.job_type;
+  console.log(req.body);
   const job = await Job.query().insert(req.body);
+  for(var i = 0; i < tagsText.length; i++) {
+    const tag = {
+      job_id: job.id,
+      tag: tagsText[i]
+    };
+    const tags = await Tag.query().insert(tag);
+  }
   res.redirect("/jobs/view/" + job.id);
 };
 
@@ -113,14 +126,12 @@ exports.editPost = async function(req, res, next) {
 
   if(req.body.deleted || newTags != "") {
     const oldTags = await Tag.query().where("job_id", job.id).del();
-    if(newTags != "") {
-      for(var i = 0; i < newTags.length; i++) {
-        const tag = {
-          job_id: job.id,
-          tag: newTags[i]
-        };
-        const updatedTag = await Tag.query().insert(tag);
-      }
+    for(var i = 0; i < newTags.length; i++) {
+      const tag = {
+        job_id: job.id,
+        tag: newTags[i]
+      };
+      const updatedTag = await Tag.query().insert(tag);
     }
   }
   delete req.body.tags;

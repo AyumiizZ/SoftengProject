@@ -6,7 +6,6 @@ exports.viewProfile = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
     .first();
-
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/profile", {
     title: title,

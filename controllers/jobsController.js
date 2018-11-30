@@ -206,7 +206,7 @@ exports.payBoostPost = async function(req, res, next) {
           req.params.boostId,
           paymentData
         );
-        res.json(boost);
+        res.redirect(req.protocol + "://" + req.get("host") + req.originalUrl);
       }
     }
   );

@@ -103,19 +103,33 @@ exports.editGet = async function(req, res, next) {
     h1_title: "แก้ไขประกาศงาน",
     job: job,
     tags: job.tags,
-    current_tag: ""
   });
 };
 
 exports.editPost = async function(req, res, next) {
+  const newTags = req.body.tags.split(",");
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
-  console.log(req.tags);
-/*  const old_tag = await Tag.query().where("job_id", job.id).del();
+
+  if(req.body.deleted || newTags != "") {
+    const oldTags = await Tag.query().where("job_id", job.id).del();
+    if(newTags != "") {
+      for(var i = 0; i < newTags.length; i++) {
+        const tag = {
+          job_id: job.id,
+          tag: newTags[i]
+        };
+        const updatedTag = await Tag.query().insert(tag);
+      }
+    }
+  }
+  delete req.body.tags;
+  delete req.body.deleted;
+  delete req.body.job_type;
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body
-  );*/
+  );
   res.redirect("/jobs/view/" + updatedJob.id);
 };
 

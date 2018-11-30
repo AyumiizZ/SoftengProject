@@ -24,22 +24,26 @@ block content
           if locals.job
             each val in tags
               .input-tag=val.tag
-                .delete-tag(onclick="delete_tag(this)") ×
-          input#skill_input(type="text", placeholder='Select Skill')
+                .delete-tag(onclick='deleteTag(this)') ×
+          input#skill_input(type='text', placeholder='Select Skill')
+          input#formTags(name='tags', type='hidden')
+          input#checkDelete(name='deleted', type='hidden')
     .form-group
       label ประเภทค่าจ้าง
-      select#inlineFormCustomSelect.custom-select.mr-sm-2(name='project_type')
+      select#inlineFormCustomSelect.custom-select.mr-sm-2(name='job_type')
         if locals.job
           if job.fixed
             option(value='1', selected='') อัตราคงที่
             option(value='2') รายชั่วโมง
           else
             option(value='1') อัตราคงที่
-            option(value='2', selected='2') รายชั่วโมง
+            option(value='2', selected='') รายชั่วโมง
         else
           option(value='', selected='') เลือกประเภทค่าจ้าง
           option(value='1') อัตราคงที่
           option(value='2') รายชั่วโมง
+      input#fixed(name='fixed', type='hidden')
+      input#hourly(name='hourly', type='hidden')
     .form-group
       label ราคา
       if locals.job
@@ -62,13 +66,37 @@ block js-after
       if (e.keyCode === 188){
         var skills = $("#skills .input-tag");
         if(skill_input.val() != ","){
-          var tag = "<div class='input-tag'>" + skill_input.val().substring(0, skill_input.val().length-1) + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>";
+          var tag = "<div class='input-tag'>" + skill_input.val().substring(0, skill_input.val().length-1) + "<div class='delete-tag' onclick='deleteTag(this)'>×</div></div>";
           $(tag).insertAfter(skills[skills.length-1]);
+          iterateOverTags();
         }
         skill_input.val("");
       }
     });
 
-    function delete_tag(element) {
-      element.parentNode.remove()
+    var jobType = $("#inlineFormCustomSelect.custom-select");
+    jobType.on("change", function() {
+      if($(this).val() == 1) {
+        $("#fixed").val(1);
+        $("#hourly").val(null);
+      }
+      else {
+        $("#fixed").val(null);
+        $("#hourly").val(1);
+      }
+    });
+
+    function deleteTag(element) {
+      element.parentNode.remove();
+      $("#checkDelete").val(true);
+      iterateOverTags();
+    }
+
+    function iterateOverTags() {
+      var tagList = [];
+      $("#skills .input-tag").each(function(index) {
+        tagList.push($(this).text().substring(0, $(this).text().length-1));
+      });
+      var tags = tagList.join(",");
+      $("#formTags").val(tags);
     }

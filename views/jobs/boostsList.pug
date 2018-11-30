@@ -7,6 +7,8 @@ block content
         .flex-grow-1
           span ประวัติการลงโฆษณาของงาน 
           h1 #{job.job}
+        div
+          a.btn.btn-primary(href=job.id+'/add') ลงโฆษณาใหม่
   .row
     .col-12
       table#boostsTable.table

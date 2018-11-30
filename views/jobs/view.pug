@@ -37,7 +37,7 @@ block content
         .card-body
           h2 ฟรีแลนซ์ที่สนใจงานนี้
           p(style="font-size: 70px") #{interestCount} 
-          a.btn.btn-outline-info(href=job.id+"/interests") ดูรายชื่อฟรีแลนซ์ที่สนใจงานนี้
+          a.btn.btn-outline-info(href="/jobs/view/" + job.id + "/interests") ดูรายชื่อฟรีแลนซ์ที่สนใจงานนี้
     .col-4
       .card.text-center
         .card-body
@@ -49,4 +49,4 @@ block content
             p
               span.text-info.font-weight-bold งานนี้ยังว่างอยู่!&nbsp;
               span กดลงทะเบียนเพื่อแสดงความสนใจทำงานนี้
-            a.btn.btn-info(href="../interested/"+job.id) แสดงความสนใจ
+            a.btn.btn-info(href="/jobs/interested/"+job.id) แสดงความสนใจ

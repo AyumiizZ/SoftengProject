@@ -44,11 +44,10 @@ exports.browse = async function(req, res, next) {
   ////////////////////////////////////
 
   var ret = JSON.parse(ret_json);
-  console.log(ret);
   var user_lang = ["Thai", "English"];
   let jobs = Job.query()
       .joinRelation('tags')
-      .groupBy('id');
+      .groupBy('id')
   // if (ret.fix || ret.hour) {
   //   jobs = await Job.query()
   //   .joinRelation('tags')
@@ -89,26 +88,26 @@ exports.browse = async function(req, res, next) {
   // else if (!ret.fix && ret.hourly) {
   //   jobs.where('hourly', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
   // }
-  if (ret.skills.length > 0) {
-    jobs.where('tag', 'in', ret.skills)
-  }
-  if (ret.sort == 'Lastest') {
-    jobs.orderBy('created_at', 'desc')
-  }
-  else if (ret.sort == 'Oldest') {
-    jobs.orderBy('created_at', 'increase')
-  }
-  else if (ret.sort == 'Lowest Price') {
-    jobs.orderBy('price', 'increase')
-  }
-  else if (ret.sort == 'Highest Price') {
-    jobs.orderBy('price', 'desc')
-  }
-  jobs = jobs.eager("tags")
+  // if (ret.skills.length > 0) {
+  //   jobs.where('tag', 'in', ret.skills)
+  // }
+  // if (ret.sort == 'Lastest') {
+  //   jobs.orderBy('created_at', 'desc')
+  // }
+  // else if (ret.sort == 'Oldest') {
+  //   jobs.orderBy('created_at', 'increase')
+  // }
+  // else if (ret.sort == 'Lowest Price') {
+  //   jobs.orderBy('price', 'increase')
+  // }
+  // else if (ret.sort == 'Highest Price') {
+  //   jobs.orderBy('price', 'desc')
+  // }
+  jobs = await jobs.eager('[tags, freelance_interests, client, freelance]')
   console.log(jobs);
   let n_results = jobs.length;
-  console.log(n_results);
-
+  console.log(jobs.freelance_interests);
+  //console.log(n_results);
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {

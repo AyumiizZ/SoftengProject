@@ -13,9 +13,9 @@ block content
     .col-9
       ul.nav.nav-tabs.mb-2
         li.nav-item
-          a.nav-link.active(href="#") เกี่ยวกับ 
+          a.nav-link.active(href="/#") เกี่ยวกับ 
         li.nav-item
-          a.nav-link(href="jobs/1") ผลงาน 
+          a.nav-link(href="/profile/"+user.username+"/jobs/1") ผลงาน 
         li.nav-item
-          a.nav-link(href="reviews") รีวิว
+          a.nav-link(href="/profile/"+user.username+"/reviews") รีวิว
       span !{user.overview_md()}

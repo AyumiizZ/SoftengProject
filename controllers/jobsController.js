@@ -98,7 +98,7 @@ exports.editGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
   let title = "Jobs | JetFree by JainsBret";
-  res.render("jobs/addedit", {
+  res.render("jobs/addedit/", {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
     job: job

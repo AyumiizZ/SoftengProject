@@ -50,11 +50,14 @@ $(document).ready(function () {
     });
   }
 
-  var add_tag = function (input, id) {
+  var add_tag = function (input, id, key) {
     var tags = get_tag(id)
     var res = ""
     if (tags.indexOf(input.value) === -1) {
-      tags.push(input.value)
+      if(key === 188)
+        tags.push(input.value.substring(0,input.value.length-1))
+      else
+        tags.push(input.value)
     }
     for (i = 0; i < tags.length; i++) {
       res += "<div class='input-tag'>" + tags[i] + "<div class='delete-tag' id='" + tags[i] + "'>×</div></div>"
@@ -68,7 +71,7 @@ $(document).ready(function () {
       key = event.keyCode;
       id = this.parentNode.id
       input = this.value
-      if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      if ((key === 13 || key === 188) && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
         add_tag(this, id)
       }
     });
@@ -92,8 +95,8 @@ $(document).ready(function () {
     key = event.keyCode;
     id = this.parentNode.id
     input = this.value
-    if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
-      add_tag(this, id)
+    if ((key === 13 || key === 188) && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      add_tag(this, id, key)
     }
   });
 

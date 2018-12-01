@@ -98,6 +98,7 @@ block body
                 .btn-group 
                   button.btn.btn-trans.dropdown-toggle#sort-by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     | Sort By Recommend
+<<<<<<< HEAD
                   .dropdown-menu#sort-type
                     - var item = ["Recommend","Lastest","Oldest","Lowest Price","Highest Price","Most Bid","Fewest Bid"]
                     each val in item
@@ -110,6 +111,17 @@ block body
                     //- a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
                     //- a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
 
+=======
+                  .dropdown-menu
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Latest
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
+                    
+>>>>>>> 622866704f3cb1aae740e97d312a9d393b5a34de
           ul.search-result-list
             each val in jobs
               li
@@ -141,7 +153,7 @@ block body
                               span #{val.freelance.name}
                             else
                               span.open Open
-                              span  - # bit
+                              span  - # 1
                           .info-card-details.info-card-grid-item.info-card-skills-container
                             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
                             each tag, index in val.tags_array()

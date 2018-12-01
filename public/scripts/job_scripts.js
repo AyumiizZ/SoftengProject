@@ -1,34 +1,65 @@
 $(document).ready(function () {
-  var input_tag = $('.input-tag')
-  var sent_ = function(){
+  var sent_ = function () {
     sent_query()
   }
 
-  var delete_tag = function() {
+  var delete_tag = function () {
     $(this).remove()
     sent_query()
   }
 
-  $('#min-fix').on('keyup change', sent_);
-  $('#min-hour').on('keyup change', sent_);
-  $('#max-fix').on('keyup change', sent_);
-  $('#max-hour').on('keyup change', sent_);
+  var add_tag = function (input, id) {
+    var tags = get_tag(id)
+    var res = ""
+    if(tags.indexOf(input.value) === -1){
+      tags.push(input.value)
+    }
+    for(i = 0; i < tags.length; i++){
+      res += "<div class='input-tag'>" + tags[i] + "<div class='delete-tag' id='" + tags[i] + "'>×</div></div>"
+    }
+    res += "<input id='skill-input' type='text' placeholder='Select Skill'>"
+    input.parentNode.innerHTML = res
+    input.value = ''
+    $('.input-tag').click(delete_tag)
+  }
+
+  $('#min-fix').on('keyup', sent_);
+  $('#min-hour').on('keyup', sent_);
+  $('#max-fix').on('keyup', sent_);
+  $('#max-hour').on('keyup', sent_);
+
+  // $('#lang-input').on('keyup', function(event){
+  //   event.preventDefault();
+  //   if (event.keyCode === 13) {
+  //     add_tag($('#lang-input')[0], 'lang')
+  //   }
+  // });
+
+  $('input .filter-tag-input').on('keyup', function (event) {
+    event.preventDefault();
+    key = event.keyCode;
+    id = this.parentNode.id
+    input = this.value
+    if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      add_tag(this, id)
+    }
+  });
 
   fix.onchange = sent_
   hour.onchange = sent_
   // del_tag = delete_tag(element)
-  input_tag.click(delete_tag)
-  
+  $('.input-tag').click(delete_tag)
+
   // console.log($('#del_tag'))
-  
+
   // sent_query()
 
   // $(function () {
   //   var data = sent_query()
   //   $.ajax({
   //     type: "POST",
-  //     data: JSON.stringify(customer),
-  //     url: "api/Customer",
+  //     data: data,
+  //     url: "/jobs/browse",
   //     contentType: "application/json"
   //   });
   // });
@@ -105,34 +136,34 @@ function change_sort(element) {
 }
 
 
-function add_tag(input, id) {
-  if (input.value != '') {
-    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' id='" + input.value + "'>×</div></div>"
-    var input_tag = $('#' + id + ' .input-tag');
-    var input_arr = get_tag(id + 's');
-    if (input_arr.indexOf(input.value) === -1) {
-      if (langs.length > 0)
-        $(tag).insertAfter(input_tag[input_tag.length - 1])
-      else
-        $(tag).insertBefore(input);
-      sent_query()
-    }
-    input.value = ''
-  }
-}
+// function add_tag(input, id) {
+//   if (input.value != '') {
+//     var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' id='" + input.value + "'>×</div></div>"
+//     var input_tag = $('#' + id + ' .input-tag');
+//     var input_arr = get_tag(id + 's');
+//     if (input_arr.indexOf(input.value) === -1) {
+//       if (langs.length > 0)
+//         $(tag).insertAfter(input_tag[input_tag.length - 1])
+//       else
+//         $(tag).insertBefore(input);
+//       sent_query()
+//     }
+//     input.value = ''
+//   }
+// }
 
-var lang_input = document.getElementById("lang-input");
-lang_input.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    add_tag(lang_input, 'lang')
-  }
-});
+// var lang_input = document.getElementById("lang-input");
+// lang_input.addEventListener("keyup", function (event) {
+//   event.preventDefault();
+//   if (event.keyCode === 13) {
+//     add_tag(lang_input, 'lang')
+//   }
+// });
 
-var skill_input = document.getElementById("skill-input");
-skill_input.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    add_tag(skill_input, 'skill')
-  }
-});
+// var skill_input = document.getElementById("skill-input");
+// skill_input.addEventListener("keyup", function (event) {
+//   event.preventDefault();
+//   if (event.keyCode === 13) {
+//     add_tag(skill_input, 'skill')
+//   }
+// });

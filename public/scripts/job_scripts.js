@@ -11,14 +11,23 @@ $(document).ready(function () {
 
   var sent_query = function () {
     $(function () {
-      var data = get_query()
+      var data = get_query();
       $.ajax({
         type: "POST",
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
+  }
+
+  var render = function(data){
+    $(".search-result-list").html("");
+    for(var i=0; i<data.length; i++){
+      $(".search-result-list").append(data[i].title);
+    }
   }
 
   var delete_tag = function () {
@@ -164,7 +173,6 @@ function get_query() {
     skills: skill_arr,
     langs: lang_arr
   }
-  console.log(JSON.stringify(ret))
   return JSON.stringify(ret)
 }
 

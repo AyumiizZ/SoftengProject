@@ -44,7 +44,34 @@ router.post(
 );
 
 router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);
-
 router.post("/add", authMiddleware.isAuthenticated, jobsController.addPost);
+
+router.get(
+  "/boost/:jobId",
+  authMiddleware.isAuthenticated,
+  jobsController.boostList
+);
+
+router.get(
+  "/boost/:jobId/add",
+  authMiddleware.isAuthenticated,
+  jobsController.boostGet
+);
+router.post(
+  "/boost/:jobId/add",
+  authMiddleware.isAuthenticated,
+  jobsController.boostPost
+);
+
+router.get(
+  "/boost/:jobId/:boostId/pay",
+  authMiddleware.isAuthenticated,
+  jobsController.payBoostGet
+);
+router.post(
+  "/boost/:jobId/:boostId/pay",
+  authMiddleware.isAuthenticated,
+  jobsController.payBoostPost
+);
 
 module.exports = router;

@@ -45,11 +45,11 @@ exports.viewPastJobs = async function(req, res) {
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
-  
+
   const amount = past_job.length;
   const per_page = 5;
   const page = Number(req.params.page);
-  var jobs = past_job.slice(per_page*(page-1), page*per_page);
+  var jobs = past_job.slice(per_page * (page - 1), page * per_page);
   console.log(jobs);
 
   const title = req.params.username + "'s Past Jobs | JetFree by JainsBret";
@@ -63,7 +63,7 @@ exports.viewPastJobs = async function(req, res) {
     page: page,
     n: 1,
     amount: amount,
-    limit: Math.ceil(amount/per_page)
+    limit: Math.ceil(amount / per_page)
   });
 };
 
@@ -71,5 +71,5 @@ exports.redirectToUserProfile = function(req, res) {
   if (!req.user) {
     res.redirect("/");
   }
-  res.redirect(req.baseUrl + "/" + req.user.username + "/");
+  res.redirect(req.baseUrl + "/" + req.user.username);
 };

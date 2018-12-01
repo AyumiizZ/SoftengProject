@@ -10,7 +10,15 @@ $(document).ready(function () {
   // });
 
   var sent_ = function () {
-    get_query()
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
   }
 
   var delete_tag = function () {
@@ -94,7 +102,7 @@ $(document).ready(function () {
 
   // sent_query()
 
-  
+
 
 
 });

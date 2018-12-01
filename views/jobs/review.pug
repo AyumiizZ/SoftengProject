@@ -1,0 +1,18 @@
+extends ../incontainer 
+
+block content
+    .row
+        .col-10
+            h1 เกือบเสร็จแล้ว!
+    hr
+    .form-group
+        label รีวิว
+        textarea(class="form-control" rows="5" name="overview" placeholder="")
+
+block js-after
+  script.
+    var simplemde = new SimpleMDE({
+      spellChecker: false,
+      status: false,
+      toolbar: ["bold", "italic", "|", "quote", "code", "|", "unordered-list", "ordered-list", "|", "link", "image", "|", "guide"]
+     });

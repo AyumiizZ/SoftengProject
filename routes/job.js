@@ -48,21 +48,23 @@ router.get(
   authMiddleware.isAuthenticated,
   jobsController.freelanceJobsGet
 );
-router.post(
-  "/current/freelance",
-  authMiddleware.isAuthenticated,
-  jobsController.freelanceJobsPost
-);
 
 router.get(
   "/current/client",
   authMiddleware.isAuthenticated,
   jobsController.clientJobsGet
 );
-router.post(
-  "/current/client",
+
+router.get(
+  "/current/freelance/:jobId/finished",
   authMiddleware.isAuthenticated,
-  jobsController.clientJobsPost
+  jobsController.reviewGet
+);
+
+router.get(
+  "/current/client/:jobId/finished",
+  authMiddleware.isAuthenticated,
+  jobsController.reviewGet
 );
 
 router.get("/add", authMiddleware.isAuthenticated, jobsController.addGet);

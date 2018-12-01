@@ -10,8 +10,12 @@ const omise = require("omise")({
   omiseVersion: "2017-11-02"
 });
 
-function redirectIfNotAuthenticated(req, res, next, userId) {
-  if (userId != req.user.id) {
+function redirectIfNotAuthenticated(req, res, next, clientId, freelanceId) {
+  if (freelanceId == undefined) {
+    freelanceId = -1;
+  }
+  console.log(clientId+" "+freelanceId+" "+req.user.id);
+  if (clientId != req.user.id && freelanceId != req.user.id) {
     res.status(403).render("errors/403");
   }
 }
@@ -321,10 +325,6 @@ exports.freelanceJobsGet = async function(req, res, next) {
   });
 };
 
-exports.freelanceJobsPost = async function(req, res, next) {
-
-}
-
 exports.clientJobsGet = async function(req, res, next) {
   const job = await Job.query().where("client_id", req.user.id).eager("status");
   console.log(job);
@@ -334,9 +334,15 @@ exports.clientJobsGet = async function(req, res, next) {
   });
 };
 
-exports.clientJobsPost = async function(req, res, next) {
-  
-}
+exports.reviewGet = async function(req, res, next) {
+  const job = await Job.query().findById(req.params.jobId);
+  redirectIfNotAuthenticated(req, res, next, job.client_id, job.user_id);
+  console.log(job);
+  res.render("jobs/review", {
+    user: req.user,
+    jobs: job
+  });
+};
 
 exports.boostGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);

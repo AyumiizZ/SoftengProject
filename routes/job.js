@@ -6,7 +6,8 @@ var authMiddleware = require("../middlewares/authMiddleware");
 const Job = require("../models/job");
 
 router.get("/", jobsController.redirectToBrowse);
-router.get("/browse", jobsController.browse);
+router.get("/browse", jobsController.browseGet);
+router.post("/browse", jobsController.browsePost);
 
 router.get("/view/:jobId", jobsController.view);
 

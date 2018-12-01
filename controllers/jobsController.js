@@ -256,6 +256,28 @@ exports.showInterestsPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + jobId);
 };
 
+exports.freelanceJobsGet = async function(req, res, next) {
+  let title = "Jobs | JetFree by JainsBret";
+  console.log(req.user);
+  const job = await Job.query().where("user_id", req.user.id);
+  res.render("jobs/freelanceJobs", {
+    user: req.user,
+    title: title,
+    jobs: job
+  });
+};
+
+exports.clientJobsGet = async function(req, res, next) {
+  let title = "Jobs | JetFree by JainsBret";
+  console.log(req.user);
+  const job = await Job.query().where("client_id", req.user.id);
+  res.render("jobs/clientJobs", {
+    user: req.user,
+    title: title,
+    jobs: job
+  });
+};
+
 exports.boostGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);

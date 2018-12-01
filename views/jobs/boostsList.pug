@@ -1,0 +1,46 @@
+extends ../incontainer 
+
+block content
+  .row
+    .col-12
+      .d-flex
+        .flex-grow-1
+          span ประวัติการลงโฆษณาของงาน 
+          h1 #{job.job}
+        div
+          a.btn.btn-primary(href=job.id+'/add') ลงโฆษณาใหม่
+  .row
+    .col-12
+      table#boostsTable.table
+        thead
+          td รหัสการซื้อ
+          td วันเริ่มต้น
+          td วันสิ้นสุด
+          td จำนวนวัน
+          td ราคารวม
+          td การจ่ายเงิน
+        for b in job.boosts
+          tr
+            td=b.id
+            td=b.formatted_date[0]
+            td=b.formatted_date[1]
+            td=b.duration
+            td=b.total_price
+            td
+              if b.payment_success == null
+                a.btn.btn-secondary(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-credit-card
+                  |  จ่ายเงิน
+              else if b.payment_success
+                a.btn.btn-outline-success(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-check
+                  |  จ่ายเงินแล้ว
+              else
+                a.btn.btn-outline-danger(href=b.job_id+"/"+b.id+"/pay")
+                  i.fas.fa-times
+                  |  จ่ายเงินไม่สำเร็จ
+              
+
+block js-after
+  script.
+    $('#boostsTable').DataTable();

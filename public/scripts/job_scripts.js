@@ -84,27 +84,7 @@ function change_sort(element) {
   sent_query()
 }
 
-function choose_this() {
-  sent_query()
-}
-
-function add_tag(input, id) {
-  if (input.value != '') {
-    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
-    var input_tag = $('#' + id + ' .input-tag');
-    var input_arr = get_tag(id + 's');
-    if (input_arr.indexOf(input.value) === -1) {
-      if (langs.length > 0)
-        $(tag).insertAfter(input_tag[input_tag.length - 1])
-      else
-        $(tag).insertBefore(input);
-      sent_query()
-    }
-    input.value = ''
-  }
-}
-
-var lang_input = document.getElementById("lang-input");
+var lang_input = document.getElementById("lang_input");
 lang_input.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (event.keyCode === 13) {

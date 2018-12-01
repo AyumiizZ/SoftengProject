@@ -9,7 +9,7 @@ $(document).ready(function () {
   //   });
   // });
 
-  var sent_ = function () {
+  var sent_query = function () {
     $(function () {
       var data = get_query()
       $.ajax({
@@ -83,17 +83,9 @@ $(document).ready(function () {
     });
   }
 
-  $('#min-fix').on('keyup', sent_);
-  $('#min-hour').on('keyup', sent_);
-  $('#max-fix').on('keyup', sent_);
-  $('#max-hour').on('keyup', sent_);
+  console.log($('#min,#max'))
 
-  // $('#lang-input').on('keyup', function(event){
-  //   event.preventDefault();
-  //   if (event.keyCode === 13) {
-  //     add_tag($('#lang-input')[0], 'lang')
-  //   }
-  // });
+  $('#min-fix,#max-fix,#min-hour,#max-hour').on('keyup', sent_query);
 
   $('.filter-tag-input input').on('keyup', function (event) {
     event.preventDefault();
@@ -105,9 +97,8 @@ $(document).ready(function () {
     }
   });
 
-  fix.onchange = sent_
-  hour.onchange = sent_
-  // del_tag = delete_tag(element)
+  fix.onchange = sent_query
+  hour.onchange = sent_query
   $('.input-tag').click(delete_tag)
   $('#clear-skill').click(function () {
     delete_all_tag('skills')
@@ -123,14 +114,6 @@ $(document).ready(function () {
     dropbtn[0].innerText = "Sort By " + $(this).innerText
     console.log(this)
   })
-
-  // console.log($('#del_tag'))
-
-  // sent_query()
-
-
-
-
 });
 
 function get_tag(id) {
@@ -186,44 +169,8 @@ function get_query() {
 }
 
 
-
-
-
 // function change_sort(element) {
 //   var dropbtn = $('#sort-by');
 //   dropbtn[0].innerText = "Sort By " + element.innerText
 //   sent_query()
 // }
-
-
-// function add_tag(input, id) {
-//   if (input.value != '') {
-//     var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' id='" + input.value + "'>×</div></div>"
-//     var input_tag = $('#' + id + ' .input-tag');
-//     var input_arr = get_tag(id + 's');
-//     if (input_arr.indexOf(input.value) === -1) {
-//       if (langs.length > 0)
-//         $(tag).insertAfter(input_tag[input_tag.length - 1])
-//       else
-//         $(tag).insertBefore(input);
-//       sent_query()
-//     }
-//     input.value = ''
-//   }
-// }
-
-// var lang_input = document.getElementById("lang-input");
-// lang_input.addEventListener("keyup", function (event) {
-//   event.preventDefault();
-//   if (event.keyCode === 13) {
-//     add_tag(lang_input, 'lang')
-//   }
-// });
-
-// var skill_input = document.getElementById("skill-input");
-// skill_input.addEventListener("keyup", function (event) {
-//   event.preventDefault();
-//   if (event.keyCode === 13) {
-//     add_tag(skill_input, 'skill')
-//   }
-// });

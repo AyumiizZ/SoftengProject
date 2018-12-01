@@ -1,16 +1,119 @@
 $(document).ready(function () {
-  $('#min-fix').on('keyup change', function () {
-    sent_query()
+  // var sent_query = $(function () {
+  //   var data = get_query()
+  //   $.ajax({
+  //     type: "POST",
+  //     data: data,
+  //     url: "/jobs/browse",
+  //     contentType: "application/json"
+  //   });
+  // });
+
+  var sent_query = function () {
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
+  }
+
+  var delete_tag = function () {
+    $(this).remove()
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
+  }
+
+  var delete_all_tag = function (id) {
+    var tag_box = $('#' + id + ' .input-tag')
+    for (i = 0; i < tag_box.length; i++) {
+      tag_box[i].remove()
+    }
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
+  }
+
+  var add_tag = function (input, id) {
+    var tags = get_tag(id)
+    var res = ""
+    if (tags.indexOf(input.value) === -1) {
+      tags.push(input.value)
+    }
+    for (i = 0; i < tags.length; i++) {
+      res += "<div class='input-tag'>" + tags[i] + "<div class='delete-tag' id='" + tags[i] + "'>×</div></div>"
+    }
+    res += "<input id='skill-input' type='text' placeholder='Select Skill'>"
+    input.parentNode.innerHTML = res
+    input.value = ''
+    $('.input-tag').click(delete_tag)
+    $('.filter-tag-input input').on('keyup', function (event) {
+      event.preventDefault();
+      key = event.keyCode;
+      id = this.parentNode.id
+      input = this.value
+      if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+        add_tag(this, id)
+      }
+    });
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
+  }
+
+  console.log($('#min,#max'))
+
+  $('#min-fix,#max-fix,#min-hour,#max-hour').on('keyup', sent_query);
+
+  $('.filter-tag-input input').on('keyup', function (event) {
+    event.preventDefault();
+    key = event.keyCode;
+    id = this.parentNode.id
+    input = this.value
+    if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      add_tag(this, id)
+    }
   });
-  $('#min-hour').on('keyup change', function () {
-    sent_query()
-  });
-  $('#max-fix').on('keyup change', function () {
-    sent_query()
-  });
-  $('#max-hour').on('keyup change', function () {
-    sent_query()
-  });
+
+  fix.onchange = sent_query
+  hour.onchange = sent_query
+  $('.input-tag').click(delete_tag)
+  $('#clear-skill').click(function () {
+    delete_all_tag('skills')
+  })
+  $('#clear-lang').click(function () {
+    delete_all_tag('langs')
+  })
+  console.log($('#sort-type'))
+  console.log($('#clear-lang'))
+  $('#sort-type').click(() => {
+    console.log("click")
+    var dropbtn = $('#sort-by');
+    dropbtn[0].innerText = "Sort By " + $(this).innerText
+    console.log(this)
+  })
 });
 
 function get_tag(id) {
@@ -27,25 +130,25 @@ function get_sort() {
   return dropbtn[0].innerText.substring(8);
 }
 
-function get_min_max(id, thisdefault) {
+function get_int(id, Default) {
   var input = document.getElementById(id).value;
   if (parseInt(input) == input) {
-    return input
+    return parseInt(input)
   } else {
-    return thisdefault
+    return Default
   }
 }
 
-function sent_query() {
+function get_query() {
   var sort = get_sort();
   var skill_arr = get_tag('skills');
   var lang_arr = get_tag('langs');
   var fixed_check = $("#fix").is(":checked");
-  var fixed_min = get_min_max('min-fix', 0);
-  var fixed_max = get_min_max('max-fix', 1000000);
-  var hourly_min = get_min_max('min-hour', 0);
-  var hourly_max = get_min_max('max-hour', 100000);
+  var fixed_min = get_int('min-fix', 0);
+  var fixed_max = get_int('max-fix', 1000000);
   var hourly_check = $("#hour").is(":checked");
+  var hourly_min = get_int('min-hour', 0);
+  var hourly_max = get_int('max-hour', 100000);
   var ret = {
     sort: sort,
     fixed: {
@@ -61,61 +164,13 @@ function sent_query() {
     skills: skill_arr,
     langs: lang_arr
   }
-  var ret_json = JSON.stringify(ret)
-  console.log(ret_json)
+  console.log(JSON.stringify(ret))
+  return JSON.stringify(ret)
 }
 
-function delete_tag(element) {
-  element.parentNode.remove()
-  sent_query()
-}
 
-function delete_all_tag(id) {
-  var tag_box = $('#' + id + ' .input-tag')
-  for (i = 0; i < tag_box.length; i++) {
-    tag_box[i].remove()
-  }
-  sent_query()
-}
-
-function change_sort(element) {
-  var dropbtn = $('#sort-by');
-  dropbtn[0].innerText = "Sort By " + element.innerText
-  sent_query()
-}
-
-function choose_this() {
-  sent_query()
-}
-
-function add_tag(input, id) {
-  if (input.value != '') {
-    var tag = "<div class='input-tag'>" + input.value + "<div class='delete-tag' onclick='delete_tag(this)'>×</div></div>"
-    var input_tag = $('#' + id + ' .input-tag');
-    var input_arr = get_tag(id + 's');
-    if (input_arr.indexOf(input.value) === -1) {
-      if (langs.length > 0)
-        $(tag).insertAfter(input_tag[input_tag.length - 1])
-      else
-        $(tag).insertBefore(input);
-      sent_query()
-    }
-    input.value = ''
-  }
-}
-
-var lang_input = document.getElementById("lang-input");
-lang_input.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    add_tag(lang_input, 'lang')
-  }
-});
-
-var skill_input = document.getElementById("skill-input");
-skill_input.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    add_tag(skill_input, 'skill')
-  }
-});
+// function change_sort(element) {
+//   var dropbtn = $('#sort-by');
+//   dropbtn[0].innerText = "Sort By " + element.innerText
+//   sent_query()
+// }

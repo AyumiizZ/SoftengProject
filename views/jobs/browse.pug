@@ -11,7 +11,7 @@ block body
                 label#head Project Type
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='choose_this()')
+                    input.form-check-input#fix(name='fixed_projects', type='checkbox')
                     | Fixed price projects
                 .row.min-max#fix-input
                   .col-5.min
@@ -22,7 +22,7 @@ block body
                     input.form-control#max-fix(type="text", placeholder='Max')
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='choose_this()')
+                    input.form-check-input#hour(name='hourly_projects', type='checkbox')
                     | Hourly projects
                 .row.min-max#hour-input
                   .col-5.min
@@ -37,10 +37,10 @@ block body
                   .filter-tag-input#skills
                     each val in skills
                       .input-tag=val.tag
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag(id=val.tag) ×
                     input#skill-input(type="text", placeholder='Select Skill')
                 .filter-item-button-group
-                  button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
+                  button.btn.btn-primary.btn-small.filter-item-button#clear-skill(type='button')
                     | Clear Skills
                   button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
               //- li.filter-item-group
@@ -79,10 +79,10 @@ block body
                   .filter-tag-input#langs
                     each val in lang
                       .input-tag=val
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag(onclick="delete_tag()") ×
                     input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
-                  button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")
+                  button.btn.btn-primary.btn-small.filter-item-button#clear-lang(type='button')
                     | Clear Languages
               button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
 
@@ -98,6 +98,7 @@ block body
                 .btn-group 
                   button.btn.btn-trans.dropdown-toggle#sort-by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     | Sort By Recommend
+<<<<<<< HEAD
                   .dropdown-menu
                     a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
                     a.dropdown-item(href='#', onclick='change_sort(this)') Latest
@@ -107,6 +108,20 @@ block body
                     a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
                     a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
                     
+=======
+                  .dropdown-menu#sort-type
+                    - var item = ["Recommend","Lastest","Oldest","Lowest Price","Highest Price","Most Bid","Fewest Bid"]
+                    each val in item
+                      a.dropdown-item=val
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Latest
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
+
+>>>>>>> 1e8fe433c662541fb1a66789c04862dd0bed93f0
           ul.search-result-list
             each val in jobs
               li

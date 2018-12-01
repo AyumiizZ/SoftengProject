@@ -23,7 +23,15 @@ $(document).ready(function () {
 
   var delete_tag = function () {
     $(this).remove()
-    get_query()
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
   }
 
   var delete_all_tag = function (id) {
@@ -31,6 +39,15 @@ $(document).ready(function () {
     for (i = 0; i < tag_box.length; i++) {
       tag_box[i].remove()
     }
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
   }
 
   var add_tag = function (input, id) {
@@ -54,6 +71,15 @@ $(document).ready(function () {
       if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
         add_tag(this, id)
       }
+    });
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
     });
   }
 

@@ -14,47 +14,41 @@ exports.redirectToBrowse = function(req, res, next) {
 };
 
 exports.browsePost = async function(req, res, next) {
-  console.log(res)
+  console.log(req.body)
   // JSON SENT FROM FRONT-END ////////
-  const temp = {
-    "fix":1,
-    "hour":1,
-    "tag":["Python"],
-    "langs":["Thai","English"],
-    "min_fix": 0,
-    "max_fix":1000000,
-    "min_hour":0,
-    "max_hour":10000,
-    "sort":"Lowest Price"
-  }
-  var ret_json = JSON.stringify(temp)
+  // var ret_json = req.body
 
-  var ret = JSON.parse(ret_json);
-  var filter_tag = {tag: []}
-  filter_tag.tag = ret.tag;
-  filter_tag = JSON.stringify(filter_tag)
+  // var ret = JSON.parse(ret_json);
+  // var filter_tag = {tag: []}
+  // filter_tag.tag = ret.skills;
+  // filter_tag = JSON.stringify(filter_tag)
 
-  console.log(filter_tag);
+  // console.log(filter_tag);
 
-  var user_skills = await Tag.query()
-    .groupBy('tag');
+  // var user_skills = await Tag.query()
+  //   .groupBy('tag');
 
-  var user_lang = ["Thai", "English"];
+  // var user_lang = ["Thai", "English"];
 
-  const jobs = await Job.query()
-  .joinRelation('tags')
-  .groupBy('id')
-  .where(subquery => {
-    subquery
-    .where('tag', 'in', ret.tag)
-  })
-  .where(subquery => {
-    subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
-    .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
-  })
-  .eager('tags')
-  .orderBy("created_at", 'desc');
-  var n_results = jobs.length
+  // const jobs = await Job.query()
+  // .joinRelation('tags')
+  // .groupBy('id')
+  // .where(subquery => {
+  //   subquery
+  //   .where('tag', 'in', ret.tag)
+  // })
+  // .where(subquery => {
+  //   subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
+  //   .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
+  // })
+  // .eager('tags')
+  // .orderBy("created_at", 'desc');
+
+  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"]
+  var user_lang = ["Thai","English"]
+  
+  const jobs = await Job.query();
+  const n_results = jobs.length
 
   let title = "Browse | JetFree by JainsBret";
   res.render("jobs/browse", {

@@ -96,25 +96,55 @@ exports.addGet = function(req, res) {
 
 exports.addPost = async function(req, res, next) {
   console.log(req.user);
+  console.log(req.body);
   req.body.client_id = req.user.id;
+  const tagsText = req.body.tags.split(",");
+  delete req.body.tags;
+  delete req.body.deleted;
+  delete req.body.job_type;
+  console.log(req.body);
   const job = await Job.query().insert(req.body);
+  for(var i = 0; i < tagsText.length; i++) {
+    const tag = {
+      job_id: job.id,
+      tag: tagsText[i]
+    };
+    const tags = await Tag.query().insert(tag);
+  }
   res.redirect("/jobs/view/" + job.id);
 };
 
 exports.editGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId);
+  const job = await Job.query().findById(req.params.jobId).eager("tags");
   redirectIfNotAuthenticated(req, res, next, job.client_id);
+  console.log(job);
   let title = "Jobs | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
-    job: job
+    job: job,
+    tags: job.tags,
   });
 };
 
 exports.editPost = async function(req, res, next) {
+  const newTags = req.body.tags.split(",");
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
+
+  if(req.body.deleted || newTags != "") {
+    const oldTags = await Tag.query().where("job_id", job.id).del();
+    for(var i = 0; i < newTags.length; i++) {
+      const tag = {
+        job_id: job.id,
+        tag: newTags[i]
+      };
+      const updatedTag = await Tag.query().insert(tag);
+    }
+  }
+  delete req.body.tags;
+  delete req.body.deleted;
+  delete req.body.job_type;
   const updatedJob = await Job.query().updateAndFetchById(
     req.params.jobId,
     req.body

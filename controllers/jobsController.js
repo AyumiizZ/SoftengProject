@@ -3,6 +3,7 @@ const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const Tag = require("../models/jobTag");
 const JobBoost = require("../models/jobBoost");
+const Status = require("../models/jobStatus");
 const moment = require("moment");
 const omise = require("omise")({
   secretKey: process.env.OMISE_SECRET,
@@ -209,6 +210,10 @@ exports.addPost = async function(req, res, next) {
     };
     const tags = await Tag.query().insert(tag);
   }
+  const status = {
+    id: job.id
+  }
+  const newStatus = await Status.query().insert(status);
   res.redirect("/jobs/view/" + job.id);
 };
 
@@ -308,26 +313,30 @@ exports.showInterestsPost = async function(req, res, next) {
 };
 
 exports.freelanceJobsGet = async function(req, res, next) {
-  let title = "Jobs | JetFree by JainsBret";
-  console.log(req.user);
-  const job = await Job.query().where("user_id", req.user.id);
+  const job = await Job.query().where("user_id", req.user.id).eager("status");
+  console.log(job);
   res.render("jobs/freelanceJobs", {
     user: req.user,
-    title: title,
     jobs: job
   });
 };
 
+exports.freelanceJobsPost = async function(req, res, next) {
+
+}
+
 exports.clientJobsGet = async function(req, res, next) {
-  let title = "Jobs | JetFree by JainsBret";
-  console.log(req.user);
-  const job = await Job.query().where("client_id", req.user.id);
+  const job = await Job.query().where("client_id", req.user.id).eager("status");
+  console.log(job);
   res.render("jobs/clientJobs", {
     user: req.user,
-    title: title,
     jobs: job
   });
 };
+
+exports.clientJobsPost = async function(req, res, next) {
+  
+}
 
 exports.boostGet = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);

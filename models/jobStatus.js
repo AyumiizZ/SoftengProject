@@ -6,8 +6,11 @@ const Job = require("./job.js");
 Model.knex(knex);
 
 class JobStatus extends Model {
-
-  static get relationMappings() {
+  static get tableName() {
+    return "jobs_status";
+  }
+  
+  /*static get relationMappings() {
     return {
       freelance: {
         relation: Model.BelongsToOneRelation,
@@ -18,7 +21,7 @@ class JobStatus extends Model {
         }
       }
     };
-  }
+  }*/
 }
 
 module.exports = JobStatus;

@@ -74,3 +74,5 @@ typings/
 
 # Sqlite database
 *.sqlite
+
+.vscode

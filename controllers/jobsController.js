@@ -54,14 +54,15 @@ exports.browse = async function(req, res, next) {
   })
   .eager('tags')
   .orderBy("created_at", 'desc');
-
+  var n_results = jobs.length
 
   let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: jobs,
     skills: user_skills,
-    lang: user_lang
+    lang: user_lang,
+    n_results: n_results
   });
 };
 

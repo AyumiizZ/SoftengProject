@@ -98,14 +98,17 @@ block body
                 .btn-group 
                   button.btn.btn-trans.dropdown-toggle#sort-by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     | Sort By Recommend
-                  .dropdown-menu
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Latest
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
+                  .dropdown-menu#sort-type
+                    - var item = ["Recommend","Lastest","Oldest","Lowest Price","Highest Price","Most Bid","Fewest Bid"]
+                    each val in item
+                      a.dropdown-item=val
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Latest
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
+                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
 
           ul.search-result-list
             each val in jobs

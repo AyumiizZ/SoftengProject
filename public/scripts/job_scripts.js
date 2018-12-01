@@ -1,14 +1,24 @@
 $(document).ready(function () {
+  // var sent_query = $(function () {
+  //   var data = get_query()
+  //   $.ajax({
+  //     type: "POST",
+  //     data: data,
+  //     url: "/jobs/browse",
+  //     contentType: "application/json"
+  //   });
+  // });
+
   var sent_ = function () {
-    sent_query()
+    get_query()
   }
 
   var delete_tag = function () {
     $(this).remove()
-    sent_query()
+    get_query()
   }
 
-  var delete_all_tag = function (id){
+  var delete_all_tag = function (id) {
     var tag_box = $('#' + id + ' .input-tag')
     for (i = 0; i < tag_box.length; i++) {
       tag_box[i].remove()
@@ -16,19 +26,27 @@ $(document).ready(function () {
   }
 
   var add_tag = function (input, id) {
-    console.log('add_tag')
     var tags = get_tag(id)
     var res = ""
-    if(tags.indexOf(input.value) === -1){
+    if (tags.indexOf(input.value) === -1) {
       tags.push(input.value)
     }
-    for(i = 0; i < tags.length; i++){
+    for (i = 0; i < tags.length; i++) {
       res += "<div class='input-tag'>" + tags[i] + "<div class='delete-tag' id='" + tags[i] + "'>×</div></div>"
     }
     res += "<input id='skill-input' type='text' placeholder='Select Skill'>"
     input.parentNode.innerHTML = res
     input.value = ''
     $('.input-tag').click(delete_tag)
+    $('.filter-tag-input input').on('keyup', function (event) {
+      event.preventDefault();
+      key = event.keyCode;
+      id = this.parentNode.id
+      input = this.value
+      if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+        add_tag(this, id)
+      }
+    });
   }
 
   $('#min-fix').on('keyup', sent_);
@@ -57,26 +75,27 @@ $(document).ready(function () {
   hour.onchange = sent_
   // del_tag = delete_tag(element)
   $('.input-tag').click(delete_tag)
-  $('#clear-skill').click(function(){
+  $('#clear-skill').click(function () {
     delete_all_tag('skills')
   })
-  $('#clear-lang').click(function(){
+  $('#clear-lang').click(function () {
     delete_all_tag('langs')
+  })
+  console.log($('#sort-type'))
+  console.log($('#clear-lang'))
+  $('#sort-type').click(() => {
+    console.log("click")
+    var dropbtn = $('#sort-by');
+    dropbtn[0].innerText = "Sort By " + $(this).innerText
+    console.log(this)
   })
 
   // console.log($('#del_tag'))
 
   // sent_query()
 
-  // $(function () {
-  //   var data = sent_query()
-  //   $.ajax({
-  //     type: "POST",
-  //     data: data,
-  //     url: "/jobs/browse",
-  //     contentType: "application/json"
-  //   });
-  // });
+  
+
 
 });
 
@@ -94,7 +113,7 @@ function get_sort() {
   return dropbtn[0].innerText.substring(8);
 }
 
-function get_min_max(id, Default) {
+function get_int(id, Default) {
   var input = document.getElementById(id).value;
   if (parseInt(input) == input) {
     return parseInt(input)
@@ -103,16 +122,16 @@ function get_min_max(id, Default) {
   }
 }
 
-function sent_query() {
+function get_query() {
   var sort = get_sort();
   var skill_arr = get_tag('skills');
   var lang_arr = get_tag('langs');
   var fixed_check = $("#fix").is(":checked");
-  var fixed_min = get_min_max('min-fix', 0);
-  var fixed_max = get_min_max('max-fix', 1000000);
-  var hourly_min = get_min_max('min-hour', 0);
-  var hourly_max = get_min_max('max-hour', 100000);
+  var fixed_min = get_int('min-fix', 0);
+  var fixed_max = get_int('max-fix', 1000000);
   var hourly_check = $("#hour").is(":checked");
+  var hourly_min = get_int('min-hour', 0);
+  var hourly_max = get_int('max-hour', 100000);
   var ret = {
     sort: sort,
     fixed: {
@@ -128,6 +147,7 @@ function sent_query() {
     skills: skill_arr,
     langs: lang_arr
   }
+  console.log(JSON.stringify(ret))
   return JSON.stringify(ret)
 }
 
@@ -135,11 +155,11 @@ function sent_query() {
 
 
 
-function change_sort(element) {
-  var dropbtn = $('#sort-by');
-  dropbtn[0].innerText = "Sort By " + element.innerText
-  sent_query()
-}
+// function change_sort(element) {
+//   var dropbtn = $('#sort-by');
+//   dropbtn[0].innerText = "Sort By " + element.innerText
+//   sent_query()
+// }
 
 
 // function add_tag(input, id) {

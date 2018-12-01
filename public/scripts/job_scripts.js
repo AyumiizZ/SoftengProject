@@ -100,7 +100,7 @@ function add_tag(input, id) {
         $(tag).insertBefore(input);
       sent_query()
     }
-    lang_input.value = ''
+    input.value = ''
   }
 }
 

@@ -83,7 +83,7 @@ $(document).ready(function () {
     });
   }
 
-  console.log($('#min,#max'))
+  // console.log($('#min,#max'))
 
   $('#min-fix,#max-fix,#min-hour,#max-hour').on('keyup', sent_query);
 
@@ -106,14 +106,21 @@ $(document).ready(function () {
   $('#clear-lang').click(function () {
     delete_all_tag('langs')
   })
-  console.log($('#sort-type'))
-  console.log($('#clear-lang'))
-  $('#sort-type').click(() => {
-    console.log("click")
+  $('a#sort-type').click(function(){
     var dropbtn = $('#sort-by');
-    dropbtn[0].innerText = "Sort By " + $(this).innerText
-    console.log(this)
+    dropbtn[0].innerText = "Sort By " + $(this)[0].innerText
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      });
+    });
   })
+  
+
 });
 
 function get_tag(id) {
@@ -174,3 +181,14 @@ function get_query() {
 //   dropbtn[0].innerText = "Sort By " + element.innerText
 //   sent_query()
 // }
+
+// $('a').click(function(){
+//   console.log("click")
+//   var dropbtn = $('#sort-by');
+//   dropbtn[0].innerText = "Sort By " + $(this)[0].innerText
+// })
+
+// $( "p" ).click(function() {
+//   $( this ).slideUp();
+//   console.log(this)
+// });

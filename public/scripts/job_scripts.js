@@ -8,7 +8,15 @@ $(document).ready(function () {
     sent_query()
   }
 
+  var delete_all_tag = function (id){
+    var tag_box = $('#' + id + ' .input-tag')
+    for (i = 0; i < tag_box.length; i++) {
+      tag_box[i].remove()
+    }
+  }
+
   var add_tag = function (input, id) {
+    console.log('add_tag')
     var tags = get_tag(id)
     var res = ""
     if(tags.indexOf(input.value) === -1){
@@ -35,7 +43,7 @@ $(document).ready(function () {
   //   }
   // });
 
-  $('input .filter-tag-input').on('keyup', function (event) {
+  $('.filter-tag-input input').on('keyup', function (event) {
     event.preventDefault();
     key = event.keyCode;
     id = this.parentNode.id
@@ -49,6 +57,12 @@ $(document).ready(function () {
   hour.onchange = sent_
   // del_tag = delete_tag(element)
   $('.input-tag').click(delete_tag)
+  $('#clear-skill').click(function(){
+    delete_all_tag('skills')
+  })
+  $('#clear-lang').click(function(){
+    delete_all_tag('langs')
+  })
 
   // console.log($('#del_tag'))
 
@@ -80,12 +94,12 @@ function get_sort() {
   return dropbtn[0].innerText.substring(8);
 }
 
-function get_min_max(id, thisdefault) {
+function get_min_max(id, Default) {
   var input = document.getElementById(id).value;
   if (parseInt(input) == input) {
     return parseInt(input)
   } else {
-    return thisdefault
+    return Default
   }
 }
 
@@ -114,20 +128,12 @@ function sent_query() {
     skills: skill_arr,
     langs: lang_arr
   }
-  var ret_json = JSON.stringify(ret)
-  console.log(ret_json)
-  return ret_json
+  return JSON.stringify(ret)
 }
 
 
 
-function delete_all_tag(id) {
-  var tag_box = $('#' + id + ' .input-tag')
-  for (i = 0; i < tag_box.length; i++) {
-    tag_box[i].remove()
-  }
-  sent_query()
-}
+
 
 function change_sort(element) {
   var dropbtn = $('#sort-by');

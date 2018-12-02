@@ -12,7 +12,7 @@ html
     link(rel='stylesheet' href='/icons/css/all.min.css')
     link(rel='stylesheet', href='/stylesheets/star-rating-svg.css')
     script(src='https://code.jquery.com/jquery-3.3.1.min.js')
-    script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+    script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
     script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
     script(src='//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js')
     block additional-heads
@@ -46,44 +46,44 @@ html
               a.nav-link(href='/register') ลงทะเบียน
             li.nav-item
               a.nav-link(href='/login') ลงชื่อเข้าใช้
-    
+      
     block body
 
-    footer.container.py-5
-      .row
-        .col-12.col-md
-          //logo start
-          img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
-          small.d-block.mb-3.text-muted JainsBret © 2017-2018
-        //logo end
-        .col-6.col-md
-          h5 สำหรับผู้ว่าจ้าง
-          ul.list-unstyled.text-small
-            li
-              a.text-muted(href='#') จ้างฟรีแลนซ์
-            li
-              a.text-muted(href='#') ดูงานที่จ้างทั้งหมด
-        .col-6.col-md
-          h5 สำหรับฟรีแลนซ์
-          ul.list-unstyled.text-small
-            li
-              a.text-muted(href='#') ดูงานทั้งหมด
-        .col-6.col-md
-          h5 เกี่ยวกับเรา 
-          ul.list-unstyled.text-small
-            li
-              a.text-muted(href='#') ทีมงาน 
-            li
-              a.text-muted(href='#') ข้อกำหนดการใช้งาน 
-            li
-              a.text-muted(href='#') เงื่อนไขความเป็นส่วนตัว
-            li
-              a.text-muted(href='#') การสนับสนุน
+    .bg-light
+      footer.container.py-5.bg-light
+        .row
+          .col-12.col-md
+            //logo start
+            img(src='/images/jainsbret_logo_green.svg', width='30', height='30', alt='')
+            small.d-block.mb-3.text-muted JainsBret © 2017-2018
+          //logo end
+          .col-6.col-md
+            h5 สำหรับผู้ว่าจ้าง
+            ul.list-unstyled.text-small
+              li
+                a.text-muted(href='/jobs/add') จ้างฟรีแลนซ์
+              li
+                a.text-muted(href='#') ดูงานที่จ้างทั้งหมด
+          .col-6.col-md
+            h5 สำหรับฟรีแลนซ์
+            ul.list-unstyled.text-small
+              li
+                a.text-muted(href='#') ดูงานทั้งหมด
+          .col-6.col-md
+            h5 เกี่ยวกับเรา 
+            ul.list-unstyled.text-small
+              li
+                a.text-muted(href='#') ทีมงาน 
+              li
+                a.text-muted(href='#') ข้อกำหนดการใช้งาน 
+              li
+                a.text-muted(href='#') เงื่อนไขความเป็นส่วนตัว
+              li
+                a.text-muted(href='#') การสนับสนุน
     //
       Bootstrap core JavaScript
       ==================================================
     // Placed at the end of the document so the pages load faster
-    script(src='/scripts/jquery.min.js')
     script(src='/scripts/popper.min.js')
     script(src='/scripts/bootstrap.min.js')
     script(src='/scripts/jquery.star-rating-svg.js')

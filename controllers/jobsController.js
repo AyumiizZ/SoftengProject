@@ -48,6 +48,7 @@ exports.browsePost = async function(req, res, next) {
       .orWhere("hourly", "=", 1)
       .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
   }
+  console.log(ret.skills)
   if (ret.skills.length > 0) {
     jobs.where("tag", "in", ret.skills);
   }
@@ -114,7 +115,7 @@ exports.browseGet = async function(req, res, next) {
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance, freelance_interests]");
+    .eager("[client, freelance, freelance_interests, tags]");
   console.log(job);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",

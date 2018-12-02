@@ -75,7 +75,7 @@ exports.browseGet = async function(req, res, next) {
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance, freelance_interests]");
+    .eager("[client, freelance, freelance_interests, tags]");
   console.log(job);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
@@ -118,7 +118,7 @@ exports.editGet = async function(req, res, next) {
   redirectIfNotAuthenticated(req, res, next, job.client_id);
   console.log(job);
   let title = "Jobs | JetFree by JainsBret";
-  res.render("jobs/addedit/", {
+  res.render("jobs/addedit", {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
     job: job,

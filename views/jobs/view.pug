@@ -15,12 +15,28 @@ block content
               a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
               a.btn.btn-outline-info(href="../boost/"+job.id) ลงโฆษณา
   .row.mb-3
-    .col-12
+    .col-8
       .card
         .card-body
           h2 รายละเอียดงาน
           span.
             !{job.job_info_md()}
+            
+    .col-4
+      .card
+        .card-body
+          h2
+            if job.fixed
+              span.
+                #{job.price} THB
+            else
+              span.
+                #{job.price} THB per Hour
+      .card
+        .card-body
+          each val in job.tags
+            span.
+              #{val.tag}.  
   .row
     .col-4
       .card.text-center

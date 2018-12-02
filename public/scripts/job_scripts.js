@@ -44,8 +44,11 @@ $(document).ready(function () {
     $(".result-amount").html(data.length + " Result")
     res = ""
     for (i = 0; i < data.length; i++) {
-      res += `<div class="search-result-item">
-      <div class="project-tile">`
+      res += `
+      <li>
+        <a class="search-result-link" href='/jobs/view/'`+ data[i].id +`, target='_blank'>
+          <div class="search-result-item">
+            <div class="project-tile">`
 
       if (data[i].fixed == 1 && data[i].hourly == null) {
         res += fixed_icon
@@ -57,25 +60,44 @@ $(document).ready(function () {
           <h2 class="info-card-title">` + data[i].job + `</h2>
           <p class="info-card-description">` + data[i].job_info + `</p>
           <div class="info-card-grid">
-            <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/hourglass-start.svg" width="16" height="16"
-                alt=""><time>2018-12-02 01:45:42</time></div>
-            <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt=""><span>JetFree</span></div>
-            <div class="info-card-details info-card-grid-item info-card-skills-container"><img src="/svgs/solid/tags.svg"
-                width="16" height="16" alt="">
-              <div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">Graphic Design</div>
-              <div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">HTML</div>
-              <div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">PHP</div>
-              <div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">Website Design</div>
-              <div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">WordPress</div><span></span>
+            <div class="info-card-details info-card-grid-item">
+              <img src="/svgs/solid/hourglass-start.svg" width="16" height="16" alt="">
+                <time>`+data[i].created_at+`</time>
             </div>
+            <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt="">
+            <span>`
+      if(data[i].client == null)
+        res += `No client`
+      else
+        res += data[i].client.username
+      res += `</span>
+            </div>
+            <div class="info-card-details info-card-grid-item info-card-skills-container"><img src="/svgs/solid/tags.svg"
+                width="16" height="16" alt="">`
+      if(data[i].tags == null)
+        res += `No tag`
+      else{
+        for (j = 0; j < data[i].tags.length; j++){
+          res += `<div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">`+data[i].tags[j].tag+`</div>`
+        }
+      }
+      res += `</div>
           </div>
         </div>
         <div class="info-card-rate">
-          <div class="info-card-price"><span>7500</span></div>
-          <div class="info-card-price-type"><span>THB</span></div>
+          <div class="info-card-price"><span>`+data[i].price+`</span></div>
+          <div class="info-card-price-type">`
+      if (data[i].fixed == 1 && data[i].hourly == null) {
+        res += `<span>THB</span>`
+      } else if (data[i].fixed == null && data[i].hourly == 1) {
+        res += `<span>THB per hour</span>`
+      }
+      
+      res += `</div>
         </div>
       </div>
-    </div>`
+    </div>
+    </li>`
     }
     $(".search-result-list").html(res);
   }

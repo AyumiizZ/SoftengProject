@@ -24,6 +24,7 @@ $(document).ready(function () {
   }
 
   var render = function(data){
+    console.log(data)
     $(".search-result-list").html("");
     for(var i=0; i<data.length; i++){
       $(".search-result-list").append(data[i].title);
@@ -39,6 +40,8 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
@@ -55,15 +58,20 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
 
-  var add_tag = function (input, id) {
+  var add_tag = function (input, id, key) {
     var tags = get_tag(id)
     var res = ""
     if (tags.indexOf(input.value) === -1) {
-      tags.push(input.value)
+      if(key === 188)
+        tags.push(input.value.substring(0,input.value.length-1))
+      else
+        tags.push(input.value)
     }
     for (i = 0; i < tags.length; i++) {
       res += "<div class='input-tag'>" + tags[i] + "<div class='delete-tag' id='" + tags[i] + "'>×</div></div>"
@@ -77,7 +85,7 @@ $(document).ready(function () {
       key = event.keyCode;
       id = this.parentNode.id
       input = this.value
-      if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      if ((key === 13 || key === 188) && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
         add_tag(this, id)
       }
     });
@@ -88,11 +96,13 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
 
-  console.log($('#min,#max'))
+  // console.log($('#min,#max'))
 
   $('#min-fix,#max-fix,#min-hour,#max-hour').on('keyup', sent_query);
 
@@ -101,8 +111,8 @@ $(document).ready(function () {
     key = event.keyCode;
     id = this.parentNode.id
     input = this.value
-    if (key === 13 && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
-      add_tag(this, id)
+    if ((key === 13 || key === 188) && (id === "langs" || id === "skills") && (input != 0 || input === "0")) {
+      add_tag(this, id, key)
     }
   });
 
@@ -115,14 +125,23 @@ $(document).ready(function () {
   $('#clear-lang').click(function () {
     delete_all_tag('langs')
   })
-  console.log($('#sort-type'))
-  console.log($('#clear-lang'))
-  $('#sort-type').click(() => {
-    console.log("click")
+  $('a#sort-type').click(function(){
     var dropbtn = $('#sort-by');
-    dropbtn[0].innerText = "Sort By " + $(this).innerText
-    console.log(this)
+    dropbtn[0].innerText = "Sort By " + $(this)[0].innerText
+    $(function () {
+      var data = get_query()
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: "/jobs/browse",
+        contentType: "application/json"
+      }).done((data) => {
+        render(data);
+      });
+    });
   })
+  
+
 });
 
 function get_tag(id) {
@@ -182,3 +201,14 @@ function get_query() {
 //   dropbtn[0].innerText = "Sort By " + element.innerText
 //   sent_query()
 // }
+
+// $('a').click(function(){
+//   console.log("click")
+//   var dropbtn = $('#sort-by');
+//   dropbtn[0].innerText = "Sort By " + $(this)[0].innerText
+// })
+
+// $( "p" ).click(function() {
+//   $( this ).slideUp();
+//   console.log(this)
+// });

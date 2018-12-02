@@ -1,8 +1,6 @@
 extends ../incontainer 
 
 block additional-heads
-  script(src='/scripts/jquery.mask.min.js')
-  script(src='https://cdn.omise.co/omise.js.gz')
 
 block content
   .row
@@ -99,6 +97,7 @@ block content
           img(src="/images/credit-card-cvc.svg" width="100%")
 
 block js-after
+  script(src='https://cdn.omise.co/omise.js.gz')
   script.
     Omise.setPublicKey("#{process.env.OMISE_KEY}");
     var cardForm = $("#card-form");
@@ -134,4 +133,5 @@ block js-after
       });
     }
     cardForm.on("submit", submitCardForm);
+  script(src='/scripts/jquery.mask.min.js')
   script(src="/scripts/bundle-payment.js")

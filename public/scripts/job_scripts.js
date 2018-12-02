@@ -15,6 +15,7 @@ $(document).ready(function () {
   }
 
   var render = function (data) {
+    console.log(data)
     var fixed_icon = `<figure class="info-card-iconBox">
         <span class="Icon">
           <fl-icon name="ui-fixed-project">
@@ -40,8 +41,7 @@ $(document).ready(function () {
     $(".result-amount").html(data.length + " Result")
     res = ""
     for (i = 0; i < data.length; i++) {
-      res += `
-      <li>
+      res += `<li>
         <a class="search-result-link" href='/jobs/view/'` + data[i].id + `, target='_blank'>
           <div class="search-result-item">
             <div class="project-tile">`

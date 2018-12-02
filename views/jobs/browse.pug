@@ -79,7 +79,7 @@ block body
                   .filter-tag-input#langs
                     each val in lang
                       .input-tag=val
-                        .delete-tag(onclick="delete_tag()") ×
+                        .delete-tag ×
                     input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button#clear-lang(type='button')
@@ -102,13 +102,6 @@ block body
                   .dropdown-menu
                     each val in item
                       a.dropdown-item#sort-type=val
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Latest
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
 
           ul.search-result-list
             each val in jobs

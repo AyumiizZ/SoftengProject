@@ -23,10 +23,13 @@ exports.viewReviews = async function(req, res) {
   var past_job = await Job.query()
     .where("user_id", user.id)
     .where("done", 1);
-  let amount = past_job.length;
-  if (past_job.length > 5) {
-    past_job = past_job.slice(0, 5);
-  }
+  
+  const amount = past_job.length;
+  const per_page = 5;
+  const page = Number(req.params.page);
+  var jobs = past_job.slice(per_page * (page - 1), page * per_page);
+  console.log(jobs);
+  
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/reviews", {
     title: title,

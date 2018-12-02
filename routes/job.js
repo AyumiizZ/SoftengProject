@@ -44,23 +44,23 @@ router.post(
 );
 
 router.get(
-  "/current/freelance",
+  "/current/freelance/",
   authMiddleware.isAuthenticated,
   jobsController.freelanceJobsGet
 );
 router.post(
-  "/current/freelance",
+  "/current/freelance/",
   authMiddleware.isAuthenticated,
   jobsController.freelanceJobsPost
 );
 
 router.get(
-  "/current/client",
+  "/current/client/",
   authMiddleware.isAuthenticated,
   jobsController.clientJobsGet
 );
 router.post(
-  "/current/client",
+  "/current/client/",
   authMiddleware.isAuthenticated,
   jobsController.clientJobsPost
 );

@@ -346,10 +346,19 @@ exports.freelanceJobsPost = async function(req, res, next) {
     const newReview = await Review.query().insert(reviewText);
     const reviewStatus = {
       freelance_review: req.body.reviewed
-    }
+    };
     const updatedReviewStatus = await Status.query().updateAndFetchById(
       req.body.id,
       reviewStatus
+    );
+  }
+  if(updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(
+      req.body.id,
+      done
     );
   }
   res.redirect("/jobs/current/freelance");
@@ -368,7 +377,7 @@ exports.clientJobsPost = async function(req, res, next) {
   console.log(req.body);
   var status = {
     client_submit: req.body.client_submit
-  }
+  };
   const updatedStatus = await Status.query().updateAndFetchById(
     req.body.id,
     status
@@ -384,10 +393,19 @@ exports.clientJobsPost = async function(req, res, next) {
     const newReview = await Review.query().insert(reviewText);
     const reviewStatus = {
       client_review: req.body.reviewed
-    }
+    };
     const updatedReviewStatus = await Status.query().updateAndFetchById(
       req.body.id,
       reviewStatus
+    );
+  }
+  if(updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(
+      req.body.id,
+      done
     );
   }
   res.redirect("/jobs/current/client");

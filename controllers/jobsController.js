@@ -15,7 +15,7 @@ function redirectIfNotAuthenticated(req, res, next, clientId, freelanceId) {
   if (freelanceId == undefined) {
     freelanceId = -1;
   }
-  console.log(clientId+" "+freelanceId+" "+req.user.id);
+  console.log(clientId + " " + freelanceId + " " + req.user.id);
   if (clientId != req.user.id && freelanceId != req.user.id) {
     res.status(403).render("errors/403");
   }
@@ -26,50 +26,42 @@ exports.redirectToBrowse = function(req, res, next) {
 };
 
 exports.browsePost = async function(req, res, next) {
-  console.log(req.body)
-  // JSON SENT FROM FRONT-END ////////
-  // var ret_json = req.body
+  console.log(req.body);
+  var ret = req.body;
 
-  // var ret = JSON.parse(ret_json);
-  // var filter_tag = {tag: []}
-  // filter_tag.tag = ret.skills;
-  // filter_tag = JSON.stringify(filter_tag)
+  let jobs = Job.query()
+    .joinRelation("tags")
+    .groupBy("id");
 
-  // console.log(filter_tag);
-
-  // var user_skills = await Tag.query()
-  //   .groupBy('tag');
-
-  // var user_lang = ["Thai", "English"];
-
-  // const jobs = await Job.query()
-  // .joinRelation('tags')
-  // .groupBy('id')
-  // .where(subquery => {
-  //   subquery
-  //   .where('tag', 'in', ret.tag)
-  // })
-  // .where(subquery => {
-  //   subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
-  //   .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
-  // })
-  // .eager('tags')
-  // .orderBy("created_at", 'desc');
-
-  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"]
-  var user_lang = ["Thai","English"]
-  
-  const jobs = await Job.query();
-  const n_results = jobs.length
-
-  let title = "Browse | JetFree by JainsBret";
-  res.render("jobs/browse", {
-    title: title,
-    jobs: jobs,
-    skills: user_skills,
-    lang: user_lang,
-    n_results: n_results
-  });
+  if (ret.fixed.checked && !ret.hourly.checked) {
+    jobs
+      .where("fixed", "=", 1)
+      .whereBetween("price", [ret.fixed.min, ret.fixed.max]);
+  } else if (!ret.fixed.checked && ret.hourly.checked) {
+    jobs
+      .where("hourly", "=", 1)
+      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
+  } else {
+    jobs
+      .where("fixed", "=", 1)
+      .whereBetween("price", [ret.fixed.min, ret.fixed.max])
+      .orWhere("hourly", "=", 1)
+      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
+  }
+  if (ret.skills.length > 0) {
+    jobs.where("tag", "in", ret.skills);
+  }
+  if (ret.sort == "Lastest") {
+    jobs.orderBy("created_at", "desc");
+  } else if (ret.sort == "Oldest") {
+    jobs.orderBy("created_at", "increase");
+  } else if (ret.sort == "Lowest Price") {
+    jobs.orderBy("price", "increase");
+  } else if (ret.sort == "Highest Price") {
+    jobs.orderBy("price", "desc");
+  }
+  jobs = jobs.eager("[client, tags, freelance, freelance_interests]");
+  res.json(await jobs);
 };
 
 exports.browseGet = async function(req, res, next) {
@@ -84,85 +76,27 @@ exports.browseGet = async function(req, res, next) {
     // "min_hour":0,
     // "max_hour":10000,
     // "sort":"Oldest"
-    'sort': 'Highest Price',
-    'fixed': {
-      'checked': false,
-      'min': 0,
-      'max': 1000000
+    sort: "Highest Price",
+    fixed: {
+      checked: false,
+      min: 0,
+      max: 1000000
     },
-    'hourly': {
-      'checked': false,
-      'min': 0,
-      'max': 1000000
+    hourly: {
+      checked: false,
+      min: 0,
+      max: 1000000
     },
-    'skills': ['Python'],
-    'langs': ['Thai', 'English']
-  }
-  var ret_json = JSON.stringify(temp)
+    skills: ["Python"],
+    langs: ["Thai", "English"]
+  };
+  var ret_json = JSON.stringify(temp);
   ////////////////////////////////////
 
-  var ret = JSON.parse(ret_json);
   var user_lang = ["Thai", "English"];
-  let jobs = Job.query()
-      .joinRelation('tags')
-      .groupBy('id')
-  // if (ret.fix || ret.hour) {
-  //   jobs = await Job.query()
-  //   .joinRelation('tags')
-  //   .groupBy('id')
-  //   .where(subquery => {
-  //     subquery
-  //     .where('tag', 'in', ret.tag)
-  //   })
-  //   .where(subquery => {
-  //     subquery.where('fixed', '=', ret.fix).whereBetween('price', [ret.min_fix, ret.max_fix])
-  //     .orWhere('hourly', '=', ret.hour).whereBetween('price', [ret.min_hour, ret.max_hour])
-  //   })
-  //   .eager('tags')
-  //   .orderBy("created_at", 'desc');
-  // }
-  // else if (!ret.fix && !ret.fix) {
-  //   jobs = await Job.query()
-  //   .joinRelation('tags')
-  //   .groupBy('id')
-  //   .where(subquery => {
-  //     subquery
-  //     .where('tag', 'in', ret.tag)
-  //   })
-  //   .where(subquery => {
-  //     subquery.where('fixed', '=', 4).whereBetween('price', [ret.min_fix, ret.max_fix])
-  //     .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
-  //   })
-  //   .eager('tags')
-  //   .orderBy("created_at", 'desc');
-  // }
-  // if (ret.fixed.checked && ret.hourly.checked) {
-  //   jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  //   .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
-  // }
-  // else if (ret.fix && !ret.hourly) {
-  //   jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  // }
-  // else if (!ret.fix && ret.hourly) {
-  //   jobs.where('hourly', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  // }
-  // if (ret.skills.length > 0) {
-  //   jobs.where('tag', 'in', ret.skills)
-  // }
-  // if (ret.sort == 'Lastest') {
-  //   jobs.orderBy('created_at', 'desc')
-  // }
-  // else if (ret.sort == 'Oldest') {
-  //   jobs.orderBy('created_at', 'increase')
-  // }
-  // else if (ret.sort == 'Lowest Price') {
-  //   jobs.orderBy('price', 'increase')
-  // }
-  // else if (ret.sort == 'Highest Price') {
-  //   jobs.orderBy('price', 'desc')
-  // }
-  jobs = await jobs.eager('[tags, freelance_interests, client, freelance]')
-  console.log(jobs);
+  let jobs = await Job.query().eager(
+    "[tags, freelance_interests, client, freelance]"
+  );
   let n_results = jobs.length;
   console.log(jobs.freelance_interests);
   //console.log(n_results);
@@ -208,7 +142,7 @@ exports.addPost = async function(req, res, next) {
   delete req.body.job_type;
   console.log(req.body);
   const job = await Job.query().insert(req.body);
-  for(var i = 0; i < tagsText.length; i++) {
+  for (var i = 0; i < tagsText.length; i++) {
     const tag = {
       job_id: job.id,
       tag: tagsText[i]
@@ -217,13 +151,15 @@ exports.addPost = async function(req, res, next) {
   }
   const status = {
     id: job.id
-  }
+  };
   const newStatus = await Status.query().insert(status);
   res.redirect("/jobs/view/" + job.id);
 };
 
 exports.editGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId).eager("tags");
+  const job = await Job.query()
+    .findById(req.params.jobId)
+    .eager("tags");
   redirectIfNotAuthenticated(req, res, next, job.client_id);
   console.log(job);
   let title = "Jobs | JetFree by JainsBret";
@@ -231,7 +167,7 @@ exports.editGet = async function(req, res, next) {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
     job: job,
-    tags: job.tags,
+    tags: job.tags
   });
 };
 
@@ -240,9 +176,11 @@ exports.editPost = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
 
-  if(req.body.deleted || newTags != "") {
-    const oldTags = await Tag.query().where("job_id", job.id).del();
-    for(var i = 0; i < newTags.length; i++) {
+  if (req.body.deleted || newTags != "") {
+    const oldTags = await Tag.query()
+      .where("job_id", job.id)
+      .del();
+    for (var i = 0; i < newTags.length; i++) {
       const tag = {
         job_id: job.id,
         tag: newTags[i]
@@ -318,7 +256,9 @@ exports.showInterestsPost = async function(req, res, next) {
 };
 
 exports.freelanceJobsGet = async function(req, res, next) {
-  const job = await Job.query().where("user_id", req.user.id).eager("[status, client]");
+  const job = await Job.query()
+    .where("user_id", req.user.id)
+    .eager("[status, client]");
   console.log(job);
   res.render("jobs/freelanceJobs", {
     user: req.user,
@@ -330,12 +270,12 @@ exports.freelanceJobsPost = async function(req, res, next) {
   console.log(req.body);
   var status = {
     freelance_submit: req.body.freelance_submit
-  }
+  };
   const updatedStatus = await Status.query().updateAndFetchById(
     req.body.id,
     status
   );
-  if(req.body.reviewed == 1) {
+  if (req.body.reviewed == 1) {
     const job = await Job.query().findById(req.body.id);
     const reviewText = {
       review: req.body.review,
@@ -352,20 +292,19 @@ exports.freelanceJobsPost = async function(req, res, next) {
       reviewStatus
     );
   }
-  if(updatedStatus.freelance_submit && updatedStatus.client_submit) {
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
     const done = {
       done: 1
     };
-    const updatedJob = await Job.query().updateAndFetchById(
-      req.body.id,
-      done
-    );
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
   }
   res.redirect("/jobs/current/freelance");
 };
 
 exports.clientJobsGet = async function(req, res, next) {
-  const job = await Job.query().where("client_id", req.user.id).eager("[status, freelance]");
+  const job = await Job.query()
+    .where("client_id", req.user.id)
+    .eager("[status, freelance]");
   console.log(job);
   res.render("jobs/clientJobs", {
     user: req.user,
@@ -382,7 +321,7 @@ exports.clientJobsPost = async function(req, res, next) {
     req.body.id,
     status
   );
-  if(req.body.reviewed == 1) {
+  if (req.body.reviewed == 1) {
     const job = await Job.query().findById(req.body.id);
     const reviewText = {
       review: req.body.review,
@@ -399,14 +338,11 @@ exports.clientJobsPost = async function(req, res, next) {
       reviewStatus
     );
   }
-  if(updatedStatus.freelance_submit && updatedStatus.client_submit) {
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
     const done = {
       done: 1
     };
-    const updatedJob = await Job.query().updateAndFetchById(
-      req.body.id,
-      done
-    );
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
   }
   res.redirect("/jobs/current/client");
 };

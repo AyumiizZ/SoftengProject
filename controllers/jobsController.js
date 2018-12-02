@@ -3,14 +3,20 @@ const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const Tag = require("../models/jobTag");
 const JobBoost = require("../models/jobBoost");
+const Status = require("../models/jobStatus");
+const Review = require("../models/review");
 const moment = require("moment");
 const omise = require("omise")({
   secretKey: process.env.OMISE_SECRET,
   omiseVersion: "2017-11-02"
 });
 
-function redirectIfNotAuthenticated(req, res, next, userId) {
-  if (userId != req.user.id) {
+function redirectIfNotAuthenticated(req, res, next, clientId, freelanceId) {
+  if (freelanceId == undefined) {
+    freelanceId = -1;
+  }
+  console.log(clientId + " " + freelanceId + " " + req.user.id);
+  if (clientId != req.user.id && freelanceId != req.user.id) {
     res.status(403).render("errors/403");
   }
 }
@@ -20,49 +26,82 @@ exports.redirectToBrowse = function(req, res, next) {
 };
 
 exports.browsePost = async function(req, res, next) {
-  console.log(req.body)
-  var ret = req.body
+  console.log(req.body);
+  var ret = req.body;
 
   let jobs = Job.query()
-      .joinRelation('tags')
-      .groupBy('id');
-  
+    .joinRelation("tags")
+    .groupBy("id");
+
   if (ret.fixed.checked && !ret.hourly.checked) {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
-  }
-  else if (!ret.fixed.checked && ret.hourly.checked) {
-    jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
-  }
-  else {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
-    .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
+    jobs
+      .where("fixed", "=", 1)
+      .whereBetween("price", [ret.fixed.min, ret.fixed.max]);
+  } else if (!ret.fixed.checked && ret.hourly.checked) {
+    jobs
+      .where("hourly", "=", 1)
+      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
+  } else {
+    jobs
+      .where("fixed", "=", 1)
+      .whereBetween("price", [ret.fixed.min, ret.fixed.max])
+      .orWhere("hourly", "=", 1)
+      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
   }
   if (ret.skills.length > 0) {
-    jobs.where('tag', 'in', ret.skills)
+    jobs.where("tag", "in", ret.skills);
   }
-  if (ret.sort == 'Lastest') {
-    jobs.orderBy('created_at', 'desc')
+  if (ret.sort == "Lastest") {
+    jobs.orderBy("created_at", "desc");
+  } else if (ret.sort == "Oldest") {
+    jobs.orderBy("created_at", "increase");
+  } else if (ret.sort == "Lowest Price") {
+    jobs.orderBy("price", "increase");
+  } else if (ret.sort == "Highest Price") {
+    jobs.orderBy("price", "desc");
   }
-  else if (ret.sort == 'Oldest') {
-    jobs.orderBy('created_at', 'increase')
-  }
-  else if (ret.sort == 'Lowest Price') {
-    jobs.orderBy('price', 'increase')
-  }
-  else if (ret.sort == 'Highest Price') {
-    jobs.orderBy('price', 'desc')
-  }
-  jobs = jobs.eager('[client, tags, freelance, freelance_interests]')
+  jobs = jobs.eager("[client, tags, freelance, freelance_interests]");
   res.json(await jobs);
 };
 
 exports.browseGet = async function(req, res, next) {
+  // JSON SENT FROM FRONT-END ////////
+  const temp = {
+    // "fix": 1,
+    // "hour": 0,
+    // "tag":["Python", "PHP", "React"],
+    // "langs":["Thai","English"],
+    // "min_fix": 0,
+    // "max_fix":1000000,
+    // "min_hour":0,
+    // "max_hour":10000,
+    // "sort":"Oldest"
+    sort: "Highest Price",
+    fixed: {
+      checked: false,
+      min: 0,
+      max: 1000000
+    },
+    hourly: {
+      checked: false,
+      min: 0,
+      max: 1000000
+    },
+    skills: ["Python"],
+    langs: ["Thai", "English"]
+  };
+  var ret_json = JSON.stringify(temp);
+  ////////////////////////////////////
 
   var user_lang = ["Thai", "English"];
-  let jobs = await Job.query().eager('[tags, freelance_interests, client, freelance]')
+  let jobs = await Job.query().eager(
+    "[tags, freelance_interests, client, freelance]"
+  );
   let n_results = jobs.length;
+  console.log(jobs.freelance_interests);
+  //console.log(n_results);
 
-  let title = "Browse | JetFree by JainsBret";
+  let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: await jobs,
@@ -103,18 +142,24 @@ exports.addPost = async function(req, res, next) {
   delete req.body.job_type;
   console.log(req.body);
   const job = await Job.query().insert(req.body);
-  for(var i = 0; i < tagsText.length; i++) {
+  for (var i = 0; i < tagsText.length; i++) {
     const tag = {
       job_id: job.id,
       tag: tagsText[i]
     };
     const tags = await Tag.query().insert(tag);
   }
+  const status = {
+    id: job.id
+  };
+  const newStatus = await Status.query().insert(status);
   res.redirect("/jobs/view/" + job.id);
 };
 
 exports.editGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId).eager("tags");
+  const job = await Job.query()
+    .findById(req.params.jobId)
+    .eager("tags");
   redirectIfNotAuthenticated(req, res, next, job.client_id);
   console.log(job);
   let title = "Jobs | JetFree by JainsBret";
@@ -122,7 +167,7 @@ exports.editGet = async function(req, res, next) {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
     job: job,
-    tags: job.tags,
+    tags: job.tags
   });
 };
 
@@ -131,9 +176,11 @@ exports.editPost = async function(req, res, next) {
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
 
-  if(req.body.deleted || newTags != "") {
-    const oldTags = await Tag.query().where("job_id", job.id).del();
-    for(var i = 0; i < newTags.length; i++) {
+  if (req.body.deleted || newTags != "") {
+    const oldTags = await Tag.query()
+      .where("job_id", job.id)
+      .del();
+    for (var i = 0; i < newTags.length; i++) {
       const tag = {
         job_id: job.id,
         tag: newTags[i]
@@ -206,6 +253,98 @@ exports.showInterestsPost = async function(req, res, next) {
   );
   console.log("success!");
   res.redirect("/jobs/view/" + jobId);
+};
+
+exports.freelanceJobsGet = async function(req, res, next) {
+  const job = await Job.query()
+    .where("user_id", req.user.id)
+    .eager("[status, client]");
+  console.log(job);
+  res.render("jobs/freelanceJobs", {
+    user: req.user,
+    jobs: job
+  });
+};
+
+exports.freelanceJobsPost = async function(req, res, next) {
+  console.log(req.body);
+  var status = {
+    freelance_submit: req.body.freelance_submit
+  };
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if (req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.client_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      freelance_review: req.body.reviewed
+    };
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
+  }
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
+  }
+  res.redirect("/jobs/current/freelance");
+};
+
+exports.clientJobsGet = async function(req, res, next) {
+  const job = await Job.query()
+    .where("client_id", req.user.id)
+    .eager("[status, freelance]");
+  console.log(job);
+  res.render("jobs/clientJobs", {
+    user: req.user,
+    jobs: job
+  });
+};
+
+exports.clientJobsPost = async function(req, res, next) {
+  console.log(req.body);
+  var status = {
+    client_submit: req.body.client_submit
+  };
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if (req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.user_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      client_review: req.body.reviewed
+    };
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
+  }
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
+  }
+  res.redirect("/jobs/current/client");
 };
 
 exports.boostGet = async function(req, res, next) {

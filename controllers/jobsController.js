@@ -21,78 +21,52 @@ function redirectIfNotAuthenticated(req, res, next, clientId, freelanceId) {
   }
 }
 
-exports.redirectToBrowse = function(req, res, next) {
+exports.redirectToBrowse = function (req, res, next) {
   res.redirect(req.baseUrl + "/browse");
 };
 
-exports.browsePost = async function(req, res, next) {
-  console.log(req.body);
-  var ret = req.body;
+exports.browsePost = async function (req, res, next) {
+  console.log(req.body)
+  var ret = req.body
 
   let jobs = Job.query()
-    .joinRelation("tags")
-    .groupBy("id");
+    .joinRelation('tags')
+    .groupBy('id');
+
 
   if (ret.fixed.checked && !ret.hourly.checked) {
-    jobs
-      .where("fixed", "=", 1)
-      .whereBetween("price", [ret.fixed.min, ret.fixed.max]);
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
+    if (ret.skills.length > 0) {
+      jobs.where('tag', 'in', ret.skills)
+    }
   } else if (!ret.fixed.checked && ret.hourly.checked) {
-    jobs
-      .where("hourly", "=", 1)
-      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
+    jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
+    if (ret.skills.length > 0) {
+      jobs.where('tag', 'in', ret.skills)
+    }
   } else {
-    jobs
-      .where("fixed", "=", 1)
-      .whereBetween("price", [ret.fixed.min, ret.fixed.max])
-      .orWhere("hourly", "=", 1)
-      .whereBetween("price", [ret.hourly.min, ret.hourly.max]);
+    if (ret.skills.length > 0) {
+      jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max]).where('tag', 'in', ret.skills)
+        .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max]).where('tag', 'in', ret.skills)
+    } else {
+      jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
+        .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
+    }
   }
-  console.log(ret.skills)
-  if (ret.skills.length > 0) {
-    jobs.where("tag", "in", ret.skills);
+  if (ret.sort == 'Lastest') {
+    jobs.orderBy('created_at', 'desc')
+  } else if (ret.sort == 'Oldest') {
+    jobs.orderBy('created_at', 'increase')
+  } else if (ret.sort == 'Lowest Price') {
+    jobs.orderBy('price', 'increase')
+  } else if (ret.sort == 'Highest Price') {
+    jobs.orderBy('price', 'desc')
   }
-  if (ret.sort == "Lastest") {
-    jobs.orderBy("created_at", "desc");
-  } else if (ret.sort == "Oldest") {
-    jobs.orderBy("created_at", "increase");
-  } else if (ret.sort == "Lowest Price") {
-    jobs.orderBy("price", "increase");
-  } else if (ret.sort == "Highest Price") {
-    jobs.orderBy("price", "desc");
-  }
-  jobs = jobs.eager("[client, tags, freelance, freelance_interests]");
+  jobs = jobs.eager('[client, tags, freelance, freelance_interests]')
   res.json(await jobs);
 };
 
-exports.browseGet = async function(req, res, next) {
-  // JSON SENT FROM FRONT-END ////////
-  const temp = {
-    // "fix": 1,
-    // "hour": 0,
-    // "tag":["Python", "PHP", "React"],
-    // "langs":["Thai","English"],
-    // "min_fix": 0,
-    // "max_fix":1000000,
-    // "min_hour":0,
-    // "max_hour":10000,
-    // "sort":"Oldest"
-    sort: "Highest Price",
-    fixed: {
-      checked: false,
-      min: 0,
-      max: 1000000
-    },
-    hourly: {
-      checked: false,
-      min: 0,
-      max: 1000000
-    },
-    skills: ["Python"],
-    langs: ["Thai", "English"]
-  };
-  var ret_json = JSON.stringify(temp);
-  ////////////////////////////////////
+exports.browseGet = async function (req, res, next) {
 
   var user_lang = ["Thai", "English"];
   let jobs = await Job.query().eager(
@@ -112,7 +86,7 @@ exports.browseGet = async function(req, res, next) {
   });
 };
 
-exports.view = async function(req, res, next) {
+exports.view = async function (req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
     .eager("[client, freelance, freelance_interests, tags]");
@@ -125,7 +99,7 @@ exports.view = async function(req, res, next) {
   });
 };
 
-exports.addGet = function(req, res) {
+exports.addGet = function (req, res) {
   let title = "Add job | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
@@ -133,7 +107,7 @@ exports.addGet = function(req, res) {
   });
 };
 
-exports.addPost = async function(req, res, next) {
+exports.addPost = async function (req, res, next) {
   console.log(req.user);
   console.log(req.body);
   req.body.client_id = req.user.id;
@@ -172,7 +146,7 @@ exports.editGet = async function(req, res, next) {
   });
 };
 
-exports.editPost = async function(req, res, next) {
+exports.editPost = async function (req, res, next) {
   const newTags = req.body.tags.split(",");
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
@@ -199,7 +173,7 @@ exports.editPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + updatedJob.id);
 };
 
-exports.interestedGet = async function(req, res, next) {
+exports.interestedGet = async function (req, res, next) {
   let title = "Jobs | JetFree by JainsBret";
   const job = await Job.query()
     .findById(req.params.jobId)
@@ -210,7 +184,7 @@ exports.interestedGet = async function(req, res, next) {
   });
 };
 
-exports.interestedPost = async function(req, res, next) {
+exports.interestedPost = async function (req, res, next) {
   const currentUserId = req.user.id;
   const jobId = req.params.jobId;
   var data = {
@@ -230,7 +204,7 @@ exports.interestedPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
-exports.showInterestsGet = async function(req, res, next) {
+exports.showInterestsGet = async function (req, res, next) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
@@ -246,7 +220,7 @@ exports.showInterestsGet = async function(req, res, next) {
   });
 };
 
-exports.showInterestsPost = async function(req, res, next) {
+exports.showInterestsPost = async function (req, res, next) {
   let jobId = req.params.jobId;
   const updatedFreelance = await Job.query().updateAndFetchById(
     jobId,
@@ -357,7 +331,7 @@ exports.boostGet = async function(req, res, next) {
   });
 };
 
-exports.boostPost = async function(req, res, next) {
+exports.boostPost = async function (req, res, next) {
   var regex = /\d{2}\/\d{2}\/\d{4}/g;
   var dates = req.body.time.match(regex);
   var startDate = moment(dates[0], "DD/MM/YYYY");
@@ -372,7 +346,7 @@ exports.boostPost = async function(req, res, next) {
   res.redirect("/jobs/boost/" + jobBoost.job_id + "/" + jobBoost.id + "/pay");
 };
 
-exports.boostList = async function(req, res, next) {
+exports.boostList = async function (req, res, next) {
   var job = await Job.query()
     .findById(req.params.jobId)
     .eager("boosts");
@@ -382,24 +356,23 @@ exports.boostList = async function(req, res, next) {
   });
 };
 
-exports.payBoostGet = async function(req, res, next) {
+exports.payBoostGet = async function (req, res, next) {
   var boost = await JobBoost.query().findById(req.params.boostId);
   res.render("jobs/payBoost", {
     boost: boost
   });
 };
 
-exports.payBoostPost = async function(req, res, next) {
+exports.payBoostPost = async function (req, res, next) {
   var boost = await JobBoost.query().findById(req.params.boostId);
-  omise.charges.create(
-    {
+  omise.charges.create({
       description: "JainsBret charge for boost #" + boost.id,
       amount: boost.total_price * 100,
       currency: "thb",
       capture: true,
       card: req.body.token
     },
-    async function(err, resp) {
+    async function (err, resp) {
       if (err) {
         res.json(err);
       } else {

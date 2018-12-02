@@ -1,5 +1,7 @@
+// import TimeAgo from 'javascript-time-ago'
+// import en from 'javascript-time-ago/locale/en'
 $(document).ready(function () {
-
+  console.log(Date.now())
   var sent_query = function () {
     $(function () {
       var data = get_query();
@@ -63,10 +65,10 @@ $(document).ready(function () {
             </div>
             <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt="">
             <span>`
-      if (data[i].client == null || data[i].client == 0) {
-        res += 'No client'
+      if (data[i].freelance == null || data[i].freelance == 0) {
+        res += `<span class='open'>Open</span>`
       } else {
-        res += data[i].client.username
+        res += data[i].freelance.name
       }
       res += `</span>
             </div>

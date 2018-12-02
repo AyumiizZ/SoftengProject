@@ -12,8 +12,12 @@ block content
         if job.client != null && user != null
           if job.client.id == user.id
             div
-              a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
-              a.btn.btn-outline-info(href="../boost/"+job.id) ลงโฆษณา
+              a.btn.btn-outline-secondary(href="../edit/"+job.id).mr-2
+                i.fas.fa-edit
+                |  แก้ไข
+              a.btn.btn-outline-info(href="../boost/"+job.id)
+                i.fas.fa-rocket
+                |  ลงโฆษณา
   .row.mb-3
     .col-12
       .card

@@ -27,15 +27,17 @@ exports.browsePost = async function(req, res, next) {
   let jobs = Job.query()
       .joinRelation('tags')
       .groupBy('id');
+  
+  console.log(ret.fixed.min)
   if (ret.fixed.checked && ret.hourly.checked) {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-    .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
+    .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
   }
   else if (ret.fix && !ret.hourly) {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
   }
   else if (!ret.fix && ret.hourly) {
-    jobs.where('hourly', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
+    jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
   }
   if (ret.skills.length > 0) {
     jobs.where('tag', 'in', ret.skills)

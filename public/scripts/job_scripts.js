@@ -24,6 +24,7 @@ $(document).ready(function () {
   }
 
   var render = function(data){
+    console.log(data)
     $(".search-result-list").html("");
     for(var i=0; i<data.length; i++){
       $(".search-result-list").append(data[i].title);
@@ -39,6 +40,8 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
@@ -55,6 +58,8 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
@@ -91,6 +96,8 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   }
@@ -128,6 +135,8 @@ $(document).ready(function () {
         data: data,
         url: "/jobs/browse",
         contentType: "application/json"
+      }).done((data) => {
+        render(data);
       });
     });
   })

@@ -15,7 +15,7 @@ class User extends Model {
   }
 
   gravatar_url(size = 400) {
-    return gravatar.url(this.email, { s: size });
+    return gravatar.url(this.email, { s: size, d: "mp" });
   }
 
   overview_md() {

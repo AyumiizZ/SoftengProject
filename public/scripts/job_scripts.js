@@ -14,25 +14,48 @@ $(document).ready(function () {
     });
   }
 
-  var render = function(data){
+  var render = function (data) {
     console.log(data)
     console.log($(".search-result-list"))
+    var fixed_icon = `
+      <figure class="info-card-iconBox">
+        <span class="Icon">
+          <fl-icon name="ui-fixed-project">
+            <svg class="Icon-image" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z"
+                fill="#0087E0">
+              </path>
+            </svg>
+          </fl-icon>
+        </span>
+      </figure>`
+    var hourly_icon = `
+    <figure class="info-card-iconBox">
+      <span class="Icon">
+        <fl-icon name="ui-hourly-project">
+          <svg class="Icon-image" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z"
+              fill="#0087E0"></path>
+          </svg>
+        </fl-icon>
+      </span>
+    </figure>`
+
     $(".result-amount").html(data.length + " Result")
-    // $(".search-result-list").html("");
     res = ""
-    for(i = 0; i < data.length;i++){
+    for (i = 0; i < data.length; i++) {
       res += `<div class="search-result-item">
-      <div class="project-tile">
-        <figure class="info-card-iconBox"><span class="Icon">
-            <fl-icon name="ui-fixed-project"><svg class="Icon-image" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24">
-                <path d="M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z"
-                  fill="#0087E0"></path>
-              </svg></fl-icon>
-          </span></figure>
-        <div class="info-card-inner">
-          <h2 class="info-card-title">Build me a website</h2>
-          <p class="info-card-description">I need website for my upcoming project For that I need expert freelancer</p>
+      <div class="project-tile">`
+
+      if (data[i].fixed == 1 && data[i].hourly == null) {
+        res += fixed_icon
+      } else if (data[i].fixed == null && data[i].hourly == 1) {
+        res += hourly_icon
+      }
+      res += `
+      <div class="info-card-inner">
+          <h2 class="info-card-title">` + data[i].job + `</h2>
+          <p class="info-card-description">` + data[i].job_info + `</p>
           <div class="info-card-grid">
             <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/hourglass-start.svg" width="16" height="16"
                 alt=""><time>2018-12-02 01:45:42</time></div>
@@ -55,11 +78,6 @@ $(document).ready(function () {
     </div>`
     }
     $(".search-result-list").html(res);
-    // $(".search-result-list")[0].append("<li>");
-    // for(var i=0; i<data.length; i++){
-    //   $(".search-result-list")[0].append(data[i].job);
-    // }
-    // $(".search-result-list")[0].append("</li>");
   }
 
   var delete_tag = function () {
@@ -99,8 +117,8 @@ $(document).ready(function () {
     var tags = get_tag(id)
     var res = ""
     if (tags.indexOf(input.value) === -1) {
-      if(key === 188)
-        tags.push(input.value.substring(0,input.value.length-1))
+      if (key === 188)
+        tags.push(input.value.substring(0, input.value.length - 1))
       else
         tags.push(input.value)
     }
@@ -154,7 +172,7 @@ $(document).ready(function () {
   $('#clear-lang').click(function () {
     delete_all_tag('langs')
   })
-  $('a#sort-type').click(function(){
+  $('a#sort-type').click(function () {
     var dropbtn = $('#sort-by');
     dropbtn[0].innerText = "Sort By " + $(this)[0].innerText
     $(function () {
@@ -169,7 +187,7 @@ $(document).ready(function () {
       });
     });
   })
-  
+
 
 });
 

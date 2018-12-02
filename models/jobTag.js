@@ -1,8 +1,6 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
 
-const showdownParse = require("../lib/showdownParse");
-
 Model.knex(knex);
 
 class JobTag extends Model {
@@ -11,7 +9,6 @@ class JobTag extends Model {
   }
 
   static get relationMappings() {
-
     const Job = require("./job.js");
     return {
       job_tag: {

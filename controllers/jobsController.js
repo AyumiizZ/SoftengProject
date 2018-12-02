@@ -4,6 +4,7 @@ const JobInterest = require("../models/jobInterest");
 const Tag = require("../models/jobTag");
 const JobBoost = require("../models/jobBoost");
 const Status = require("../models/jobStatus");
+const Review = require("../models/review");
 const moment = require("moment");
 const omise = require("omise")({
   secretKey: process.env.OMISE_SECRET,
@@ -326,6 +327,7 @@ exports.freelanceJobsGet = async function(req, res, next) {
 };
 
 exports.freelanceJobsPost = async function(req, res, next) {
+  console.log(req.body);
   var status = {
     freelance_submit: req.body.freelance_submit
   }
@@ -333,11 +335,24 @@ exports.freelanceJobsPost = async function(req, res, next) {
     req.body.id,
     status
   );
-  if(req.body.reviewed) {
-    console.log("eiei");
+  if(req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.client_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      freelance_review: req.body.reviewed
+    }
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
   }
   res.redirect("/jobs/current/freelance");
-  //  const job = await Job.query().where("user_id", req.user.id).eager("[status, client]");
 };
 
 exports.clientJobsGet = async function(req, res, next) {
@@ -350,6 +365,7 @@ exports.clientJobsGet = async function(req, res, next) {
 };
 
 exports.clientJobsPost = async function(req, res, next) {
+  console.log(req.body);
   var status = {
     client_submit: req.body.client_submit
   }
@@ -357,8 +373,22 @@ exports.clientJobsPost = async function(req, res, next) {
     req.body.id,
     status
   );
-  if(req.body.reviewed) {
-    console.log("eiei");
+  if(req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.user_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      client_review: req.body.reviewed
+    }
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
   }
   res.redirect("/jobs/current/client");
 };

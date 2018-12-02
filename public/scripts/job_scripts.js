@@ -42,7 +42,7 @@ $(document).ready(function () {
     res = ""
     for (i = 0; i < data.length; i++) {
       res += `<li>
-        <a class="search-result-link" href='/jobs/view/'` + data[i].id + `, target='_blank'>
+        <a class="search-result-link" href='/jobs/view/` + data[i].id + `' target='_blank'>
           <div class="search-result-item">
             <div class="project-tile">`
 

@@ -21,23 +21,21 @@ exports.redirectToBrowse = function(req, res, next) {
 
 exports.browsePost = async function(req, res, next) {
   console.log(req.body)
-  // JSON SENT FROM FRONT-END ////////
   var ret = req.body
 
   let jobs = Job.query()
       .joinRelation('tags')
       .groupBy('id');
   
-  console.log(ret.fixed.min)
-  if (ret.fixed.checked && ret.hourly.checked) {
+  if (ret.fixed.checked && !ret.hourly.checked) {
+    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
+  }
+  else if (!ret.fixed.checked && ret.hourly.checked) {
+    jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
+  }
+  else {
     jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
     .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
-  }
-  else if (ret.fix && !ret.hourly) {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
-  }
-  else if (!ret.fix && ret.hourly) {
-    jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
   }
   if (ret.skills.length > 0) {
     jobs.where('tag', 'in', ret.skills)
@@ -55,82 +53,14 @@ exports.browsePost = async function(req, res, next) {
     jobs.orderBy('price', 'desc')
   }
   jobs = jobs.eager('[client, tags, freelance, freelance_interests]')
-  console.log(await jobs);
-  var user_skills = ["PHP", "Python", "MySQL", "Linux", "JavaScript"]
-  var user_lang = ["Thai","English"]
-
-  // const n_results = jobs.length
-
-  let title = "Browse | JetFree by JainsBret";
   res.json(await jobs);
-  // res.render("jobs/browse", {
-  //   title: title,
-  //   jobs: await jobs,
-  //   skills: user_skills,
-  //   lang: user_lang,
-  //   n_results: n_results
-  // });
 };
 
 exports.browseGet = async function(req, res, next) {
-  // JSON SENT FROM FRONT-END ////////
-  // const temp = {
-  //   'sort': 'Highest Price',
-  //   'fixed': {
-  //     'checked': false,
-  //     'min': 0,
-  //     'max': 1000000
-  //   },
-  //   'hourly': {
-  //     'checked': false,
-  //     'min': 0,
-  //     'max': 1000000
-  //   },
-  //   'skills': ['Python'],
-  //   'langs': ['Thai', 'English']
-  // }
-  // var ret_json = JSON.stringify(temp)
-  ///////////////////////////////////
-  //
-  // console.log('REQ: ' + req);
-  //
-  // var ret = JSON.parse(ret_json);
-  var user_lang = ["Thai", "English"];
-  // let jobs = Job.query()
-  //     .joinRelation('tags')
-  //     .groupBy('id');
-  //
-  // if (ret.fixed.checked && ret.hourly.checked) {
-  //   jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  //   .orWhere('hourly', '=', 1).whereBetween('price', [ret.min_hour, ret.max_hour])
-  // }
-  // else if (ret.fix && !ret.hourly) {
-  //   jobs.where('fixed', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  // }
-  // else if (!ret.fix && ret.hourly) {
-  //   jobs.where('hourly', '=', 1).whereBetween('price', [ret.min_fix, ret.max_fix])
-  // }
-  // if (ret.skills.length > 0) {
-  //   jobs.where('tag', 'in', ret.skills)
-  // }
-  // if (ret.sort == 'Lastest') {
-  //   jobs.orderBy('created_at', 'desc')
-  // }
-  // else if (ret.sort == 'Oldest') {
-  //   jobs.orderBy('created_at', 'increase')
-  // }
-  // else if (ret.sort == 'Lowest Price') {
-  //   jobs.orderBy('price', 'increase')
-  // }
-  // else if (ret.sort == 'Highest Price') {
-  //   jobs.orderBy('price', 'desc')
-  // }
 
+  var user_lang = ["Thai", "English"];
   let jobs = await Job.query().eager('[tags, freelance_interests, client, freelance]')
-  // console.log(jobs);
   let n_results = jobs.length;
-  // console.log(jobs.freelance_interests);
-  //console.log(n_results);
 
   let title = "Browse | JetFree by JainsBret";
   res.render("jobs/browse", {

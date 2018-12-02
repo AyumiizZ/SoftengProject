@@ -261,6 +261,7 @@ function get_query() {
     skills: skill_arr,
     langs: lang_arr
   }
+  console.log(ret)
   return JSON.stringify(ret)
 }
 

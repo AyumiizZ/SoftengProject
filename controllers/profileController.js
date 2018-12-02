@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Job = require("../models/job");
+const Review = require("../models/review");
 const gravatar = require("gravatar");
 
 exports.viewProfile = async function(req, res) {
@@ -19,24 +20,34 @@ exports.viewReviews = async function(req, res) {
   const user = await User.query()
     .where("username", req.params.username)
     .first()
-    .eager("review");
-  var past_job = await Job.query()
-    .where("user_id", user.id)
-    .where("done", 1);
+    .eager("[review, review.reviewer]");
   
-  const amount = past_job.length;
+  console.log(user);
+  const totalReview = user.review;
+  const amount = totalReview.length;
+  var avg = 0;
+  for(var i = 0; i < amount; i++) {
+    avg += totalReview[i].rate;
+  }
+  if(amount > 0) {
+    avg = avg/amount; 
+  }
   const per_page = 5;
   const page = Number(req.params.page);
-  var jobs = past_job.slice(per_page * (page - 1), page * per_page);
-  console.log(jobs);
+  var reviews = totalReview.slice(per_page * (page - 1), page * per_page);
+  console.log(reviews);
   
   const title = req.params.username + "'s Profile | JetFree by JainsBret";
   res.render("profile/reviews", {
     title: title,
     current: req.user,
     user: user,
-    past_job: past_job,
-    amount: amount
+    reviews: reviews,
+    totalRate: avg,
+    page: page,
+    n: 1,
+    amount: amount,
+    limit: Math.ceil(amount / per_page)
   });
 };
 

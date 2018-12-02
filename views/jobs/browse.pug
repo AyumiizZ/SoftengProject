@@ -11,7 +11,7 @@ block body
                 label#head Project Type
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#fix(name='fixed_projects', type='checkbox', onchange='choose_this()')
+                    input.form-check-input#fix(name='fixed_projects', type='checkbox')
                     | Fixed price projects
                 .row.min-max#fix-input
                   .col-5.min
@@ -22,7 +22,7 @@ block body
                     input.form-control#max-fix(type="text", placeholder='Max')
                 .form-check
                   label.form-check-label(name='project_types')
-                    input.form-check-input#hour(name='hourly_projects', type='checkbox', onchange='choose_this()')
+                    input.form-check-input#hour(name='hourly_projects', type='checkbox')
                     | Hourly projects
                 .row.min-max#hour-input
                   .col-5.min
@@ -37,10 +37,10 @@ block body
                   .filter-tag-input#skills
                     each val in skills
                       .input-tag=val.tag
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag(id=val.tag) ×
                     input#skill-input(type="text", placeholder='Select Skill')
                 .filter-item-button-group
-                  button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('skills')")
+                  button.btn.btn-primary.btn-small.filter-item-button#clear-skill(type='button')
                     | Clear Skills
                   button.btn.btn-link.btn-small.filter-item-button(type='button', data-toggle='modal', data-target='#edit_skills') Edit Profile Skill
               //- li.filter-item-group
@@ -79,10 +79,10 @@ block body
                   .filter-tag-input#langs
                     each val in lang
                       .input-tag=val
-                        .delete-tag(onclick="delete_tag(this)") ×
+                        .delete-tag ×
                     input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
-                  button.btn.btn-primary.btn-small.filter-item-button(type='button', onclick="delete_all_tag('langs')")
+                  button.btn.btn-primary.btn-small.filter-item-button#clear-lang(type='button')
                     | Clear Languages
               button.btn.btn-link.btn-small.filter-item-button(type='button') Reset Filter
 
@@ -98,14 +98,10 @@ block body
                 .btn-group 
                   button.btn.btn-trans.dropdown-toggle#sort-by(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     | Sort By Recommend
+                  - var item = ["Recommend", "Lastest", "Oldest", "Lowest Price", "Highest Price", "Most Bid", "Fewest Bid"]
                   .dropdown-menu
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Latest
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
-                    a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
+                    each val in item
+                      a.dropdown-item#sort-type=val
 
           ul.search-result-list
             each val in jobs
@@ -120,7 +116,7 @@ block body
                               svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                                 path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
                           else if val.hourly
-                            fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+                            fl-icon(name='ui-hourly-project')
                               svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                                 path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
                       .info-card-inner
@@ -138,12 +134,12 @@ block body
                               span #{val.freelance.name}
                             else
                               span.open Open
-                              span  - # bit
+                              span  - # 1
                           .info-card-details.info-card-grid-item.info-card-skills-container
                             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
                             each tag, index in val.tags_array()
                               .btn.btn-outline-secondary.btn-sm(style="padding: 0px 3px; margin-right: 3px")=tag
-                            span=val.tag
+                            //- span=val.tag
                       .info-card-rate
                         .info-card-price
                           span=val.price

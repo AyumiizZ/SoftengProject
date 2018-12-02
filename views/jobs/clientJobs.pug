@@ -10,7 +10,7 @@ block content
         li.nav-item
             a.nav-link(href="../current/freelance") ในฐานะฟรีแลนซ์
         li.nav-item
-            a.nav-link.active(href="#") ในฐานะผู้จ้าง 
+            a.nav-link.active(href="#") ในฐานะลูกค้า 
         
     h2 
     each job in jobs
@@ -23,8 +23,40 @@ block content
                                 h4 #{job.job}
                                 p #{job.job_info}
                             .col-2
-                                a.btn.btn-outline-primary.btn-block(href='../current/client/'+job.id+'/finished') งานเสร็จสิ้นแล้ว
-
+                                if job.freelance
+                                    button.btn.btn-outline-primary.btn-block(type='button', data-toggle='modal', data-target='#done') งานเสร็จสิ้นแล้ว
+                                    #done.modal.fade(tabindex='-1', role='dialog', aria-labelledby='job_finished', aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            .modal-content
+                                                .modal-header
+                                                    h5 ใกล้เสร็จแล้ว!
+                                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                    span(aria-hidden='true') ×
+                                                .modal-body
+                                                    | คุณต้องการเขียนรีวิว #{job.freelance.name} หรือไม่
+                                                .modal-footer
+                                                    input(name='id', type='hidden', value=job.id)
+                                                    input#submission(name='client_submit', type='hidden')
+                                                    input#reviewed(name='reviewed', type='hidden')
+                                                    button#finished.btn.btn-secondary(type='submit') ไม่ต้องการ
+                                                    button#goToReview.btn.btn-primary(type='button', data-toggle='modal', data-target='#review-page', data-dismiss='modal') ต้องการ
+                                    #review-page.modal.fade(tabindex='-1', role='dialog', aria-labelledby='review', aria-hidden='true')
+                                        .modal-dialog.modal-lg(role='document')
+                                            .modal-content
+                                                .modal-header
+                                                    h5 รีวิวโดย #{user.name}
+                                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                    span(aria-hidden='true') ×
+                                                .modal-body
+                                                    .form-group
+                                                        label ความคิดเห็น
+                                                        textarea(class="form-control" rows="5" name="review" placeholder="")   
+                                                    .form-group
+                                                        label คะแนน
+                                                .modal-footer
+                                else
+                                    a.btn.btn-outline-info.btn-block(href='../view/'+job.id) เลือกฟรีแลนซ์
+    
     //nav(aria-label='Page navigation')
         ul.pagination.justify-content-center
             if amount>0
@@ -47,3 +79,15 @@ block content
                 else
                     li.page-item
                         a.page-link(href=(page+1)) »
+
+block js-after
+  script.
+    var reviewPage = $("#goToReview");
+    reviewPage.click(function() {
+      $("#reviewed").val(-1);
+    });
+
+    var finishJob = $("#finished");
+    finishJob.click(function() {
+        $("#submission").val(1);
+    });

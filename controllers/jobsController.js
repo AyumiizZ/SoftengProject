@@ -317,7 +317,7 @@ exports.showInterestsPost = async function(req, res, next) {
 };
 
 exports.freelanceJobsGet = async function(req, res, next) {
-  const job = await Job.query().where("user_id", req.user.id).eager("status");
+  const job = await Job.query().where("user_id", req.user.id).eager("[status, client]");
   console.log(job);
   res.render("jobs/freelanceJobs", {
     user: req.user,
@@ -325,8 +325,23 @@ exports.freelanceJobsGet = async function(req, res, next) {
   });
 };
 
+exports.freelanceJobsPost = async function(req, res, next) {
+  var status = {
+    freelance_submit: req.body.freelance_submit
+  }
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if(req.body.reviewed) {
+    console.log("eiei");
+  }
+  res.redirect("/jobs/current/freelance");
+  //  const job = await Job.query().where("user_id", req.user.id).eager("[status, client]");
+};
+
 exports.clientJobsGet = async function(req, res, next) {
-  const job = await Job.query().where("client_id", req.user.id).eager("status");
+  const job = await Job.query().where("client_id", req.user.id).eager("[status, freelance]");
   console.log(job);
   res.render("jobs/clientJobs", {
     user: req.user,
@@ -334,14 +349,18 @@ exports.clientJobsGet = async function(req, res, next) {
   });
 };
 
-exports.reviewGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId);
-  redirectIfNotAuthenticated(req, res, next, job.client_id, job.user_id);
-  console.log(job);
-  res.render("jobs/review", {
-    user: req.user,
-    jobs: job
-  });
+exports.clientJobsPost = async function(req, res, next) {
+  var status = {
+    client_submit: req.body.client_submit
+  }
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if(req.body.reviewed) {
+    console.log("eiei");
+  }
+  res.redirect("/jobs/current/client");
 };
 
 exports.boostGet = async function(req, res, next) {

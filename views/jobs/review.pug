@@ -3,11 +3,13 @@ extends ../incontainer
 block content
     .row
         .col-10
-            h1 เกือบเสร็จแล้ว!
+            h1 รีวิว #{other.name}
     hr
     .form-group
-        label รีวิว
-        textarea(class="form-control" rows="5" name="overview" placeholder="")
+        level คะแนน
+    .form-group
+        label ความคิดเห็น
+        textarea(class="form-control" rows="5" name="review" placeholder="")
 
 block js-after
   script.

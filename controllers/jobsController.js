@@ -76,7 +76,7 @@ exports.browseGet = async function(req, res, next) {
 exports.view = async function(req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance, freelance_interests]");
+    .eager("[client, freelance, freelance_interests, tags]");
   console.log(job);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",

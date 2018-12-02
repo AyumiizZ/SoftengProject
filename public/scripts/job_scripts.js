@@ -47,12 +47,10 @@ $(document).ready(function () {
             <div class="project-tile">`
 
       if (data[i].fixed == 1) {
-        console.log('fix_icon')
         res += fixed_icon
       } else if (data[i].hourly == 1) {
-        console.log('hour_icon')
         res += hourly_icon
-      } else{
+      } else {
         console.log('Fixed Hourly column bug')
       }
       res += `<div class="info-card-inner">
@@ -66,20 +64,17 @@ $(document).ready(function () {
             <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt="">
             <span>`
       if (data[i].client == null || data[i].client == 0) {
-        console.log('No Client')
         res += 'No client'
-      } else
-      { console.log('Client')
-        res += data[i].client.username}
+      } else {
+        res += data[i].client.username
+      }
       res += `</span>
             </div>
             <div class="info-card-details info-card-grid-item info-card-skills-container"><img src="/svgs/solid/tags.svg"
                 width="16" height="16" alt="">`
       if (data[i].tags == null || data[i].tags == 0) {
-        console.log('No tag')
         res += `No tag`
       } else {
-        console.log('tag')
         for (j = 0; j < data[i].tags.length; j++) {
           res += `<div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">` + data[i].tags[j].tag + `</div>`
         }
@@ -91,13 +86,10 @@ $(document).ready(function () {
           <div class="info-card-price"><span>` + data[i].price + `</span></div>
           <div class="info-card-price-type">`
       if (data[i].fixed == 1) {
-        console.log('THB')
         res += `<span>THB</span>`
       } else if (data[i].hourly == 1) {
-        console.log('Per hr')
         res += `<span>THB per hour</span>`
-      }
-      else {
+      } else {
 
       }
 

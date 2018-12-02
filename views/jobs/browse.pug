@@ -79,7 +79,7 @@ block body
                   .filter-tag-input#langs
                     each val in lang
                       .input-tag=val
-                        .delete-tag(onclick="delete_tag()") ×
+                        .delete-tag ×
                     input#lang-input(type="text", placeholder='Select Language')
                 .filter-item-button-group
                   button.btn.btn-primary.btn-small.filter-item-button#clear-lang(type='button')
@@ -102,13 +102,6 @@ block body
                   .dropdown-menu
                     each val in item
                       a.dropdown-item#sort-type=val
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Latest
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
-                    //- a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
 
           ul.search-result-list
             each val in jobs
@@ -123,7 +116,7 @@ block body
                               svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                                 path(d='M0 15.5v1c0 1.103.897 2 2 2h9v2H7v2h10v-2h-4v-2h9c1.103 0 2-.897 2-2v-1H0zm24-1v-11c0-1.103-.897-2-2-2H2c-1.103 0-2 .897-2 2v11h24z', fill='#0087E0')
                           else if val.hourly
-                            fl-icon(name='ui-hourly-project', ng-if="ProjectTile.project.price.type === 'hourly'")
+                            fl-icon(name='ui-hourly-project')
                               svg.Icon-image(width='24', height='24', xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24')
                                 path(d='M12 0C5.384 0 0 5.384 0 12s5.384 12 12 12 12-5.384 12-12S18.616 0 12 0zm3.26 15.776l-4.593-3.063v-7.38h2.666v5.954l3.407 2.27-1.48 2.219z', fill='#0087E0')
                       .info-card-inner
@@ -146,7 +139,7 @@ block body
                             img(src='/svgs/solid/tags.svg', width='16', height='16', alt='')
                             each tag, index in val.tags_array()
                               .btn.btn-outline-secondary.btn-sm(style="padding: 0px 3px; margin-right: 3px")=tag
-                            span=val.tag
+                            //- span=val.tag
                       .info-card-rate
                         .info-card-price
                           span=val.price

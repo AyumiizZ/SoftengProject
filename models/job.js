@@ -1,6 +1,7 @@
 const { Model } = require("objection");
 const knex = require("../database/knex.js");
 const JobTag = require("./jobTag.js");
+const JobStatus = require("./jobStatus.js");
 const JobBoost = require("./jobBoost.js");
 const User = require("./user.js");
 const showdownParse = require("../lib/showdownParse");
@@ -60,6 +61,14 @@ class Job extends Model {
         join: {
           from: "jobs.id",
           to: "jobs_tags.job_id"
+        }
+      },
+      status: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: JobStatus,
+        join: {
+          from: "jobs.id",
+          to: "jobs_status.id"
         }
       },
       boosts: {

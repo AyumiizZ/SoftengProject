@@ -37,6 +37,7 @@ exports.browsePost = async function(req, res, next) {
     jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
     .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
   }
+  console.log(ret.skills)
   if (ret.skills.length > 0) {
     jobs.where('tag', 'in', ret.skills)
   }

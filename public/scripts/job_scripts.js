@@ -46,12 +46,14 @@ $(document).ready(function () {
           <div class="search-result-item">
             <div class="project-tile">`
 
-      if (data[i].fixed == 1 && data[i].hourly == null) {
+      if (data[i].fixed == 1) {
         console.log('fix_icon')
         res += fixed_icon
-      } else if (data[i].fixed == null && data[i].hourly == 1) {
+      } else if (data[i].hourly == 1) {
         console.log('hour_icon')
         res += hourly_icon
+      } else{
+        console.log('Fixed Hourly column bug')
       }
       res += `<div class="info-card-inner">
           <h2 class="info-card-title">` + data[i].job + `</h2>
@@ -63,7 +65,7 @@ $(document).ready(function () {
             </div>
             <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt="">
             <span>`
-      if (data[i].client == null) {
+      if (data[i].client == null || data[i].client == 0) {
         console.log('No Client')
         res += 'No client'
       } else
@@ -73,7 +75,7 @@ $(document).ready(function () {
             </div>
             <div class="info-card-details info-card-grid-item info-card-skills-container"><img src="/svgs/solid/tags.svg"
                 width="16" height="16" alt="">`
-      if (data[i].tags == null) {
+      if (data[i].tags == null || data[i].tags == 0) {
         console.log('No tag')
         res += `No tag`
       } else {
@@ -88,12 +90,15 @@ $(document).ready(function () {
         <div class="info-card-rate">
           <div class="info-card-price"><span>` + data[i].price + `</span></div>
           <div class="info-card-price-type">`
-      if (data[i].fixed == 1 && data[i].hourly == null) {
+      if (data[i].fixed == 1) {
         console.log('THB')
         res += `<span>THB</span>`
-      } else if (data[i].fixed == null && data[i].hourly == 1) {
+      } else if (data[i].hourly == 1) {
         console.log('Per hr')
         res += `<span>THB per hour</span>`
+      }
+      else {
+
       }
 
       res += `</div>

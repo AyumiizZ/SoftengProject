@@ -72,7 +72,14 @@ block body
                   .dropdown-menu
                     each val in item
                       a.dropdown-item#sort-type=val
-
+                  .dropdown-menu
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Recommend
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Latest
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Oldest
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Lowest Price
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Highest Price
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Most Bid
+                    a.dropdown-item(href='#', onclick='change_sort(this)') Fewest Bid
           ul.search-result-list
             each val in jobs
               li

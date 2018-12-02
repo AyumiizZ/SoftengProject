@@ -15,10 +15,7 @@ $(document).ready(function () {
   }
 
   var render = function (data) {
-    console.log(data)
-    console.log($(".search-result-list"))
-    var fixed_icon = `
-      <figure class="info-card-iconBox">
+    var fixed_icon = `<figure class="info-card-iconBox">
         <span class="Icon">
           <fl-icon name="ui-fixed-project">
             <svg class="Icon-image" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -29,8 +26,7 @@ $(document).ready(function () {
           </fl-icon>
         </span>
       </figure>`
-    var hourly_icon = `
-    <figure class="info-card-iconBox">
+    var hourly_icon = `<figure class="info-card-iconBox">
       <span class="Icon">
         <fl-icon name="ui-hourly-project">
           <svg class="Icon-image" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -46,53 +42,60 @@ $(document).ready(function () {
     for (i = 0; i < data.length; i++) {
       res += `
       <li>
-        <a class="search-result-link" href='/jobs/view/'`+ data[i].id +`, target='_blank'>
+        <a class="search-result-link" href='/jobs/view/'` + data[i].id + `, target='_blank'>
           <div class="search-result-item">
             <div class="project-tile">`
 
       if (data[i].fixed == 1 && data[i].hourly == null) {
+        console.log('fix_icon')
         res += fixed_icon
       } else if (data[i].fixed == null && data[i].hourly == 1) {
+        console.log('hour_icon')
         res += hourly_icon
       }
-      res += `
-      <div class="info-card-inner">
+      res += `<div class="info-card-inner">
           <h2 class="info-card-title">` + data[i].job + `</h2>
           <p class="info-card-description">` + data[i].job_info + `</p>
           <div class="info-card-grid">
             <div class="info-card-details info-card-grid-item">
               <img src="/svgs/solid/hourglass-start.svg" width="16" height="16" alt="">
-                <time>`+data[i].created_at+`</time>
+                <time>` + data[i].created_at + `</time>
             </div>
             <div class="info-card-details info-card-grid-item"><img src="/svgs/solid/user.svg" width="16" height="16" alt="">
             <span>`
-      if(data[i].client == null)
-        res += `No client`
-      else
-        res += data[i].client.username
+      if (data[i].client == null) {
+        console.log('No Client')
+        res += 'No client'
+      } else
+      { console.log('Client')
+        res += data[i].client.username}
       res += `</span>
             </div>
             <div class="info-card-details info-card-grid-item info-card-skills-container"><img src="/svgs/solid/tags.svg"
                 width="16" height="16" alt="">`
-      if(data[i].tags == null)
+      if (data[i].tags == null) {
+        console.log('No tag')
         res += `No tag`
-      else{
-        for (j = 0; j < data[i].tags.length; j++){
-          res += `<div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">`+data[i].tags[j].tag+`</div>`
+      } else {
+        console.log('tag')
+        for (j = 0; j < data[i].tags.length; j++) {
+          res += `<div class="btn btn-outline-secondary btn-sm" style="padding: 0px 3px; margin-right: 3px">` + data[i].tags[j].tag + `</div>`
         }
       }
       res += `</div>
           </div>
         </div>
         <div class="info-card-rate">
-          <div class="info-card-price"><span>`+data[i].price+`</span></div>
+          <div class="info-card-price"><span>` + data[i].price + `</span></div>
           <div class="info-card-price-type">`
       if (data[i].fixed == 1 && data[i].hourly == null) {
+        console.log('THB')
         res += `<span>THB</span>`
       } else if (data[i].fixed == null && data[i].hourly == 1) {
+        console.log('Per hr')
         res += `<span>THB per hour</span>`
       }
-      
+
       res += `</div>
         </div>
       </div>

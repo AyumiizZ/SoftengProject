@@ -3,66 +3,80 @@ const Job = require("../models/job");
 const JobInterest = require("../models/jobInterest");
 const Tag = require("../models/jobTag");
 const JobBoost = require("../models/jobBoost");
+const Status = require("../models/jobStatus");
+const Review = require("../models/review");
 const moment = require("moment");
 const omise = require("omise")({
   secretKey: process.env.OMISE_SECRET,
   omiseVersion: "2017-11-02"
 });
 
-function redirectIfNotAuthenticated(req, res, next, userId) {
-  if (userId != req.user.id) {
+function redirectIfNotAuthenticated(req, res, next, clientId, freelanceId) {
+  if (freelanceId == undefined) {
+    freelanceId = -1;
+  }
+  console.log(clientId + " " + freelanceId + " " + req.user.id);
+  if (clientId != req.user.id && freelanceId != req.user.id) {
     res.status(403).render("errors/403");
   }
 }
 
-exports.redirectToBrowse = function(req, res, next) {
+exports.redirectToBrowse = function (req, res, next) {
   res.redirect(req.baseUrl + "/browse");
 };
 
-exports.browsePost = async function(req, res, next) {
+exports.browsePost = async function (req, res, next) {
   console.log(req.body)
   var ret = req.body
 
   let jobs = Job.query()
-      .joinRelation('tags')
-      .groupBy('id');
-  
+    .joinRelation('tags')
+    .groupBy('id');
+
+
   if (ret.fixed.checked && !ret.hourly.checked) {
     jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
-  }
-  else if (!ret.fixed.checked && ret.hourly.checked) {
+    if (ret.skills.length > 0) {
+      jobs.where('tag', 'in', ret.skills)
+    }
+  } else if (!ret.fixed.checked && ret.hourly.checked) {
     jobs.where('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
-  }
-  else {
-    jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
-    .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
-  }
-  if (ret.skills.length > 0) {
-    jobs.where('tag', 'in', ret.skills)
+    if (ret.skills.length > 0) {
+      jobs.where('tag', 'in', ret.skills)
+    }
+  } else {
+    if (ret.skills.length > 0) {
+      jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max]).where('tag', 'in', ret.skills)
+        .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max]).where('tag', 'in', ret.skills)
+    } else {
+      jobs.where('fixed', '=', 1).whereBetween('price', [ret.fixed.min, ret.fixed.max])
+        .orWhere('hourly', '=', 1).whereBetween('price', [ret.hourly.min, ret.hourly.max])
+    }
   }
   if (ret.sort == 'Lastest') {
     jobs.orderBy('created_at', 'desc')
-  }
-  else if (ret.sort == 'Oldest') {
+  } else if (ret.sort == 'Oldest') {
     jobs.orderBy('created_at', 'increase')
-  }
-  else if (ret.sort == 'Lowest Price') {
+  } else if (ret.sort == 'Lowest Price') {
     jobs.orderBy('price', 'increase')
-  }
-  else if (ret.sort == 'Highest Price') {
+  } else if (ret.sort == 'Highest Price') {
     jobs.orderBy('price', 'desc')
   }
   jobs = jobs.eager('[client, tags, freelance, freelance_interests]')
   res.json(await jobs);
 };
 
-exports.browseGet = async function(req, res, next) {
+exports.browseGet = async function (req, res, next) {
 
   var user_lang = ["Thai", "English"];
-  let jobs = await Job.query().eager('[tags, freelance_interests, client, freelance]')
+  let jobs = await Job.query().eager(
+    "[tags, freelance_interests, client, freelance]"
+  );
   let n_results = jobs.length;
+  console.log(jobs.freelance_interests);
+  //console.log(n_results);
 
-  let title = "Browse | JetFree by JainsBret";
+  let title = "Projects | JetFree by JainsBret";
   res.render("jobs/browse", {
     title: title,
     jobs: await jobs,
@@ -72,10 +86,10 @@ exports.browseGet = async function(req, res, next) {
   });
 };
 
-exports.view = async function(req, res, next) {
+exports.view = async function (req, res, next) {
   const job = await Job.query()
     .findById(req.params.jobId)
-    .eager("[client, freelance, freelance_interests]");
+    .eager("[client, freelance, freelance_interests, tags]");
   console.log(job);
   res.render("jobs/view", {
     title: job.job + " | JetFree by JainsBret",
@@ -85,7 +99,7 @@ exports.view = async function(req, res, next) {
   });
 };
 
-exports.addGet = function(req, res) {
+exports.addGet = function (req, res) {
   let title = "Add job | JetFree by JainsBret";
   res.render("jobs/addedit", {
     title: title,
@@ -93,7 +107,7 @@ exports.addGet = function(req, res) {
   });
 };
 
-exports.addPost = async function(req, res, next) {
+exports.addPost = async function (req, res, next) {
   console.log(req.user);
   console.log(req.body);
   req.body.client_id = req.user.id;
@@ -103,18 +117,24 @@ exports.addPost = async function(req, res, next) {
   delete req.body.job_type;
   console.log(req.body);
   const job = await Job.query().insert(req.body);
-  for(var i = 0; i < tagsText.length; i++) {
+  for (var i = 0; i < tagsText.length; i++) {
     const tag = {
       job_id: job.id,
       tag: tagsText[i]
     };
     const tags = await Tag.query().insert(tag);
   }
+  const status = {
+    id: job.id
+  };
+  const newStatus = await Status.query().insert(status);
   res.redirect("/jobs/view/" + job.id);
 };
 
 exports.editGet = async function(req, res, next) {
-  const job = await Job.query().findById(req.params.jobId).eager("tags");
+  const job = await Job.query()
+    .findById(req.params.jobId)
+    .eager("tags");
   redirectIfNotAuthenticated(req, res, next, job.client_id);
   console.log(job);
   let title = "Jobs | JetFree by JainsBret";
@@ -122,18 +142,20 @@ exports.editGet = async function(req, res, next) {
     title: title,
     h1_title: "แก้ไขประกาศงาน",
     job: job,
-    tags: job.tags,
+    tags: job.tags
   });
 };
 
-exports.editPost = async function(req, res, next) {
+exports.editPost = async function (req, res, next) {
   const newTags = req.body.tags.split(",");
   const job = await Job.query().findById(req.params.jobId);
   redirectIfNotAuthenticated(req, res, next, job.client_id);
 
-  if(req.body.deleted || newTags != "") {
-    const oldTags = await Tag.query().where("job_id", job.id).del();
-    for(var i = 0; i < newTags.length; i++) {
+  if (req.body.deleted || newTags != "") {
+    const oldTags = await Tag.query()
+      .where("job_id", job.id)
+      .del();
+    for (var i = 0; i < newTags.length; i++) {
       const tag = {
         job_id: job.id,
         tag: newTags[i]
@@ -151,7 +173,7 @@ exports.editPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + updatedJob.id);
 };
 
-exports.interestedGet = async function(req, res, next) {
+exports.interestedGet = async function (req, res, next) {
   let title = "Jobs | JetFree by JainsBret";
   const job = await Job.query()
     .findById(req.params.jobId)
@@ -162,7 +184,7 @@ exports.interestedGet = async function(req, res, next) {
   });
 };
 
-exports.interestedPost = async function(req, res, next) {
+exports.interestedPost = async function (req, res, next) {
   const currentUserId = req.user.id;
   const jobId = req.params.jobId;
   var data = {
@@ -182,7 +204,7 @@ exports.interestedPost = async function(req, res, next) {
   res.redirect("/jobs/view/" + jobId + "?saveinterested=true");
 };
 
-exports.showInterestsGet = async function(req, res, next) {
+exports.showInterestsGet = async function (req, res, next) {
   let user = await User.query()
     .where("username", req.user.username)
     .first();
@@ -198,7 +220,7 @@ exports.showInterestsGet = async function(req, res, next) {
   });
 };
 
-exports.showInterestsPost = async function(req, res, next) {
+exports.showInterestsPost = async function (req, res, next) {
   let jobId = req.params.jobId;
   const updatedFreelance = await Job.query().updateAndFetchById(
     jobId,
@@ -206,6 +228,98 @@ exports.showInterestsPost = async function(req, res, next) {
   );
   console.log("success!");
   res.redirect("/jobs/view/" + jobId);
+};
+
+exports.freelanceJobsGet = async function(req, res, next) {
+  const job = await Job.query()
+    .where("user_id", req.user.id)
+    .eager("[status, client]");
+  console.log(job);
+  res.render("jobs/freelanceJobs", {
+    user: req.user,
+    jobs: job
+  });
+};
+
+exports.freelanceJobsPost = async function(req, res, next) {
+  console.log(req.body);
+  var status = {
+    freelance_submit: req.body.freelance_submit
+  };
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if (req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.client_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      freelance_review: req.body.reviewed
+    };
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
+  }
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
+  }
+  res.redirect("/jobs/current/freelance");
+};
+
+exports.clientJobsGet = async function(req, res, next) {
+  const job = await Job.query()
+    .where("client_id", req.user.id)
+    .eager("[status, freelance]");
+  console.log(job);
+  res.render("jobs/clientJobs", {
+    user: req.user,
+    jobs: job
+  });
+};
+
+exports.clientJobsPost = async function(req, res, next) {
+  console.log(req.body);
+  var status = {
+    client_submit: req.body.client_submit
+  };
+  const updatedStatus = await Status.query().updateAndFetchById(
+    req.body.id,
+    status
+  );
+  if (req.body.reviewed == 1) {
+    const job = await Job.query().findById(req.body.id);
+    const reviewText = {
+      review: req.body.review,
+      reviewer_id: req.user.id,
+      user_id: job.user_id,
+      rate: req.body.rate
+    };
+    const newReview = await Review.query().insert(reviewText);
+    const reviewStatus = {
+      client_review: req.body.reviewed
+    };
+    const updatedReviewStatus = await Status.query().updateAndFetchById(
+      req.body.id,
+      reviewStatus
+    );
+  }
+  if (updatedStatus.freelance_submit && updatedStatus.client_submit) {
+    const done = {
+      done: 1
+    };
+    const updatedJob = await Job.query().updateAndFetchById(req.body.id, done);
+  }
+  res.redirect("/jobs/current/client");
 };
 
 exports.boostGet = async function(req, res, next) {
@@ -217,7 +331,7 @@ exports.boostGet = async function(req, res, next) {
   });
 };
 
-exports.boostPost = async function(req, res, next) {
+exports.boostPost = async function (req, res, next) {
   var regex = /\d{2}\/\d{2}\/\d{4}/g;
   var dates = req.body.time.match(regex);
   var startDate = moment(dates[0], "DD/MM/YYYY");
@@ -232,7 +346,7 @@ exports.boostPost = async function(req, res, next) {
   res.redirect("/jobs/boost/" + jobBoost.job_id + "/" + jobBoost.id + "/pay");
 };
 
-exports.boostList = async function(req, res, next) {
+exports.boostList = async function (req, res, next) {
   var job = await Job.query()
     .findById(req.params.jobId)
     .eager("boosts");
@@ -242,24 +356,23 @@ exports.boostList = async function(req, res, next) {
   });
 };
 
-exports.payBoostGet = async function(req, res, next) {
+exports.payBoostGet = async function (req, res, next) {
   var boost = await JobBoost.query().findById(req.params.boostId);
   res.render("jobs/payBoost", {
     boost: boost
   });
 };
 
-exports.payBoostPost = async function(req, res, next) {
+exports.payBoostPost = async function (req, res, next) {
   var boost = await JobBoost.query().findById(req.params.boostId);
-  omise.charges.create(
-    {
+  omise.charges.create({
       description: "JainsBret charge for boost #" + boost.id,
       amount: boost.total_price * 100,
       currency: "thb",
       capture: true,
       card: req.body.token
     },
-    async function(err, resp) {
+    async function (err, resp) {
       if (err) {
         res.json(err);
       } else {

@@ -12,15 +12,33 @@ block content
         if job.client != null && user != null
           if job.client.id == user.id
             div
-              a.btn.btn-outline-info(href="../edit/"+job.id) แก้ไข
-              a.btn.btn-outline-info(href="../boost/"+job.id) ลงโฆษณา
+              a.btn.btn-outline-secondary(href="../edit/"+job.id).mr-2
+                i.fas.fa-edit
+                |  แก้ไข
+              a.btn.btn-outline-info(href="../boost/"+job.id)
+                i.fas.fa-rocket
+                |  ลงโฆษณา
   .row.mb-3
-    .col-12
+    .col-8
       .card
         .card-body
           h2 รายละเอียดงาน
           span.
             !{job.job_info_md()}
+            
+    .col-4
+      .alert.alert-info
+          h2
+            if job.fixed
+              span.
+                #{job.price} THB
+            else
+              span.
+                #{job.price} THB/Hour
+          | Tags: 
+          each val in job.tags
+            span
+              .btn.btn-sm.btn-outline-dark.mr-1.mb-1(style="padding: 1px 4px")=val.tag
   .row
     .col-4
       .card.text-center
@@ -43,8 +61,9 @@ block content
         .card-body
           h2 ฟรีแลนซ์ที่ทำงานนี้ 
           if job.freelance
+            img.rounded.mb-3(style='text-align: center', src=job.freelance.gravatar_url(300), width="60%")
             h4 #{job.freelance.name}
-            p #{job.freelance.overview}
+            a.btn.btn-outline-info(href="/profile/"+job.freelance.username) ดูโปรไฟล์ผู้ว่าจ้าง
           else
             p
               span.text-info.font-weight-bold งานนี้ยังว่างอยู่!&nbsp;

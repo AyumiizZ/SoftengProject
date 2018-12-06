@@ -24,7 +24,7 @@ block content
           .card-header เลือกวันเริ่มต้นและสิ้นสุดของการลงโฆษณา
           .card-body
             .form-group
-              input.form-control.datepicker-here(data-language='th' data-range="true" data-multiple-dates-separator=" - " name="time")
+              input.form-control.datepicker-here(data-language='th' data-range="true" data-multiple-dates-separator=" - " name="time" autocomplete="off")
       .col-4
         .card
           .card-header เลือกจำนวนเงิน 
@@ -37,9 +37,12 @@ block content
               .small ราคาในที่นี้เป็นบาทต่อวัน โดยยิ่งจ่ายมาก โอกาสการได้แสดงในหน้าแรกและแสดงในลำดับแรกของหน้าค้นหางานจะมีมากขึ้น
       .col-4
         .card
-          .card-header ชำระเงิน
+          .card-header 
+            |  ชำระเงิน
           .card-body
             p ชำระเงินผ่านบัตรเครดิต หรือบัตรเดบิต
-            button.btn.btn-primary.btn-lg(action="submit") ชำระเงิน
+            button.btn.btn-info.btn-lg(action="submit" style="width: 100%") 
+              .i.fas.fa-shopping-cart
+              |  ชำระเงิน
   block js-after
   script.
